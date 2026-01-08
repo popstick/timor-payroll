@@ -17,6 +17,9 @@ export default function LoginPage() {
   const t = useTranslations('auth');
   const tCommon = useTranslations('common');
 
+  const publicDemoEmail = process.env.NEXT_PUBLIC_DEMO_EMAIL || '';
+  const publicDemoPassword = process.env.NEXT_PUBLIC_DEMO_PASSWORD || '';
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -132,10 +135,19 @@ export default function LoginPage() {
               setLoading(true);
               setError(null);
               try {
+                if (publicDemoEmail && publicDemoPassword) {
+                  await signInAndRedirect(publicDemoEmail, publicDemoPassword);
+                  return;
+                }
+
                 const response = await fetch('/api/auth/demo-login', { method: 'POST' });
                 if (!response.ok) {
-                  const json = (await response.json()) as { error?: string };
-                  throw new Error(json?.error || 'Demo account not configured');
+                  const json = (await response.json()) as { error?: string; details?: string };
+                  throw new Error(
+                    json?.error ||
+                      json?.details ||
+                      'Demo account not configured. Set NEXT_PUBLIC_DEMO_EMAIL/NEXT_PUBLIC_DEMO_PASSWORD (local), or DEMO_EMAIL/DEMO_PASSWORD (server).'
+                  );
                 }
 
                 const redirectTo = searchParams.get('redirectTo') || '/dashboard';
