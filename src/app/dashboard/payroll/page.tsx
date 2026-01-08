@@ -59,7 +59,7 @@ export default async function PayrollPage() {
             <Calendar className="h-5 w-5 text-gray-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-2xl font-bold text-gray-900">
               {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
             </div>
           </CardContent>

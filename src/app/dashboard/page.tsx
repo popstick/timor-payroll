@@ -1,9 +1,9 @@
+import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 import { Users, DollarSign, Calendar, AlertCircle, ArrowRight, FileText, UserPlus, Calculator } from 'lucide-react';
 import { StatCard } from '@/components/ui/stat-card';
-import { FeatureCard, BentoGrid, BentoCard } from '@/components/ui/glass-card';
+import { FeatureCard } from '@/components/ui/glass-card';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 
 export default async function DashboardPage() {
   const t = await getTranslations('dashboard');
@@ -142,10 +142,10 @@ export default async function DashboardPage() {
               </div>
             </div>
             <div className="px-6 py-3 border-t border-gray-100">
-              <Button variant="ghost" size="sm" className="w-full justify-center gap-2 text-gray-500">
+              <Link href="/dashboard/settings" className="flex items-center justify-center gap-2 text-sm text-gray-500 hover:text-gray-900">
                 View all
                 <ArrowRight className="h-3 w-3" />
-              </Button>
+              </Link>
             </div>
           </CardContent>
         </Card>
