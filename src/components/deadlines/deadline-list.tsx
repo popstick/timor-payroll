@@ -85,7 +85,7 @@ export function DeadlineList({ maxItems = 4, showViewAll = true }: DeadlineListP
                 }`}
               >
                 <div className={`flex-shrink-0 w-10 h-10 rounded-lg ${styles.dateBg} flex flex-col items-center justify-center`}>
-                  <span className={`text-sm font-bold ${styles.urgency === 'overdue' ? 'text-red-600' : 'text-gray-700'}`}>
+                  <span className={`text-sm font-bold ${deadline.urgency === 'overdue' ? 'text-red-600' : 'text-gray-700'}`}>
                     {deadline.dueDate.getDate()}
                   </span>
                   <span className="text-[10px] text-gray-500 uppercase">

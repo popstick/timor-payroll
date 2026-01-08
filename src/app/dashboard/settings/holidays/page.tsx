@@ -5,31 +5,36 @@ import Link from 'next/link';
 import { useLocale, useTranslations } from 'next-intl';
 import { ChevronLeft, Calendar, ChevronDown, Flag, Star } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { PUBLIC_HOLIDAYS_2025 } from '@/lib/payroll/constants';
 
+type Holiday = {
+  date: string;
+  name_en: string;
+  name_pt: string;
+  name_tet: string;
+};
+
 // Generate 2026 holidays (shift dates by 1 year, keep recurring ones same date)
-const PUBLIC_HOLIDAYS_2026 = PUBLIC_HOLIDAYS_2025.map(h => ({
+const PUBLIC_HOLIDAYS_2026: Holiday[] = PUBLIC_HOLIDAYS_2025.map((h): Holiday => ({
   ...h,
-  date: h.date.replace('2025', '2026')
+  date: h.date.replace('2025', '2026'),
 }));
 
-const HOLIDAYS_BY_YEAR: Record<number, typeof PUBLIC_HOLIDAYS_2025> = {
+const HOLIDAYS_BY_YEAR: Record<number, readonly Holiday[]> = {
   2025: PUBLIC_HOLIDAYS_2025,
   2026: PUBLIC_HOLIDAYS_2026,
 };
 
 export default function HolidaysPage() {
   const t = useTranslations('settings.holidays');
-  const tCommon = useTranslations('common');
   const locale = useLocale();
 
   const currentYear = new Date().getFullYear();
   const [selectedYear, setSelectedYear] = useState(currentYear);
 
-  const holidays = HOLIDAYS_BY_YEAR[selectedYear] || PUBLIC_HOLIDAYS_2025;
+  const holidays: readonly Holiday[] = HOLIDAYS_BY_YEAR[selectedYear] || PUBLIC_HOLIDAYS_2025;
 
-  const getHolidayName = (holiday: typeof holidays[0]) => {
+  const getHolidayName = (holiday: Holiday) => {
     switch (locale) {
       case 'pt':
         return holiday.name_pt;
@@ -62,7 +67,7 @@ export default function HolidaysPage() {
     if (!acc[month]) acc[month] = [];
     acc[month].push(holiday);
     return acc;
-  }, {} as Record<number, typeof holidays>);
+  }, {} as Record<number, Holiday[]>);
 
   // Count total holidays
   const totalHolidays = holidays.length;

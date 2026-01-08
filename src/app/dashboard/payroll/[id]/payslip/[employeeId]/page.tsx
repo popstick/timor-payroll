@@ -250,7 +250,7 @@ export default function PayslipPage() {
         <Card>
           <CardContent className="pt-6">
             <div className="text-sm text-gray-500">{t.grossPay}</div>
-            <div className="text-xl font-bold">{formatCurrency(payrollItem.gross_pay)}</div>
+            <div className="text-xl font-bold">{formatCurrency(payrollItem.gross_pay || 0)}</div>
           </CardContent>
         </Card>
         <Card>
@@ -268,7 +268,7 @@ export default function PayslipPage() {
         <Card>
           <CardContent className="pt-6">
             <div className="text-sm text-gray-500">{t.netPay}</div>
-            <div className="text-xl font-bold text-green-600">{formatCurrency(payrollItem.net_pay)}</div>
+            <div className="text-xl font-bold text-green-600">{formatCurrency(payrollItem.net_pay || 0)}</div>
           </CardContent>
         </Card>
       </div>
@@ -360,37 +360,37 @@ function PayslipPreview({
         <div className="space-y-2 text-sm">
           <div className="flex justify-between">
             <span>{t.baseSalary}</span>
-            <span className="font-medium">{formatCurrency(payrollItem.base_salary)}</span>
+            <span className="font-medium">{formatCurrency(payrollItem.base_salary || 0)}</span>
           </div>
           {(payrollItem.overtime_pay || 0) > 0 && (
             <div className="flex justify-between">
               <span>{t.overtime}</span>
-              <span className="font-medium">{formatCurrency(payrollItem.overtime_pay)}</span>
+              <span className="font-medium">{formatCurrency(payrollItem.overtime_pay || 0)}</span>
             </div>
           )}
           {(payrollItem.night_shift_premium || 0) > 0 && (
             <div className="flex justify-between">
               <span>{t.nightShift}</span>
               <span className="font-medium">
-                {formatCurrency(payrollItem.night_shift_premium)}
+                {formatCurrency(payrollItem.night_shift_premium || 0)}
               </span>
             </div>
           )}
           {(payrollItem.allowances || 0) > 0 && (
             <div className="flex justify-between">
               <span>{t.allowances}</span>
-              <span className="font-medium">{formatCurrency(payrollItem.allowances)}</span>
+              <span className="font-medium">{formatCurrency(payrollItem.allowances || 0)}</span>
             </div>
           )}
           {(payrollItem.bonuses || 0) > 0 && (
             <div className="flex justify-between">
               <span>{t.bonuses}</span>
-              <span className="font-medium">{formatCurrency(payrollItem.bonuses)}</span>
+              <span className="font-medium">{formatCurrency(payrollItem.bonuses || 0)}</span>
             </div>
           )}
           <div className="flex justify-between pt-2 border-t font-semibold">
             <span>{t.grossPay}</span>
-            <span>{formatCurrency(payrollItem.gross_pay)}</span>
+            <span>{formatCurrency(payrollItem.gross_pay || 0)}</span>
           </div>
         </div>
       </div>
@@ -425,7 +425,7 @@ function PayslipPreview({
       {/* Net Pay */}
       <div className="bg-green-600 text-white p-4 rounded-lg">
         <div className="text-sm opacity-90">{t.netPay}</div>
-        <div className="text-3xl font-bold">{formatCurrency(payrollItem.net_pay)}</div>
+        <div className="text-3xl font-bold">{formatCurrency(payrollItem.net_pay || 0)}</div>
       </div>
     </div>
   );
