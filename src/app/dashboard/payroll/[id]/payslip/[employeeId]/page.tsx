@@ -3,6 +3,7 @@
 import { useState, useEffect, Suspense, lazy } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
+import { useLocale } from 'next-intl';
 import { ArrowLeft, Download, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -10,16 +11,117 @@ import { Select } from '@/components/ui/select';
 import { createClient } from '@/lib/supabase/client';
 import { formatCurrency, formatDate } from '@/lib/utils';
 
+const payslipTranslations = {
+  en: {
+    languageName: 'English',
+    error: 'Error',
+    failedToLoad: 'Failed to load payslip data',
+    title: 'Payslip',
+    taxWit: 'Tax (WIT)',
+    inssEmployee: 'INSS (4%)',
+    downloadPdf: 'Download PDF',
+    companyFallback: 'Company',
+    tinLabel: 'TIN',
+    payslip: 'PAYSLIP',
+    period: 'Pay Period',
+    payDate: 'Pay Date',
+    employeeDetails: 'Employee Details',
+    name: 'Name',
+    employeeNo: 'Employee No',
+    position: 'Position',
+    department: 'Department',
+    taxId: 'Tax ID (TIN)',
+    inssNo: 'INSS Number',
+    earnings: 'Earnings',
+    baseSalary: 'Base Salary',
+    overtime: 'Overtime Pay',
+    allowances: 'Allowances',
+    bonuses: 'Bonuses',
+    grossPay: 'Gross Pay',
+    deductions: 'Deductions',
+    witTax: 'Wage Income Tax (WIT)',
+    inss: 'INSS Contribution (4%)',
+    totalDeductions: 'Total Deductions',
+    netPay: 'NET PAY',
+  },
+  pt: {
+    languageName: 'Português',
+    error: 'Erro',
+    failedToLoad: 'Falha ao carregar dados do recibo',
+    title: 'Recibo',
+    taxWit: 'Imposto (WIT)',
+    inssEmployee: 'INSS (4%)',
+    downloadPdf: 'Baixar PDF',
+    companyFallback: 'Empresa',
+    tinLabel: 'NIF',
+    payslip: 'RECIBO DE VENCIMENTO',
+    period: 'Período de Pagamento',
+    payDate: 'Data de Pagamento',
+    employeeDetails: 'Dados do Funcionário',
+    name: 'Nome',
+    employeeNo: 'Nº Funcionário',
+    position: 'Cargo',
+    department: 'Departamento',
+    taxId: 'NIF (TIN)',
+    inssNo: 'Número INSS',
+    earnings: 'Rendimentos',
+    baseSalary: 'Salário Base',
+    overtime: 'Horas Suplementares',
+    allowances: 'Subsídios',
+    bonuses: 'Bónus',
+    grossPay: 'Salário Bruto',
+    deductions: 'Deduções',
+    witTax: 'Imposto sobre Salários (WIT)',
+    inss: 'Contribuição INSS (4%)',
+    totalDeductions: 'Total Deduções',
+    netPay: 'SALÁRIO LÍQUIDO',
+  },
+  tet: {
+    languageName: 'Tetun',
+    error: 'Erru',
+    failedToLoad: 'La konsege karrega dadus resibu',
+    title: 'Resibu',
+    taxWit: 'Taxa (WIT)',
+    inssEmployee: 'INSS (4%)',
+    downloadPdf: 'Baixa PDF',
+    companyFallback: 'Kompania',
+    tinLabel: 'TIN',
+    payslip: 'RESIBU SALÁRIU',
+    period: 'Períodu Pagamentu',
+    payDate: 'Data Pagamentu',
+    employeeDetails: 'Dadus Funsionáriu',
+    name: 'Naran',
+    employeeNo: 'Nº Funsionáriu',
+    position: 'Kargo',
+    department: 'Departamentu',
+    taxId: 'NIF (TIN)',
+    inssNo: 'Númeru INSS',
+    earnings: 'Rendimentu',
+    baseSalary: 'Saláriu Báziku',
+    overtime: 'Oras Suplementár',
+    allowances: 'Subsídiu sira',
+    bonuses: 'Bónus',
+    grossPay: 'Saláriu Brutu',
+    deductions: 'Dedusaun',
+    witTax: 'Impostu ba Saláriu (WIT)',
+    inss: 'Kontribuisaun INSS (4%)',
+    totalDeductions: 'Total Dedusaun',
+    netPay: 'SALÁRIU LÍKIDU',
+  },
+} as const;
+
 export default function PayslipPage() {
   const params = useParams();
   const payrollRunId = params.id as string;
   const employeeId = params.employeeId as string;
 
   const supabase = createClient();
+  const locale = useLocale();
+  const initialLanguage: 'en' | 'tet' = locale === 'tet' ? 'tet' : 'en';
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [language, setLanguage] = useState<'en' | 'pt' | 'tet'>('en');
+  const [language, setLanguage] = useState<'en' | 'pt' | 'tet'>(initialLanguage);
   const [data, setData] = useState<{
     employee: any;
     payrollItem: any;
@@ -79,14 +181,18 @@ export default function PayslipPage() {
   }
 
   if (error || !data) {
+    const t = payslipTranslations[language];
     return (
       <div className="p-8">
-        <div className="text-red-500">Error: {error || 'Failed to load payslip data'}</div>
+        <div className="text-red-500">
+          {t.error}: {error || t.failedToLoad}
+        </div>
       </div>
     );
   }
 
   const { employee, payrollItem, payrollRun, organization } = data;
+  const t = payslipTranslations[language];
 
   return (
     <div className="p-8">
@@ -100,7 +206,7 @@ export default function PayslipPage() {
           </Link>
           <div>
             <h1 className="text-2xl font-bold text-gray-900">
-              Payslip: {employee.first_name} {employee.last_name}
+              {t.title}: {employee.first_name} {employee.last_name}
             </h1>
             <p className="text-gray-500">
               {formatDate(payrollRun.period_start)} - {formatDate(payrollRun.period_end)}
@@ -112,9 +218,9 @@ export default function PayslipPage() {
             value={language}
             onChange={(e) => setLanguage(e.target.value as 'en' | 'pt' | 'tet')}
             options={[
-              { value: 'en', label: 'English' },
-              { value: 'pt', label: 'Português' },
-              { value: 'tet', label: 'Tetum' },
+              { value: 'en', label: payslipTranslations.en.languageName },
+              { value: 'pt', label: payslipTranslations.pt.languageName },
+              { value: 'tet', label: payslipTranslations.tet.languageName },
             ]}
           />
           {pdfReady && (
@@ -133,25 +239,25 @@ export default function PayslipPage() {
       <div className="grid gap-4 md:grid-cols-4 mb-8">
         <Card>
           <CardContent className="pt-6">
-            <div className="text-sm text-gray-500">Gross Pay</div>
+            <div className="text-sm text-gray-500">{t.grossPay}</div>
             <div className="text-xl font-bold">{formatCurrency(payrollItem.gross_pay)}</div>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-6">
-            <div className="text-sm text-gray-500">Tax (WIT)</div>
+            <div className="text-sm text-gray-500">{t.taxWit}</div>
             <div className="text-xl font-bold text-red-600">-{formatCurrency(payrollItem.tax_withheld || 0)}</div>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-6">
-            <div className="text-sm text-gray-500">INSS (4%)</div>
+            <div className="text-sm text-gray-500">{t.inssEmployee}</div>
             <div className="text-xl font-bold text-red-600">-{formatCurrency(payrollItem.inss_employee || 0)}</div>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-6">
-            <div className="text-sm text-gray-500">Net Pay</div>
+            <div className="text-sm text-gray-500">{t.netPay}</div>
             <div className="text-xl font-bold text-green-600">{formatCurrency(payrollItem.net_pay)}</div>
           </CardContent>
         </Card>
@@ -187,88 +293,16 @@ function PayslipPreview({
   payrollRun: any;
   language: 'en' | 'pt' | 'tet';
 }) {
-  const translations = {
-    en: {
-      payslip: 'PAYSLIP',
-      period: 'Pay Period',
-      payDate: 'Pay Date',
-      employeeDetails: 'Employee Details',
-      name: 'Name',
-      employeeNo: 'Employee No',
-      position: 'Position',
-      department: 'Department',
-      taxId: 'Tax ID (TIN)',
-      inssNo: 'INSS Number',
-      earnings: 'Earnings',
-      baseSalary: 'Base Salary',
-      overtime: 'Overtime Pay',
-      allowances: 'Allowances',
-      bonuses: 'Bonuses',
-      grossPay: 'Gross Pay',
-      deductions: 'Deductions',
-      witTax: 'Wage Income Tax (WIT)',
-      inss: 'INSS Contribution (4%)',
-      totalDeductions: 'Total Deductions',
-      netPay: 'NET PAY',
-    },
-    pt: {
-      payslip: 'RECIBO DE VENCIMENTO',
-      period: 'Período de Pagamento',
-      payDate: 'Data de Pagamento',
-      employeeDetails: 'Dados do Funcionário',
-      name: 'Nome',
-      employeeNo: 'Nº Funcionário',
-      position: 'Cargo',
-      department: 'Departamento',
-      taxId: 'NIF (TIN)',
-      inssNo: 'Número INSS',
-      earnings: 'Rendimentos',
-      baseSalary: 'Salário Base',
-      overtime: 'Horas Suplementares',
-      allowances: 'Subsídios',
-      bonuses: 'Bónus',
-      grossPay: 'Salário Bruto',
-      deductions: 'Deduções',
-      witTax: 'Imposto sobre Salários (WIT)',
-      inss: 'Contribuição INSS (4%)',
-      totalDeductions: 'Total Deduções',
-      netPay: 'SALÁRIO LÍQUIDO',
-    },
-    tet: {
-      payslip: 'RESIBU SALÁRIU',
-      period: 'Períodu Pagamentu',
-      payDate: 'Data Pagamentu',
-      employeeDetails: 'Dadus Funsionáriu',
-      name: 'Naran',
-      employeeNo: 'Nº Funsionáriu',
-      position: 'Kargo',
-      department: 'Departamentu',
-      taxId: 'NIF (TIN)',
-      inssNo: 'Númeru INSS',
-      earnings: 'Rendimentu',
-      baseSalary: 'Saláriu Báziku',
-      overtime: 'Oras Suplementár',
-      allowances: 'Subsídiu sira',
-      bonuses: 'Bónus',
-      grossPay: 'Saláriu Brutu',
-      deductions: 'Dedusaun',
-      witTax: 'Impostu ba Saláriu (WIT)',
-      inss: 'Kontribuisaun INSS (4%)',
-      totalDeductions: 'Total Dedusaun',
-      netPay: 'SALÁRIU LÍKIDU',
-    },
-  };
-
-  const t = translations[language];
+  const t = payslipTranslations[language];
 
   return (
     <div className="max-w-2xl mx-auto">
       {/* Header */}
       <div className="flex justify-between items-start border-b-2 border-blue-600 pb-6 mb-6">
         <div>
-          <h2 className="text-xl font-bold text-blue-800">{organization?.name || 'Company'}</h2>
+          <h2 className="text-xl font-bold text-blue-800">{organization?.name || t.companyFallback}</h2>
           {organization?.address && <p className="text-gray-500 text-sm">{organization.address}</p>}
-          {organization?.tin && <p className="text-gray-500 text-sm">TIN: {organization.tin}</p>}
+          {organization?.tin && <p className="text-gray-500 text-sm">{t.tinLabel}: {organization.tin}</p>}
         </div>
         <div className="text-right">
           <h3 className="text-lg font-bold">{t.payslip}</h3>
@@ -386,6 +420,7 @@ function PayslipDownloadButton({
   language: 'en' | 'pt' | 'tet';
 }) {
   const [downloading, setDownloading] = useState(false);
+  const t = payslipTranslations[language];
 
   const handleDownload = async () => {
     setDownloading(true);
@@ -419,7 +454,7 @@ function PayslipDownloadButton({
             net_pay: payrollItem.net_pay,
           }}
           organization={{
-            name: organization?.name || 'Company',
+            name: organization?.name || t.companyFallback,
             address: organization?.address,
             tin: organization?.tin,
           }}
@@ -452,7 +487,7 @@ function PayslipDownloadButton({
       ) : (
         <Download className="h-4 w-4 mr-2" />
       )}
-      Download PDF
+      {t.downloadPdf}
     </Button>
   );
 }

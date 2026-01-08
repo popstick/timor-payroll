@@ -1,9 +1,14 @@
 import Link from 'next/link';
-import { Plus, Search } from 'lucide-react';
+import { Plus, Search, MoreHorizontal, Pencil, Trash2, Eye } from 'lucide-react';
 import { getTranslations } from 'next-intl/server';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { EmptyState } from '@/components/ui/empty-state';
+import { EmployeeStatusBadge } from '@/components/ui/badge';
+import { Avatar } from '@/components/ui/avatar';
+import { Breadcrumbs } from '@/components/ui/breadcrumbs';
+import { DropdownMenu, DropdownItem, DropdownDivider } from '@/components/ui/dropdown-menu';
 import { createClient } from '@/lib/supabase/server';
 import { formatCurrency } from '@/lib/utils';
 
@@ -18,7 +23,13 @@ export default async function EmployeesPage() {
     .order('created_at', { ascending: false });
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8">
+    <div className="p-4 sm:p-6 lg:p-8 animate-fade-in">
+      {/* Breadcrumbs */}
+      <Breadcrumbs
+        items={[{ label: t('title') }]}
+        className="mb-4"
+      />
+
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6 sm:mb-8">
         <div>
           <h1 className="text-xl sm:text-2xl font-bold text-gray-900">{t('title')}</h1>
@@ -41,96 +52,108 @@ export default async function EmployeesPage() {
               <input
                 type="text"
                 placeholder={t('searchPlaceholder')}
-                className="w-full sm:w-64 pl-9 pr-4 py-2 border border-gray-300 rounded-lg text-sm bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full sm:w-64 pl-9 pr-4 py-2 border border-gray-300 rounded-lg text-sm bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow"
+                aria-label={t('searchPlaceholder')}
               />
             </div>
           </div>
         </CardHeader>
         <CardContent>
           {error && (
-            <div className="text-red-500 p-4">
+            <div className="text-red-500 p-4 bg-red-50 rounded-lg" role="alert">
               {tCommon('error')}: {error.message}
             </div>
           )}
 
           {employees && employees.length === 0 && (
-            <div className="text-center py-12">
-              <div className="text-gray-400 mb-4">
-                <svg
-                  className="mx-auto h-12 w-12"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                  />
-                </svg>
-              </div>
-              <h3 className="text-lg font-medium text-gray-900 mb-1">{t('noEmployees')}</h3>
-              <p className="text-gray-500 mb-4">{t('addFirst')}</p>
-              <Link href="/dashboard/employees/new">
-                <Button>
-                  <Plus className="h-4 w-4 mr-2" />
-                  {t('addEmployee')}
-                </Button>
-              </Link>
-            </div>
+            <EmptyState
+              illustration="employees"
+              title={t('noEmployees')}
+              description={t('addFirst')}
+              action={{
+                label: t('addEmployee'),
+                onClick: () => {},
+              }}
+            />
           )}
 
           {employees && employees.length > 0 && (
-            <Table>
-              <TableHeader>
+            <Table stickyHeader>
+              <TableHeader sticky>
                 <TableRow>
                   <TableHead>{t('personal.fullName')}</TableHead>
                   <TableHead>{t('employment.position')}</TableHead>
-                  <TableHead>{t('employment.department')}</TableHead>
+                  <TableHead className="hidden md:table-cell">{t('employment.department')}</TableHead>
                   <TableHead>{tCommon('status')}</TableHead>
-                  <TableHead>{t('compensation.baseSalary')}</TableHead>
-                  <TableHead>{tCommon('actions')}</TableHead>
+                  <TableHead className="hidden sm:table-cell">{t('compensation.baseSalary')}</TableHead>
+                  <TableHead className="text-right">{tCommon('actions')}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {employees.map((employee) => (
                   <TableRow key={employee.id}>
                     <TableCell>
-                      <div>
-                        <div className="font-medium text-gray-900">
-                          {employee.first_name} {employee.last_name}
-                        </div>
-                        <div className="text-sm text-gray-500">
-                          {employee.employee_number}
+                      <div className="flex items-center gap-3">
+                        <Avatar
+                          name={`${employee.first_name} ${employee.last_name}`}
+                          size="sm"
+                        />
+                        <div>
+                          <div className="font-medium text-gray-900">
+                            {employee.first_name} {employee.last_name}
+                          </div>
+                          <div className="text-xs text-gray-500">
+                            {employee.employee_number}
+                          </div>
                         </div>
                       </div>
                     </TableCell>
                     <TableCell>{employee.position}</TableCell>
-                    <TableCell>{employee.department || '-'}</TableCell>
-                    <TableCell>
-                      <span
-                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                          employee.status === 'active'
-                            ? 'bg-green-100 text-green-800'
-                            : employee.status === 'inactive'
-                            ? 'bg-gray-100 text-gray-800'
-                            : 'bg-red-100 text-red-800'
-                        }`}
-                      >
-                        {employee.status === 'active' ? t('employment.active') :
-                         employee.status === 'inactive' ? t('employment.inactive') :
-                         t('employment.terminated')}
-                      </span>
+                    <TableCell className="hidden md:table-cell">
+                      {employee.department || '-'}
                     </TableCell>
-                    <TableCell>{formatCurrency(employee.base_salary)}</TableCell>
                     <TableCell>
-                      <Link
-                        href={`/dashboard/employees/${employee.id}`}
-                        className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                      <EmployeeStatusBadge
+                        status={employee.status as 'active' | 'inactive' | 'terminated'}
+                        size="sm"
+                      />
+                    </TableCell>
+                    <TableCell className="hidden sm:table-cell">
+                      {formatCurrency(employee.base_salary)}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <DropdownMenu
+                        trigger={
+                          <Button variant="ghost" size="icon" aria-label="Actions">
+                            <MoreHorizontal className="h-4 w-4" />
+                          </Button>
+                        }
                       >
-                        {tCommon('view')}
-                      </Link>
+                        <DropdownItem
+                          icon={<Eye className="h-4 w-4" />}
+                          onClick={() => {}}
+                        >
+                          <Link href={`/dashboard/employees/${employee.id}`}>
+                            {tCommon('view')}
+                          </Link>
+                        </DropdownItem>
+                        <DropdownItem
+                          icon={<Pencil className="h-4 w-4" />}
+                          onClick={() => {}}
+                        >
+                          <Link href={`/dashboard/employees/${employee.id}/edit`}>
+                            {tCommon('edit')}
+                          </Link>
+                        </DropdownItem>
+                        <DropdownDivider />
+                        <DropdownItem
+                          icon={<Trash2 className="h-4 w-4" />}
+                          destructive
+                          onClick={() => {}}
+                        >
+                          {tCommon('delete')}
+                        </DropdownItem>
+                      </DropdownMenu>
                     </TableCell>
                   </TableRow>
                 ))}

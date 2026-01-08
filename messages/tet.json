@@ -11,7 +11,7 @@
     "search": "Buka",
     "filter": "Filtra",
     "export": "Exporta",
-    "download": "Download",
+    "download": "Baixa",
     "view": "Haree",
     "actions": "Asaun",
     "status": "Estatutu",
@@ -31,7 +31,14 @@
     "error": "Erru",
     "success": "Susesu",
     "warning": "Avizu",
-    "info": "Informasaun"
+    "info": "Informasaun",
+    "selectPlaceholder": "Hili...",
+    "saving": "Rai hela...",
+    "submitting": "Hatama hela...",
+    "perMonth": "/fulan",
+    "resident": "Residente",
+    "nonResident": "La Residente",
+    "inss": "INSS"
   },
   "nav": {
     "dashboard": "Pajina Prinsipál",
@@ -40,13 +47,14 @@
     "leave": "Lisensa",
     "reports": "Relatóriu",
     "settings": "Konfigurasaun",
-    "logout": "Sai"
+    "logout": "Sai",
+    "more": "Tan"
   },
   "auth": {
     "login": "Tama",
     "signup": "Rejista",
     "logout": "Sai",
-    "email": "Email",
+    "email": "E-mail",
     "password": "Liafuan-xave",
     "companyName": "Naran Kompañia",
     "welcomeBack": "Bem-vindu fila fali",
@@ -58,13 +66,64 @@
     "noAccount": "Seidauk iha konta?",
     "haveAccount": "Iha ona konta?",
     "continueAsGuest": "Kontinua hanesan Vizitante",
-    "checkEmail": "Haree ita-nia email",
+    "checkEmail": "Haree ita-nia e-mail",
     "confirmationSent": "Ami haruka ligasaun konfirmasaun ba",
     "backToLogin": "Fila ba tama",
     "minPassword": "Mínumu karakter 6",
     "emailPlaceholder": "ita@kompania.com",
     "passwordPlaceholder": "Hatama ita-nia liafuan-xave",
     "companyPlaceholder": "Ita-nia Kompañia Lda"
+  },
+  "home": {
+    "hero": {
+      "titlePrefix": "Prosesu Saláriu Simples ba",
+      "subtitle": "Prosesu saláriu tuir lei ho kalkulasaun taxa WIT, kontribuisaun INSS, no suporta lian Inglés, Portugés, no Tetun.",
+      "getStarted": "Hahú",
+      "learnMore": "Aprende liu tan"
+    },
+    "features": {
+      "employeeManagement": {
+        "title": "Jestaun Funsionáriu",
+        "description": "Hatudu dadus funsionáriu, kontratu, TIN, no númeru INSS. Suporta tipu servisu hotu."
+      },
+      "payrollProcessing": {
+        "title": "Prosesu Saláriu",
+        "description": "Kalkulasaun taxa automátiku ho isensaun $500, kontribuisaun INSS (4%+6%), no taxa oras suplementár."
+      },
+      "leaveManagement": {
+        "title": "Jestaun Lisensa",
+        "description": "Hatudu lisensa anuál (loron 12), moras, maternidade (semana 12), paternidade (loron 5), no seluk."
+      },
+      "complianceReports": {
+        "title": "Relatóriu Konformidade",
+        "description": "Kria relatóriu WIT no INSS fulan-fulan, relatóriu anuál, no sertifikadu taxa funsionáriu."
+      },
+      "timorCompliant": {
+        "title": "Tuir Lei Timor-Leste",
+        "description": "Halo tuir Lei Kódigu Trabalhu N.º 4/2012. Valida saláriu mínimu, taxa feriadu, no indemnizasaun."
+      },
+      "multilingual": {
+        "title": "Multilíngue",
+        "description": "Suporta Inglés, Portugés, no Tetun. Kria resibu saláriu iha lian ida-ne'ebé."
+      }
+    },
+    "compliance": {
+      "title": "Harii atu tuir lei Timor-Leste",
+      "stats": {
+        "minimumWage": "Saláriu Mínimu",
+        "perMonth": "/fulan",
+        "witRate": "Taxa WIT",
+        "witThreshold": ">$500",
+        "inssTotal": "Total INSS",
+        "inssBreakdown": "4% + 6%",
+        "annualLeave": "Lisensa Anuál",
+        "daysPerYear": "loron/tinan"
+      }
+    },
+    "footer": {
+      "tagline": "Timor Payroll - Jestaun Saláriu ba Timor-Leste",
+      "compliance": "Tuir Lei Kódigu Trabalhu N.º 4/2012 no Lei INSS N.º 12/2016"
+    }
   },
   "dashboard": {
     "title": "Pajina Prinsipál",
@@ -99,7 +158,7 @@
       "firstName": "Naran Primeiru",
       "lastName": "Apelidu",
       "fullName": "Naran Kompletu",
-      "email": "Email",
+      "email": "E-mail",
       "phone": "Telefone",
       "dateOfBirth": "Data Moris",
       "gender": "Jéneru",
@@ -133,7 +192,9 @@
       "annualSalary": "Saláriu Anuál",
       "currency": "Moeda",
       "minimumWage": "Mínumu: ${amount}",
-      "belowMinimum": "Kraik liu saláriu mínimu (${amount})"
+      "belowMinimum": "Kraik liu saláriu mínimu (${amount})",
+      "employerCost": "Kustu Empregador",
+      "includingEmployerInss": "inklui 6% INSS"
     },
     "tax": {
       "title": "Informasaun Taxa",
@@ -157,13 +218,22 @@
     "payrollHistory": "Istória Saláriu",
     "noPayrolls": "Seidauk iha prosesu saláriu",
     "createFirst": "Prosesu ita-nia saláriu primeiru atu hahú",
+    "noActiveEmployees": "Laiha funsionáriu ativu",
+    "addEmployeesFirst": "Aumenta funsionáriu molok prosesu saláriu.",
     "period": "Períodu Pagamentu",
     "periodStart": "Períodu Hahú",
     "periodEnd": "Períodu Remata",
     "payDate": "Data Pagamentu",
+    "summaryCards": {
+      "thisMonth": "Fulan ida-ne'e",
+      "totalPaidYtd": "Total Sela ona (Tinan ida-ne'e)",
+      "pendingRuns": "Prosesu Hein hela"
+    },
     "status": {
       "draft": "Raskuñu",
       "processing": "Prosesa hela",
+      "approved": "Aprova ona",
+      "paid": "Sela ona",
       "completed": "Kompleta ona",
       "cancelled": "Kansela ona"
     },
@@ -197,7 +267,8 @@
       "approve": "Aprova",
       "reject": "Rejeita",
       "viewPayslip": "Haree Recibo",
-      "downloadPayslip": "Download Recibo",
+      "downloadPayslip": "Baixa Resibu",
+      "printAllPayslips": "Imprime Resibu hotu",
       "createRun": "Kria Prosesu Saláriu"
     },
     "payslip": {
@@ -215,6 +286,7 @@
     "requestLeave": "Husu Lisensa",
     "leaveHistory": "Istória Lisensa",
     "noRequests": "Laiha pedidu lisensa",
+    "noRequestsFor": "Laiha pedidu {status}",
     "balance": "Balansu Lisensa",
     "types": {
       "annual": "Lisensa Anuál",
@@ -240,6 +312,7 @@
       "endDate": "Data Remata",
       "reason": "Razaun",
       "reasonPlaceholder": "Fó detallus adisionál kona-ba pedidu lisensa...",
+      "invalidDateRange": "Data remata tenke depois de data hahú",
       "daysRequested": "Loron Servisu Husu",
       "days": "Loron {count}"
     },
@@ -279,6 +352,22 @@
     "exportCsv": "Exporta CSV",
     "selectType": "Tipu Relatóriu",
     "selectPeriod": "Períodu",
+    "csvHeaders": {
+      "payroll": "Funsionáriu,Saláriu Brutu,Taxa,INSS Funsionáriu,INSS Empregadór,Saláriu Líkuidu",
+      "wit": "Funsionáriu,TIN,Residente,Saláriu Brutu,Taxa Retén",
+      "inss": "Funsionáriu,Númeru INSS,Saláriu Brutu,Kontribuisaun Funsionáriu (4%),Kontribuisaun Empregadór (6%)",
+      "employees": "Númeru Funsionáriu,Naran,Kargo,Departamentu,Saláriu Báziku,Estatutu,Data Hahú"
+    },
+    "table": {
+      "employee": "Funsionáriu",
+      "gross": "Brutu",
+      "tax": "Taxa",
+      "wages": "Saláriu",
+      "net": "Líkuidu",
+      "salary": "Saláriu"
+    },
+    "noDataForPeriod": "Laiha dadus ba períodu ida-ne'e",
+    "selectToGenerate": "Hili tipu relatóriu atu kria",
     "types": {
       "payroll": "Sumáriu Saláriu",
       "payrollDesc": "Detallus saláriu fulan-fulan",
@@ -298,7 +387,7 @@
     "wit": {
       "title": "Detallus Taxa WIT",
       "totalWages": "Total Saláriu",
-      "totalTax": "Total WIT (10%)",
+      "totalTax": "Total Impostu WIT (10%)",
       "filingDeadline": "Prazu Relatóriu",
       "resident": "Residente"
     },
@@ -394,6 +483,6 @@
   "language": {
     "select": "Lian",
     "en": "Inglés",
-    "tet": "Tetum"
+    "tet": "Tetun"
   }
 }

@@ -1,10 +1,17 @@
 import { cn } from '@/lib/utils';
 
-interface TableProps extends React.HTMLAttributes<HTMLTableElement> {}
+interface TableProps extends React.HTMLAttributes<HTMLTableElement> {
+  stickyHeader?: boolean;
+}
 
-export function Table({ className, ...props }: TableProps) {
+export function Table({ className, stickyHeader = false, ...props }: TableProps) {
   return (
-    <div className="relative w-full overflow-auto -mx-4 sm:mx-0 px-4 sm:px-0">
+    <div
+      className={cn(
+        'relative w-full overflow-auto -mx-4 sm:mx-0 px-4 sm:px-0',
+        stickyHeader && 'max-h-[600px]'
+      )}
+    >
       <table
         className={cn('w-full caption-bottom text-xs sm:text-sm', className)}
         {...props}
@@ -13,8 +20,21 @@ export function Table({ className, ...props }: TableProps) {
   );
 }
 
-export function TableHeader({ className, ...props }: React.HTMLAttributes<HTMLTableSectionElement>) {
-  return <thead className={cn('[&_tr]:border-b', className)} {...props} />;
+interface TableHeaderProps extends React.HTMLAttributes<HTMLTableSectionElement> {
+  sticky?: boolean;
+}
+
+export function TableHeader({ className, sticky = false, ...props }: TableHeaderProps) {
+  return (
+    <thead
+      className={cn(
+        '[&_tr]:border-b',
+        sticky && 'sticky top-0 bg-white z-10 shadow-sm',
+        className
+      )}
+      {...props}
+    />
+  );
 }
 
 export function TableBody({ className, ...props }: React.HTMLAttributes<HTMLTableSectionElement>) {

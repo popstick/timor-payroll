@@ -5,8 +5,14 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { createClient } from '@/lib/supabase/server';
 import { formatCurrency, formatDate } from '@/lib/utils';
+import { getTranslations } from 'next-intl/server';
 
 export default async function PayrollPage() {
+  const tPayroll = await getTranslations('payroll');
+  const tPayrollCalc = await getTranslations('payroll.calculation');
+  const tCommon = await getTranslations('common');
+  const tNav = await getTranslations('nav');
+
   const supabase = await createClient();
 
   const { data: payrollRuns, error } = await supabase
@@ -32,13 +38,13 @@ export default async function PayrollPage() {
     <div className="p-4 sm:p-6 lg:p-8">
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6 sm:mb-8">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Payroll</h1>
-          <p className="text-sm sm:text-base text-gray-500">Manage monthly payroll runs</p>
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">{tPayroll('title')}</h1>
+          <p className="text-sm sm:text-base text-gray-500">{tPayroll('subtitle')}</p>
         </div>
         <Link href="/dashboard/payroll/new" className="w-full sm:w-auto">
           <Button className="w-full sm:w-auto">
             <Plus className="h-4 w-4 mr-2" />
-            Run Payroll
+            {tPayroll('runPayroll')}
           </Button>
         </Link>
       </div>
@@ -48,7 +54,7 @@ export default async function PayrollPage() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-gray-500">
-              This Month
+              {tPayroll('summaryCards.thisMonth')}
             </CardTitle>
             <Calendar className="h-5 w-5 text-gray-400" />
           </CardHeader>
@@ -62,7 +68,7 @@ export default async function PayrollPage() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-gray-500">
-              Total Paid (YTD)
+              {tPayroll('summaryCards.totalPaidYtd')}
             </CardTitle>
             <DollarSign className="h-5 w-5 text-green-500" />
           </CardHeader>
@@ -80,7 +86,7 @@ export default async function PayrollPage() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-gray-500">
-              Pending Runs
+              {tPayroll('summaryCards.pendingRuns')}
             </CardTitle>
             <Clock className="h-5 w-5 text-yellow-500" />
           </CardHeader>
@@ -94,12 +100,12 @@ export default async function PayrollPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Payroll History</CardTitle>
+          <CardTitle>{tPayroll('payrollHistory')}</CardTitle>
         </CardHeader>
         <CardContent>
           {error && (
             <div className="text-red-500 p-4">
-              Error loading payroll runs: {error.message}
+              {tCommon('error')}: {error.message}
             </div>
           )}
 
@@ -108,12 +114,12 @@ export default async function PayrollPage() {
               <div className="text-gray-400 mb-4">
                 <DollarSign className="mx-auto h-12 w-12" />
               </div>
-              <h3 className="text-lg font-medium text-gray-900 mb-1">No payroll runs yet</h3>
-              <p className="text-gray-500 mb-4">Process your first payroll to get started.</p>
+              <h3 className="text-lg font-medium text-gray-900 mb-1">{tPayroll('noPayrolls')}</h3>
+              <p className="text-gray-500 mb-4">{tPayroll('createFirst')}</p>
               <Link href="/dashboard/payroll/new">
                 <Button>
                   <Plus className="h-4 w-4 mr-2" />
-                  Run Payroll
+                  {tPayroll('runPayroll')}
                 </Button>
               </Link>
             </div>
@@ -123,15 +129,15 @@ export default async function PayrollPage() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Period</TableHead>
-                  <TableHead>Pay Date</TableHead>
-                  <TableHead>Employees</TableHead>
-                  <TableHead>Gross</TableHead>
-                  <TableHead>Tax</TableHead>
-                  <TableHead>INSS</TableHead>
-                  <TableHead>Net</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Actions</TableHead>
+                  <TableHead>{tPayroll('period')}</TableHead>
+                  <TableHead>{tPayroll('payDate')}</TableHead>
+                  <TableHead>{tNav('employees')}</TableHead>
+                  <TableHead>{tPayrollCalc('grossPay')}</TableHead>
+                  <TableHead>{tPayrollCalc('taxWithheld')}</TableHead>
+                  <TableHead>{tCommon('inss')}</TableHead>
+                  <TableHead>{tPayrollCalc('netPay')}</TableHead>
+                  <TableHead>{tCommon('status')}</TableHead>
+                  <TableHead>{tCommon('actions')}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -161,7 +167,7 @@ export default async function PayrollPage() {
                         }`}
                       >
                         {statusIcons[run.status as keyof typeof statusIcons]}
-                        {run.status}
+                        {tPayroll(`status.${run.status}` as any)}
                       </span>
                     </TableCell>
                     <TableCell>
@@ -169,7 +175,7 @@ export default async function PayrollPage() {
                         href={`/dashboard/payroll/${run.id}`}
                         className="text-blue-600 hover:text-blue-800 text-sm font-medium"
                       >
-                        View
+                        {tCommon('view')}
                       </Link>
                     </TableCell>
                   </TableRow>

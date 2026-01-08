@@ -31,7 +31,14 @@
     "error": "Error",
     "success": "Success",
     "warning": "Warning",
-    "info": "Information"
+    "info": "Information",
+    "selectPlaceholder": "Select...",
+    "saving": "Saving...",
+    "submitting": "Submitting...",
+    "perMonth": "/month",
+    "resident": "Resident",
+    "nonResident": "Non-resident",
+    "inss": "INSS"
   },
   "nav": {
     "dashboard": "Dashboard",
@@ -40,7 +47,8 @@
     "leave": "Leave",
     "reports": "Reports",
     "settings": "Settings",
-    "logout": "Logout"
+    "logout": "Logout",
+    "more": "More"
   },
   "auth": {
     "login": "Sign in",
@@ -65,6 +73,57 @@
     "emailPlaceholder": "you@company.com",
     "passwordPlaceholder": "Enter your password",
     "companyPlaceholder": "Your Company Ltd"
+  },
+  "home": {
+    "hero": {
+      "titlePrefix": "Payroll Made Simple for",
+      "subtitle": "Compliant payroll processing with built-in WIT tax calculations, INSS contributions, and multilingual support in English, Portuguese, and Tetun.",
+      "getStarted": "Get Started",
+      "learnMore": "Learn More"
+    },
+    "features": {
+      "employeeManagement": {
+        "title": "Employee Management",
+        "description": "Track employee details, contracts, TIN, and INSS numbers. Handle all employment types."
+      },
+      "payrollProcessing": {
+        "title": "Payroll Processing",
+        "description": "Automatic tax calculations with $500 exemption, INSS contributions (4%+6%), overtime rates."
+      },
+      "leaveManagement": {
+        "title": "Leave Management",
+        "description": "Track annual leave (12 days), sick leave, maternity (12 weeks), paternity (5 days), and more."
+      },
+      "complianceReports": {
+        "title": "Compliance Reports",
+        "description": "Generate monthly WIT and INSS filings, annual reports, and employee tax certificates."
+      },
+      "timorCompliant": {
+        "title": "Timor-Leste Compliant",
+        "description": "Built for Labour Code Law No. 4/2012. Minimum wage validation, holiday pay rates, severance."
+      },
+      "multilingual": {
+        "title": "Multilingual",
+        "description": "Full support for English, Portuguese, and Tetun. Generate payslips in any language."
+      }
+    },
+    "compliance": {
+      "title": "Built for Timor-Leste Compliance",
+      "stats": {
+        "minimumWage": "Minimum Wage",
+        "perMonth": "/month",
+        "witRate": "WIT Tax Rate",
+        "witThreshold": ">$500",
+        "inssTotal": "INSS Total",
+        "inssBreakdown": "4% + 6%",
+        "annualLeave": "Annual Leave",
+        "daysPerYear": "days/year"
+      }
+    },
+    "footer": {
+      "tagline": "Timor Payroll - Payroll Management for Timor-Leste",
+      "compliance": "Compliant with Labour Code Law No. 4/2012 and INSS Law No. 12/2016"
+    }
   },
   "dashboard": {
     "title": "Dashboard",
@@ -133,7 +192,9 @@
       "annualSalary": "Annual Salary",
       "currency": "Currency",
       "minimumWage": "Minimum: ${amount}",
-      "belowMinimum": "Below minimum wage (${amount})"
+      "belowMinimum": "Below minimum wage (${amount})",
+      "employerCost": "Employer Cost",
+      "includingEmployerInss": "incl. 6% INSS"
     },
     "tax": {
       "title": "Tax Information",
@@ -157,13 +218,22 @@
     "payrollHistory": "Payroll History",
     "noPayrolls": "No payroll runs yet",
     "createFirst": "Run your first payroll to get started",
+    "noActiveEmployees": "No active employees",
+    "addEmployeesFirst": "Add employees before running payroll.",
     "period": "Pay Period",
     "periodStart": "Period Start",
     "periodEnd": "Period End",
     "payDate": "Pay Date",
+    "summaryCards": {
+      "thisMonth": "This Month",
+      "totalPaidYtd": "Total Paid (YTD)",
+      "pendingRuns": "Pending Runs"
+    },
     "status": {
       "draft": "Draft",
       "processing": "Processing",
+      "approved": "Approved",
+      "paid": "Paid",
       "completed": "Completed",
       "cancelled": "Cancelled"
     },
@@ -198,6 +268,7 @@
       "reject": "Reject",
       "viewPayslip": "View Payslip",
       "downloadPayslip": "Download Payslip",
+      "printAllPayslips": "Print All Payslips",
       "createRun": "Create Payroll Run"
     },
     "payslip": {
@@ -215,6 +286,7 @@
     "requestLeave": "Request Leave",
     "leaveHistory": "Leave History",
     "noRequests": "No leave requests",
+    "noRequestsFor": "No {status} requests",
     "balance": "Leave Balance",
     "types": {
       "annual": "Annual Leave",
@@ -240,6 +312,7 @@
       "endDate": "End Date",
       "reason": "Reason",
       "reasonPlaceholder": "Provide additional details about the leave request...",
+      "invalidDateRange": "End date must be after start date",
       "daysRequested": "Business Days Requested",
       "days": "{count} days"
     },
@@ -279,6 +352,22 @@
     "exportCsv": "Export CSV",
     "selectType": "Report Type",
     "selectPeriod": "Period",
+    "csvHeaders": {
+      "payroll": "Employee,Gross Pay,Tax,INSS Employee,INSS Employer,Net Pay",
+      "wit": "Employee,TIN,Resident,Gross Wages,Tax Withheld",
+      "inss": "Employee,INSS Number,Gross Wages,Employee Contribution (4%),Employer Contribution (6%)",
+      "employees": "Employee Number,Name,Position,Department,Base Salary,Status,Start Date"
+    },
+    "table": {
+      "employee": "Employee",
+      "gross": "Gross",
+      "tax": "Tax",
+      "wages": "Wages",
+      "net": "Net",
+      "salary": "Salary"
+    },
+    "noDataForPeriod": "No data available for this period",
+    "selectToGenerate": "Select a report type to generate",
     "types": {
       "payroll": "Payroll Summary",
       "payrollDesc": "Monthly payroll breakdown",
@@ -394,6 +483,6 @@
   "language": {
     "select": "Language",
     "en": "English",
-    "tet": "Tetum"
+    "tet": "Tetun"
   }
 }

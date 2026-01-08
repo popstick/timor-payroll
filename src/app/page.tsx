@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useTranslations } from 'next-intl';
 import {
   Users,
   DollarSign,
@@ -14,6 +15,10 @@ import {
 } from "lucide-react";
 
 export default function Home() {
+  const t = useTranslations('home');
+  const tNav = useTranslations('nav');
+  const tAuth = useTranslations('auth');
+  const tCommon = useTranslations('common');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -25,7 +30,7 @@ export default function Home() {
             <div className="flex items-center gap-2">
               <DollarSign className="h-7 w-7 sm:h-8 sm:w-8 text-blue-600" />
               <span className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">
-                Timor Payroll
+                {tCommon('appName')}
               </span>
             </div>
 
@@ -35,13 +40,13 @@ export default function Home() {
                 href="/dashboard"
                 className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
               >
-                Dashboard
+                {tNav('dashboard')}
               </Link>
               <Link
                 href="/login"
                 className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
               >
-                Sign In
+                {tAuth('login')}
               </Link>
             </nav>
 
@@ -62,14 +67,14 @@ export default function Home() {
                 className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white py-2"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Dashboard
+                {tNav('dashboard')}
               </Link>
               <Link
                 href="/login"
                 className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition text-center"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Sign In
+                {tAuth('login')}
               </Link>
             </nav>
           )}
@@ -80,26 +85,24 @@ export default function Home() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
         <div className="text-center mb-10 sm:mb-16">
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6">
-            Payroll Made Simple for
+            {t('hero.titlePrefix')}
             <span className="text-blue-600"> Timor-Leste</span>
           </h1>
           <p className="text-base sm:text-lg lg:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-6 sm:mb-8 px-2">
-            Compliant payroll processing with built-in WIT tax calculations,
-            INSS contributions, and multilingual support in English, Portuguese,
-            and Tetum.
+            {t('hero.subtitle')}
           </p>
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4 sm:px-0">
             <Link
               href="/dashboard"
               className="inline-flex items-center justify-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition font-medium"
             >
-              Get Started <ArrowRight className="h-5 w-5" />
+              {t('hero.getStarted')} <ArrowRight className="h-5 w-5" />
             </Link>
             <Link
               href="#features"
               className="inline-flex items-center justify-center gap-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 px-6 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition font-medium"
             >
-              Learn More
+              {t('hero.learnMore')}
             </Link>
           </div>
         </div>
@@ -108,46 +111,46 @@ export default function Home() {
         <div id="features" className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
           <FeatureCard
             icon={<Users className="h-8 w-8" />}
-            title="Employee Management"
-            description="Track employee details, contracts, TIN, and INSS numbers. Handle all employment types."
+            title={t('features.employeeManagement.title')}
+            description={t('features.employeeManagement.description')}
           />
           <FeatureCard
             icon={<DollarSign className="h-8 w-8" />}
-            title="Payroll Processing"
-            description="Automatic tax calculations with $500 exemption, INSS contributions (4%+6%), overtime rates."
+            title={t('features.payrollProcessing.title')}
+            description={t('features.payrollProcessing.description')}
           />
           <FeatureCard
             icon={<Calendar className="h-8 w-8" />}
-            title="Leave Management"
-            description="Track annual leave (12 days), sick leave, maternity (12 weeks), paternity (5 days), and more."
+            title={t('features.leaveManagement.title')}
+            description={t('features.leaveManagement.description')}
           />
           <FeatureCard
             icon={<FileText className="h-8 w-8" />}
-            title="Compliance Reports"
-            description="Generate monthly WIT and INSS filings, annual reports, and employee tax certificates."
+            title={t('features.complianceReports.title')}
+            description={t('features.complianceReports.description')}
           />
           <FeatureCard
             icon={<Settings className="h-8 w-8" />}
-            title="Timor-Leste Compliant"
-            description="Built for Labour Code Law No. 4/2012. Minimum wage validation, holiday pay rates, severance."
+            title={t('features.timorCompliant.title')}
+            description={t('features.timorCompliant.description')}
           />
           <FeatureCard
             icon={<FileText className="h-8 w-8" />}
-            title="Multilingual"
-            description="Full support for English, Portuguese, and Tetum. Generate payslips in any language."
+            title={t('features.multilingual.title')}
+            description={t('features.multilingual.description')}
           />
         </div>
 
         {/* Compliance Stats */}
         <div className="mt-10 sm:mt-16 bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-8 shadow-lg">
           <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-6 sm:mb-8 text-center">
-            Built for Timor-Leste Compliance
+            {t('compliance.title')}
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 text-center">
-            <StatCard value="$115" label="Minimum Wage" sublabel="/month" />
-            <StatCard value="10%" label="WIT Tax Rate" sublabel=">$500" />
-            <StatCard value="10%" label="INSS Total" sublabel="4% + 6%" />
-            <StatCard value="12" label="Annual Leave" sublabel="days/year" />
+            <StatCard value="$115" label={t('compliance.stats.minimumWage')} sublabel={t('compliance.stats.perMonth')} />
+            <StatCard value="10%" label={t('compliance.stats.witRate')} sublabel={t('compliance.stats.witThreshold')} />
+            <StatCard value="10%" label={t('compliance.stats.inssTotal')} sublabel={t('compliance.stats.inssBreakdown')} />
+            <StatCard value="12" label={t('compliance.stats.annualLeave')} sublabel={t('compliance.stats.daysPerYear')} />
           </div>
         </div>
       </main>
@@ -155,9 +158,9 @@ export default function Home() {
       {/* Footer */}
       <footer className="border-t border-gray-200 dark:border-gray-700 mt-10 sm:mt-16 py-6 sm:py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-500 dark:text-gray-400">
-          <p className="text-sm sm:text-base">Timor Payroll - Payroll Management for Timor-Leste</p>
+          <p className="text-sm sm:text-base">{t('footer.tagline')}</p>
           <p className="text-xs sm:text-sm mt-2">
-            Compliant with Labour Code Law No. 4/2012 and INSS Law No. 12/2016
+            {t('footer.compliance')}
           </p>
         </div>
       </footer>

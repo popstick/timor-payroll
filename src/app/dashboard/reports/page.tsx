@@ -10,6 +10,7 @@ import {
   Building2,
   TrendingUp,
 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { createClient } from '@/lib/supabase/client';
@@ -18,6 +19,9 @@ type ReportType = 'payroll' | 'wit' | 'inss' | 'employees';
 
 export default function ReportsPage() {
   const supabase = createClient();
+  const t = useTranslations('reports');
+  const tCommon = useTranslations('common');
+  const tEmployees = useTranslations('employees');
   const [selectedReport, setSelectedReport] = useState<ReportType>('payroll');
   const [selectedMonth, setSelectedMonth] = useState(() => {
     const now = new Date();
@@ -175,7 +179,7 @@ export default function ReportsPage() {
     switch (reportData.type) {
       case 'payroll':
         filename = `payroll-report-${selectedMonth}.csv`;
-        csvContent = 'Employee,Gross Pay,Tax,INSS Employee,INSS Employer,Net Pay\n';
+        csvContent = `${t('csvHeaders.payroll')}\n`;
         reportData.runs.forEach((run: any) => {
           run.payroll_items?.forEach((item: any) => {
             csvContent += `"${item.employees?.first_name} ${item.employees?.last_name}",${item.gross_pay},${item.tax_withheld || 0},${item.inss_employee || 0},${item.inss_employer || 0},${item.net_pay}\n`;
@@ -184,21 +188,21 @@ export default function ReportsPage() {
         break;
       case 'wit':
         filename = `wit-report-${selectedMonth}.csv`;
-        csvContent = 'Employee,TIN,Resident,Gross Wages,Tax Withheld\n';
+        csvContent = `${t('csvHeaders.wit')}\n`;
         reportData.items.forEach((item: any) => {
-          csvContent += `"${item.employees?.first_name} ${item.employees?.last_name}",${item.employees?.tin || 'N/A'},${item.employees?.is_resident ? 'Yes' : 'No'},${item.gross_pay},${item.tax_withheld || 0}\n`;
+          csvContent += `"${item.employees?.first_name} ${item.employees?.last_name}",${item.employees?.tin || 'N/A'},${item.employees?.is_resident ? tCommon('yes') : tCommon('no')},${item.gross_pay},${item.tax_withheld || 0}\n`;
         });
         break;
       case 'inss':
         filename = `inss-report-${selectedMonth}.csv`;
-        csvContent = 'Employee,INSS Number,Gross Wages,Employee Contribution (4%),Employer Contribution (6%)\n';
+        csvContent = `${t('csvHeaders.inss')}\n`;
         reportData.items.forEach((item: any) => {
           csvContent += `"${item.employees?.first_name} ${item.employees?.last_name}",${item.employees?.inss_number || 'N/A'},${item.gross_pay},${item.inss_employee || 0},${item.inss_employer || 0}\n`;
         });
         break;
       case 'employees':
         filename = 'employee-report.csv';
-        csvContent = 'Employee Number,Name,Position,Department,Base Salary,Status,Start Date\n';
+        csvContent = `${t('csvHeaders.employees')}\n`;
         reportData.employees.forEach((emp: any) => {
           csvContent += `${emp.employee_number},"${emp.first_name} ${emp.last_name}",${emp.position},${emp.department || 'N/A'},${emp.base_salary},${emp.status},${emp.start_date}\n`;
         });
@@ -215,22 +219,22 @@ export default function ReportsPage() {
   }
 
   const reportTypes = [
-    { id: 'payroll', label: 'Payroll Summary', icon: DollarSign, description: 'Monthly payroll breakdown' },
-    { id: 'wit', label: 'WIT Tax Report', icon: FileText, description: 'Withholding tax details' },
-    { id: 'inss', label: 'INSS Report', icon: Building2, description: 'Social security contributions' },
-    { id: 'employees', label: 'Employee List', icon: Users, description: 'All employee details' },
+    { id: 'payroll', label: t('types.payroll'), icon: DollarSign, description: t('types.payrollDesc') },
+    { id: 'wit', label: t('types.wit'), icon: FileText, description: t('types.witDesc') },
+    { id: 'inss', label: t('types.inss'), icon: Building2, description: t('types.inssDesc') },
+    { id: 'employees', label: t('types.employees'), icon: Users, description: t('types.employeesDesc') },
   ];
 
   return (
     <div className="p-4 sm:p-6 lg:p-8">
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6 sm:mb-8">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Reports</h1>
-          <p className="text-sm sm:text-base text-gray-500">Generate payroll and compliance reports</p>
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">{t('title')}</h1>
+          <p className="text-sm sm:text-base text-gray-500">{t('subtitle')}</p>
         </div>
         <Button onClick={exportToCSV} disabled={!reportData} className="w-full sm:w-auto">
           <Download className="h-4 w-4 mr-2" />
-          Export CSV
+          {t('exportCsv')}
         </Button>
       </div>
 
@@ -239,7 +243,7 @@ export default function ReportsPage() {
         <div className="lg:col-span-1 space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>Report Type</CardTitle>
+              <CardTitle>{t('selectType')}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-2">
               {reportTypes.map((type) => (
@@ -267,7 +271,7 @@ export default function ReportsPage() {
           {selectedReport !== 'employees' && (
             <Card>
               <CardHeader>
-                <CardTitle>Period</CardTitle>
+                <CardTitle>{t('selectPeriod')}</CardTitle>
               </CardHeader>
               <CardContent>
                 <input
@@ -286,7 +290,7 @@ export default function ReportsPage() {
           {loading ? (
             <Card>
               <CardContent className="py-12 text-center text-gray-500">
-                Generating report...
+                {tCommon('loading')}
               </CardContent>
             </Card>
           ) : reportData ? (
@@ -297,7 +301,7 @@ export default function ReportsPage() {
                   <>
                     <Card>
                       <CardContent className="pt-6">
-                        <div className="text-sm text-gray-500">Total Gross Pay</div>
+                        <div className="text-sm text-gray-500">{t('payroll.totalGross')}</div>
                         <div className="text-2xl font-bold text-gray-900">
                           ${reportData.summary.totalGross.toFixed(2)}
                         </div>
@@ -305,7 +309,7 @@ export default function ReportsPage() {
                     </Card>
                     <Card>
                       <CardContent className="pt-6">
-                        <div className="text-sm text-gray-500">Total Deductions</div>
+                        <div className="text-sm text-gray-500">{t('payroll.totalDeductions')}</div>
                         <div className="text-2xl font-bold text-red-600">
                           ${(reportData.summary.totalTax + reportData.summary.totalINSS).toFixed(2)}
                         </div>
@@ -313,7 +317,7 @@ export default function ReportsPage() {
                     </Card>
                     <Card>
                       <CardContent className="pt-6">
-                        <div className="text-sm text-gray-500">Total Net Pay</div>
+                        <div className="text-sm text-gray-500">{t('payroll.totalNet')}</div>
                         <div className="text-2xl font-bold text-green-600">
                           ${reportData.summary.totalNet.toFixed(2)}
                         </div>
@@ -325,7 +329,7 @@ export default function ReportsPage() {
                   <>
                     <Card>
                       <CardContent className="pt-6">
-                        <div className="text-sm text-gray-500">Total Wages</div>
+                        <div className="text-sm text-gray-500">{t('wit.totalWages')}</div>
                         <div className="text-2xl font-bold text-gray-900">
                           ${reportData.summary.totalWages.toFixed(2)}
                         </div>
@@ -333,7 +337,7 @@ export default function ReportsPage() {
                     </Card>
                     <Card>
                       <CardContent className="pt-6">
-                        <div className="text-sm text-gray-500">Total WIT (10%)</div>
+                        <div className="text-sm text-gray-500">{t('wit.totalTax')}</div>
                         <div className="text-2xl font-bold text-blue-600">
                           ${reportData.summary.totalTax.toFixed(2)}
                         </div>
@@ -341,7 +345,7 @@ export default function ReportsPage() {
                     </Card>
                     <Card>
                       <CardContent className="pt-6">
-                        <div className="text-sm text-gray-500">Filing Deadline</div>
+                        <div className="text-sm text-gray-500">{t('wit.filingDeadline')}</div>
                         <div className="text-2xl font-bold text-orange-600">
                           {format(new Date(reportData.summary.filingDeadline), 'MMM d, yyyy')}
                         </div>
@@ -353,7 +357,7 @@ export default function ReportsPage() {
                   <>
                     <Card>
                       <CardContent className="pt-6">
-                        <div className="text-sm text-gray-500">Employee (4%)</div>
+                        <div className="text-sm text-gray-500">{t('inss.employeeRate')}</div>
                         <div className="text-2xl font-bold text-gray-900">
                           ${reportData.summary.employeeContribution.toFixed(2)}
                         </div>
@@ -361,7 +365,7 @@ export default function ReportsPage() {
                     </Card>
                     <Card>
                       <CardContent className="pt-6">
-                        <div className="text-sm text-gray-500">Employer (6%)</div>
+                        <div className="text-sm text-gray-500">{t('inss.employerRate')}</div>
                         <div className="text-2xl font-bold text-gray-900">
                           ${reportData.summary.employerContribution.toFixed(2)}
                         </div>
@@ -369,7 +373,7 @@ export default function ReportsPage() {
                     </Card>
                     <Card>
                       <CardContent className="pt-6">
-                        <div className="text-sm text-gray-500">Total INSS Due</div>
+                        <div className="text-sm text-gray-500">{t('inss.totalDue')}</div>
                         <div className="text-2xl font-bold text-green-600">
                           ${reportData.summary.totalContribution.toFixed(2)}
                         </div>
@@ -381,7 +385,7 @@ export default function ReportsPage() {
                   <>
                     <Card>
                       <CardContent className="pt-6">
-                        <div className="text-sm text-gray-500">Total Employees</div>
+                        <div className="text-sm text-gray-500">{t('employeeList.totalEmployees')}</div>
                         <div className="text-2xl font-bold text-gray-900">
                           {reportData.summary.total}
                         </div>
@@ -389,7 +393,7 @@ export default function ReportsPage() {
                     </Card>
                     <Card>
                       <CardContent className="pt-6">
-                        <div className="text-sm text-gray-500">Active / Inactive</div>
+                        <div className="text-sm text-gray-500">{t('employeeList.activeInactive')}</div>
                         <div className="text-2xl font-bold">
                           <span className="text-green-600">{reportData.summary.active}</span>
                           <span className="text-gray-400"> / </span>
@@ -399,7 +403,7 @@ export default function ReportsPage() {
                     </Card>
                     <Card>
                       <CardContent className="pt-6">
-                        <div className="text-sm text-gray-500">Avg. Salary</div>
+                        <div className="text-sm text-gray-500">{t('employeeList.avgSalary')}</div>
                         <div className="text-2xl font-bold text-blue-600">
                           ${reportData.summary.averageSalary.toFixed(2)}
                         </div>
@@ -413,10 +417,10 @@ export default function ReportsPage() {
               <Card>
                 <CardHeader>
                   <CardTitle>
-                    {reportData.type === 'payroll' && `Payroll Details - ${reportData.period}`}
-                    {reportData.type === 'wit' && `WIT Tax Details - ${reportData.period}`}
-                    {reportData.type === 'inss' && `INSS Details - ${reportData.period}`}
-                    {reportData.type === 'employees' && 'Employee Directory'}
+                    {reportData.type === 'payroll' && `${t('payroll.title')} - ${reportData.period}`}
+                    {reportData.type === 'wit' && `${t('wit.title')} - ${reportData.period}`}
+                    {reportData.type === 'inss' && `${t('inss.title')} - ${reportData.period}`}
+                    {reportData.type === 'employees' && t('employeeList.title')}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -426,38 +430,38 @@ export default function ReportsPage() {
                         <tr className="border-b">
                           {reportData.type === 'payroll' && (
                             <>
-                              <th className="text-left py-3 px-2 font-medium text-gray-500">Employee</th>
-                              <th className="text-right py-3 px-2 font-medium text-gray-500">Gross</th>
-                              <th className="text-right py-3 px-2 font-medium text-gray-500">Tax</th>
-                              <th className="text-right py-3 px-2 font-medium text-gray-500">INSS</th>
-                              <th className="text-right py-3 px-2 font-medium text-gray-500">Net</th>
+                              <th className="text-left py-3 px-2 font-medium text-gray-500">{t('table.employee')}</th>
+                              <th className="text-right py-3 px-2 font-medium text-gray-500">{t('table.gross')}</th>
+                              <th className="text-right py-3 px-2 font-medium text-gray-500">{t('table.tax')}</th>
+                              <th className="text-right py-3 px-2 font-medium text-gray-500">{tCommon('inss')}</th>
+                              <th className="text-right py-3 px-2 font-medium text-gray-500">{t('table.net')}</th>
                             </>
                           )}
                           {reportData.type === 'wit' && (
                             <>
-                              <th className="text-left py-3 px-2 font-medium text-gray-500">Employee</th>
+                              <th className="text-left py-3 px-2 font-medium text-gray-500">{t('table.employee')}</th>
                               <th className="text-left py-3 px-2 font-medium text-gray-500">TIN</th>
-                              <th className="text-center py-3 px-2 font-medium text-gray-500">Resident</th>
-                              <th className="text-right py-3 px-2 font-medium text-gray-500">Wages</th>
+                              <th className="text-center py-3 px-2 font-medium text-gray-500">{t('wit.resident')}</th>
+                              <th className="text-right py-3 px-2 font-medium text-gray-500">{t('table.wages')}</th>
                               <th className="text-right py-3 px-2 font-medium text-gray-500">WIT</th>
                             </>
                           )}
                           {reportData.type === 'inss' && (
                             <>
-                              <th className="text-left py-3 px-2 font-medium text-gray-500">Employee</th>
-                              <th className="text-left py-3 px-2 font-medium text-gray-500">INSS No.</th>
-                              <th className="text-right py-3 px-2 font-medium text-gray-500">Wages</th>
-                              <th className="text-right py-3 px-2 font-medium text-gray-500">Emp (4%)</th>
-                              <th className="text-right py-3 px-2 font-medium text-gray-500">Empr (6%)</th>
+                              <th className="text-left py-3 px-2 font-medium text-gray-500">{t('table.employee')}</th>
+                              <th className="text-left py-3 px-2 font-medium text-gray-500">{tEmployees('tax.inssNumber')}</th>
+                              <th className="text-right py-3 px-2 font-medium text-gray-500">{t('table.wages')}</th>
+                              <th className="text-right py-3 px-2 font-medium text-gray-500">{t('inss.employeeRate')}</th>
+                              <th className="text-right py-3 px-2 font-medium text-gray-500">{t('inss.employerRate')}</th>
                             </>
                           )}
                           {reportData.type === 'employees' && (
                             <>
-                              <th className="text-left py-3 px-2 font-medium text-gray-500">ID</th>
-                              <th className="text-left py-3 px-2 font-medium text-gray-500">Name</th>
-                              <th className="text-left py-3 px-2 font-medium text-gray-500">Position</th>
-                              <th className="text-right py-3 px-2 font-medium text-gray-500">Salary</th>
-                              <th className="text-center py-3 px-2 font-medium text-gray-500">Status</th>
+                              <th className="text-left py-3 px-2 font-medium text-gray-500">{tEmployees('employment.employeeNumber')}</th>
+                              <th className="text-left py-3 px-2 font-medium text-gray-500">{tEmployees('personal.fullName')}</th>
+                              <th className="text-left py-3 px-2 font-medium text-gray-500">{tEmployees('employment.position')}</th>
+                              <th className="text-right py-3 px-2 font-medium text-gray-500">{t('table.salary')}</th>
+                              <th className="text-center py-3 px-2 font-medium text-gray-500">{tCommon('status')}</th>
                             </>
                           )}
                         </tr>
@@ -484,7 +488,7 @@ export default function ReportsPage() {
                             <td className="py-3 px-2 text-gray-700">{item.employees?.tin || '-'}</td>
                             <td className="py-3 px-2 text-center">
                               <span className={`px-2 py-1 rounded-full text-xs ${item.employees?.is_resident ? 'bg-green-100 text-green-800' : 'bg-orange-100 text-orange-800'}`}>
-                                {item.employees?.is_resident ? 'Yes' : 'No'}
+                                {item.employees?.is_resident ? tCommon('yes') : tCommon('no')}
                               </span>
                             </td>
                             <td className="py-3 px-2 text-right text-gray-900">${item.gross_pay.toFixed(2)}</td>
@@ -510,7 +514,7 @@ export default function ReportsPage() {
                             <td className="py-3 px-2 text-right text-gray-900">${emp.base_salary.toFixed(2)}</td>
                             <td className="py-3 px-2 text-center">
                               <span className={`px-2 py-1 rounded-full text-xs ${emp.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
-                                {emp.status}
+                                {emp.status === 'active' ? tCommon('active') : emp.status === 'inactive' ? tCommon('inactive') : emp.status}
                               </span>
                             </td>
                           </tr>
@@ -521,7 +525,7 @@ export default function ReportsPage() {
                           (reportData.type === 'employees' && reportData.employees.length === 0)) && (
                           <tr>
                             <td colSpan={5} className="py-8 text-center text-gray-500">
-                              No data available for this period
+                              {t('noDataForPeriod')}
                             </td>
                           </tr>
                         )}
@@ -534,7 +538,7 @@ export default function ReportsPage() {
           ) : (
             <Card>
               <CardContent className="py-12 text-center text-gray-500">
-                Select a report type to generate
+                {t('selectToGenerate')}
               </CardContent>
             </Card>
           )}

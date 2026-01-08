@@ -11,14 +11,14 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <button
         className={cn(
-          'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50',
+          'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98]',
           {
-            'bg-blue-600 text-white shadow hover:bg-blue-700': variant === 'default',
-            'bg-red-600 text-white shadow-sm hover:bg-red-700': variant === 'destructive',
-            'border border-gray-300 bg-white text-gray-700 shadow-sm hover:bg-gray-100 hover:text-gray-900': variant === 'outline',
-            'bg-gray-100 text-gray-900 shadow-sm hover:bg-gray-200': variant === 'secondary',
-            'text-gray-700 hover:bg-gray-100 hover:text-gray-900': variant === 'ghost',
-            'text-blue-600 underline-offset-4 hover:underline': variant === 'link',
+            'bg-[#F86037] text-white hover:bg-[#e5552f]': variant === 'default',
+            'bg-red-600 text-white hover:bg-red-700': variant === 'destructive',
+            'border border-gray-200 bg-white text-gray-700 hover:bg-gray-50': variant === 'outline',
+            'bg-gray-100 text-gray-900 hover:bg-gray-200': variant === 'secondary',
+            'text-gray-600 hover:bg-gray-100 hover:text-gray-900': variant === 'ghost',
+            'text-[#F86037] underline-offset-4 hover:underline': variant === 'link',
           },
           {
             'h-9 px-4 py-2': size === 'default',

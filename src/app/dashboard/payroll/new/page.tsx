@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { ArrowLeft, Calculator, Check, AlertTriangle } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -25,6 +26,12 @@ interface PayrollPreview {
 export default function NewPayrollPage() {
   const router = useRouter();
   const supabase = createClient();
+  const tPayroll = useTranslations('payroll');
+  const tPayrollCalc = useTranslations('payroll.calculation');
+  const tPayrollSummary = useTranslations('payroll.summary');
+  const tPayrollActions = useTranslations('payroll.actions');
+  const tCommon = useTranslations('common');
+  const tEmployees = useTranslations('employees');
 
   const [loading, setLoading] = useState(true);
   const [processing, setProcessing] = useState(false);
@@ -194,7 +201,7 @@ export default function NewPayrollPage() {
   if (loading) {
     return (
       <div className="p-8">
-        <div className="animate-pulse">Loading employees...</div>
+        <div className="animate-pulse">{tCommon('loading')}</div>
       </div>
     );
   }
@@ -209,8 +216,8 @@ export default function NewPayrollPage() {
           </Button>
         </Link>
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Run Payroll</h1>
-          <p className="text-gray-500">Calculate and process monthly salaries</p>
+          <h1 className="text-2xl font-bold text-gray-900">{tPayroll('runPayroll')}</h1>
+          <p className="text-gray-500">{tPayroll('subtitle')}</p>
         </div>
       </div>
 
@@ -224,24 +231,24 @@ export default function NewPayrollPage() {
       {/* Period Selection */}
       <Card className="mb-6">
         <CardHeader>
-          <CardTitle>Pay Period</CardTitle>
+          <CardTitle>{tPayroll('period')}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid gap-4 md:grid-cols-3">
             <Input
-              label="Period Start"
+              label={tPayroll('periodStart')}
               type="date"
               value={periodStart}
               onChange={(e) => setPeriodStart(e.target.value)}
             />
             <Input
-              label="Period End"
+              label={tPayroll('periodEnd')}
               type="date"
               value={periodEnd}
               onChange={(e) => setPeriodEnd(e.target.value)}
             />
             <Input
-              label="Pay Date"
+              label={tPayroll('payDate')}
               type="date"
               value={payDate}
               onChange={(e) => setPayDate(e.target.value)}
@@ -255,10 +262,10 @@ export default function NewPayrollPage() {
         <Card>
           <CardContent className="py-12 text-center">
             <AlertTriangle className="mx-auto h-12 w-12 text-yellow-500 mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-1">No active employees</h3>
-            <p className="text-gray-500 mb-4">Add employees before running payroll.</p>
+            <h3 className="text-lg font-medium text-gray-900 mb-1">{tPayroll('noActiveEmployees')}</h3>
+            <p className="text-gray-500 mb-4">{tPayroll('addEmployeesFirst')}</p>
             <Link href="/dashboard/employees/new">
-              <Button>Add Employee</Button>
+              <Button>{tEmployees('addEmployee')}</Button>
             </Link>
           </CardContent>
         </Card>
@@ -268,7 +275,7 @@ export default function NewPayrollPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Calculator className="h-5 w-5" />
-                Payroll Calculation
+                {tPayrollCalc('title')}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -276,16 +283,16 @@ export default function NewPayrollPage() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Employee</TableHead>
-                      <TableHead>Base Salary</TableHead>
-                      <TableHead>OT (Reg)</TableHead>
-                      <TableHead>OT (Holiday)</TableHead>
-                      <TableHead>Allowances</TableHead>
-                      <TableHead>Bonuses</TableHead>
-                      <TableHead>Gross</TableHead>
-                      <TableHead>Tax</TableHead>
-                      <TableHead>INSS</TableHead>
-                      <TableHead>Net Pay</TableHead>
+                      <TableHead>{tEmployees('title')}</TableHead>
+                      <TableHead>{tPayrollCalc('baseSalary')}</TableHead>
+                      <TableHead>{tPayrollCalc('overtimeRegular')}</TableHead>
+                      <TableHead>{tPayrollCalc('overtimeHoliday')}</TableHead>
+                      <TableHead>{tPayrollCalc('allowances')}</TableHead>
+                      <TableHead>{tPayrollCalc('bonuses')}</TableHead>
+                      <TableHead>{tPayrollCalc('grossPay')}</TableHead>
+                      <TableHead>{tPayrollCalc('taxWithheld')}</TableHead>
+                      <TableHead>{tPayrollCalc('inssEmployee')}</TableHead>
+                      <TableHead>{tPayrollCalc('netPay')}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -296,7 +303,7 @@ export default function NewPayrollPage() {
                             {preview.employee.first_name} {preview.employee.last_name}
                           </div>
                           <div className="text-xs text-gray-500">
-                            {preview.employee.is_resident ? 'Resident' : 'Non-resident'}
+                            {preview.employee.is_resident ? tCommon('resident') : tCommon('nonResident')}
                           </div>
                         </TableCell>
                         <TableCell>{formatCurrency(preview.employee.base_salary)}</TableCell>
@@ -371,28 +378,28 @@ export default function NewPayrollPage() {
           {/* Totals */}
           <Card className="mb-6">
             <CardHeader>
-              <CardTitle>Summary</CardTitle>
+              <CardTitle>{tPayrollSummary('title')}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid gap-4 md:grid-cols-5">
                 <div className="p-4 bg-gray-50 rounded-lg">
-                  <div className="text-sm text-gray-500">Total Gross</div>
+                  <div className="text-sm text-gray-500">{tPayrollSummary('totalGross')}</div>
                   <div className="text-xl font-bold">{formatCurrency(totals.gross)}</div>
                 </div>
                 <div className="p-4 bg-red-50 rounded-lg">
-                  <div className="text-sm text-gray-500">Total WIT Tax</div>
+                  <div className="text-sm text-gray-500">{tPayrollSummary('totalTax')}</div>
                   <div className="text-xl font-bold text-red-600">{formatCurrency(totals.tax)}</div>
                 </div>
                 <div className="p-4 bg-red-50 rounded-lg">
-                  <div className="text-sm text-gray-500">INSS (Employee)</div>
+                  <div className="text-sm text-gray-500">{tPayrollSummary('totalInssEmployee')}</div>
                   <div className="text-xl font-bold text-red-600">{formatCurrency(totals.inssEmployee)}</div>
                 </div>
                 <div className="p-4 bg-orange-50 rounded-lg">
-                  <div className="text-sm text-gray-500">INSS (Employer)</div>
+                  <div className="text-sm text-gray-500">{tPayrollSummary('totalInssEmployer')}</div>
                   <div className="text-xl font-bold text-orange-600">{formatCurrency(totals.inssEmployer)}</div>
                 </div>
                 <div className="p-4 bg-green-50 rounded-lg">
-                  <div className="text-sm text-gray-500">Total Net Pay</div>
+                  <div className="text-sm text-gray-500">{tPayrollSummary('totalNet')}</div>
                   <div className="text-xl font-bold text-green-600">{formatCurrency(totals.net)}</div>
                 </div>
               </div>
@@ -402,15 +409,15 @@ export default function NewPayrollPage() {
           {/* Actions */}
           <div className="flex justify-end gap-4">
             <Link href="/dashboard/payroll">
-              <Button variant="outline">Cancel</Button>
+              <Button variant="outline">{tCommon('cancel')}</Button>
             </Link>
             <Button onClick={handleSubmit} disabled={processing}>
               {processing ? (
-                'Processing...'
+                tPayroll('status.processing')
               ) : (
                 <>
                   <Check className="h-4 w-4 mr-2" />
-                  Create Payroll Run
+                  {tPayrollActions('createRun')}
                 </>
               )}
             </Button>

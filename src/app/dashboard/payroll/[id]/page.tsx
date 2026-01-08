@@ -6,12 +6,22 @@ import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { createClient } from '@/lib/supabase/server';
 import { formatCurrency, formatDate } from '@/lib/utils';
+import { getTranslations } from 'next-intl/server';
 
 export default async function PayrollDetailPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
+  const tPayroll = await getTranslations('payroll');
+  const tPayrollCalc = await getTranslations('payroll.calculation');
+  const tPayrollSummary = await getTranslations('payroll.summary');
+  const tPayrollActions = await getTranslations('payroll.actions');
+  const tReports = await getTranslations('reports');
+  const tCommon = await getTranslations('common');
+  const tNav = await getTranslations('nav');
+  const tDashboard = await getTranslations('dashboard');
+
   const { id } = await params;
   const supabase = await createClient();
 
@@ -56,6 +66,9 @@ export default async function PayrollDetailPage({
     paid: <CheckCircle className="h-4 w-4" />,
   };
 
+  const periodEnd = new Date(payrollRun.period_end);
+  const filingDeadline = new Date(periodEnd.getFullYear(), periodEnd.getMonth() + 1, 15);
+
   return (
     <div className="p-8">
       {/* Header */}
@@ -68,7 +81,7 @@ export default async function PayrollDetailPage({
           </Link>
           <div>
             <h1 className="text-2xl font-bold text-gray-900">
-              Payroll: {formatDate(payrollRun.period_start)} - {formatDate(payrollRun.period_end)}
+              {tPayroll('title')}: {formatDate(payrollRun.period_start)} - {formatDate(payrollRun.period_end)}
             </h1>
             <div className="flex items-center gap-2 mt-1">
               <span
@@ -77,26 +90,26 @@ export default async function PayrollDetailPage({
                 }`}
               >
                 {statusIcons[payrollRun.status as keyof typeof statusIcons]}
-                {payrollRun.status}
+                {tPayroll(`status.${payrollRun.status}` as any)}
               </span>
               <span className="text-gray-500">•</span>
-              <span className="text-gray-500">Pay date: {formatDate(payrollRun.pay_date)}</span>
+              <span className="text-gray-500">{tPayroll('payDate')}: {formatDate(payrollRun.pay_date)}</span>
             </div>
           </div>
         </div>
         <div className="flex gap-2">
           <Button variant="outline">
             <Printer className="h-4 w-4 mr-2" />
-            Print All Payslips
+            {tPayrollActions('printAllPayslips')}
           </Button>
           <Button variant="outline">
             <Download className="h-4 w-4 mr-2" />
-            Export
+            {tCommon('export')}
           </Button>
           {payrollRun.status === 'draft' && (
             <Button>
               <CheckCircle className="h-4 w-4 mr-2" />
-              Approve Payroll
+              {tPayrollActions('approve')}
             </Button>
           )}
         </div>
@@ -106,36 +119,36 @@ export default async function PayrollDetailPage({
       <div className="grid gap-6 md:grid-cols-5 mb-8">
         <Card>
           <CardContent className="pt-6">
-            <div className="text-sm text-gray-500">Employees</div>
+            <div className="text-sm text-gray-500">{tNav('employees')}</div>
             <div className="text-2xl font-bold">{payrollRun.employee_count}</div>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-6">
-            <div className="text-sm text-gray-500">Total Gross</div>
+            <div className="text-sm text-gray-500">{tPayrollSummary('totalGross')}</div>
             <div className="text-2xl font-bold">{formatCurrency(payrollRun.total_gross || 0)}</div>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-6">
-            <div className="text-sm text-gray-500">Total Tax (WIT)</div>
+            <div className="text-sm text-gray-500">{tPayrollSummary('totalTax')}</div>
             <div className="text-2xl font-bold text-red-600">{formatCurrency(payrollRun.total_tax || 0)}</div>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-6">
-            <div className="text-sm text-gray-500">Total INSS</div>
+            <div className="text-sm text-gray-500">{tCommon('inss')}</div>
             <div className="text-2xl font-bold text-red-600">
               {formatCurrency((payrollRun.total_inss_employee || 0) + (payrollRun.total_inss_employer || 0))}
             </div>
             <div className="text-xs text-gray-400">
-              {formatCurrency(payrollRun.total_inss_employee || 0)} emp + {formatCurrency(payrollRun.total_inss_employer || 0)} er
+              {formatCurrency(payrollRun.total_inss_employee || 0)} + {formatCurrency(payrollRun.total_inss_employer || 0)}
             </div>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-6">
-            <div className="text-sm text-gray-500">Total Net Pay</div>
+            <div className="text-sm text-gray-500">{tPayrollSummary('totalNet')}</div>
             <div className="text-2xl font-bold text-green-600">{formatCurrency(payrollRun.total_net || 0)}</div>
           </CardContent>
         </Card>
@@ -155,15 +168,15 @@ export default async function PayrollDetailPage({
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Employee</TableHead>
-                  <TableHead>Base</TableHead>
-                  <TableHead>Overtime</TableHead>
-                  <TableHead>Allowances</TableHead>
-                  <TableHead>Gross</TableHead>
-                  <TableHead>Tax</TableHead>
-                  <TableHead>INSS (4%)</TableHead>
-                  <TableHead>Net Pay</TableHead>
-                  <TableHead>Actions</TableHead>
+                  <TableHead>{tNav('employees')}</TableHead>
+                  <TableHead>{tPayrollCalc('baseSalary')}</TableHead>
+                  <TableHead>{tPayrollCalc('overtime')}</TableHead>
+                  <TableHead>{tPayrollCalc('allowances')}</TableHead>
+                  <TableHead>{tPayrollCalc('grossPay')}</TableHead>
+                  <TableHead>{tPayrollCalc('taxWithheld')}</TableHead>
+                  <TableHead>{tPayrollCalc('inssEmployee')}</TableHead>
+                  <TableHead>{tPayrollCalc('netPay')}</TableHead>
+                  <TableHead>{tCommon('actions')}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -198,7 +211,7 @@ export default async function PayrollDetailPage({
                         className="text-blue-600 hover:text-blue-800 text-sm font-medium inline-flex items-center gap-1"
                       >
                         <FileText className="h-3 w-3" />
-                        Payslip
+                        {tPayroll('payslip.title')}
                       </Link>
                     </TableCell>
                   </TableRow>
@@ -213,22 +226,22 @@ export default async function PayrollDetailPage({
       <div className="grid gap-6 md:grid-cols-2 mt-6">
         <Card>
           <CardHeader>
-            <CardTitle>WIT Tax Filing</CardTitle>
+            <CardTitle>{tDashboard('witFiling')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
               <div className="flex justify-between">
-                <span className="text-gray-500">Total Taxable Wages</span>
+                <span className="text-gray-500">{tReports('wit.totalWages')}</span>
                 <span className="font-medium">{formatCurrency(payrollRun.total_gross || 0)}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-500">Total Tax Withheld</span>
+                <span className="text-gray-500">{tPayrollCalc('taxWithheld')}</span>
                 <span className="font-medium">{formatCurrency(payrollRun.total_tax || 0)}</span>
               </div>
               <hr />
               <div className="flex justify-between text-sm">
-                <span className="text-gray-500">Filing Deadline</span>
-                <span className="font-medium text-orange-600">15th of next month</span>
+                <span className="text-gray-500">{tReports('wit.filingDeadline')}</span>
+                <span className="font-medium text-orange-600">{formatDate(filingDeadline)}</span>
               </div>
             </div>
           </CardContent>
@@ -236,26 +249,26 @@ export default async function PayrollDetailPage({
 
         <Card>
           <CardHeader>
-            <CardTitle>INSS Filing</CardTitle>
+            <CardTitle>{tDashboard('inssFiling')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
               <div className="flex justify-between">
-                <span className="text-gray-500">Employee Contribution (4%)</span>
+                <span className="text-gray-500">{tReports('inss.employeeRate')}</span>
                 <span className="font-medium">{formatCurrency(payrollRun.total_inss_employee || 0)}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-500">Employer Contribution (6%)</span>
+                <span className="text-gray-500">{tReports('inss.employerRate')}</span>
                 <span className="font-medium">{formatCurrency(payrollRun.total_inss_employer || 0)}</span>
               </div>
               <hr />
               <div className="flex justify-between font-medium">
-                <span>Total Due to INSS</span>
+                <span>{tReports('inss.totalDue')}</span>
                 <span>{formatCurrency((payrollRun.total_inss_employee || 0) + (payrollRun.total_inss_employer || 0))}</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-gray-500">Filing Deadline</span>
-                <span className="font-medium text-orange-600">15th of next month</span>
+                <span className="text-gray-500">{tReports('wit.filingDeadline')}</span>
+                <span className="font-medium text-orange-600">{formatDate(filingDeadline)}</span>
               </div>
             </div>
           </CardContent>

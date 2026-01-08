@@ -4,12 +4,14 @@ import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { EmployeeForm } from '@/components/employees/employee-form';
 import { createClient } from '@/lib/supabase/server';
+import { getTranslations } from 'next-intl/server';
 
 export default async function EditEmployeePage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
+  const t = await getTranslations('employees');
   const { id } = await params;
   const supabase = await createClient();
 
@@ -32,7 +34,7 @@ export default async function EditEmployeePage({
           </Button>
         </Link>
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Edit Employee</h1>
+          <h1 className="text-2xl font-bold text-gray-900">{t('editEmployee')}</h1>
           <p className="text-gray-500">
             {employee.first_name} {employee.last_name}
           </p>

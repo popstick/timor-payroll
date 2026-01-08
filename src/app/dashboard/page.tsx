@@ -1,6 +1,9 @@
 import { getTranslations } from 'next-intl/server';
+import { Users, DollarSign, Calendar, AlertCircle, ArrowRight, FileText, UserPlus, Calculator } from 'lucide-react';
+import { StatCard } from '@/components/ui/stat-card';
+import { FeatureCard, BentoGrid, BentoCard } from '@/components/ui/glass-card';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Users, DollarSign, Calendar, AlertCircle } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 export default async function DashboardPage() {
   const t = await getTranslations('dashboard');
@@ -8,175 +11,176 @@ export default async function DashboardPage() {
 
   // TODO: Fetch real data from Supabase
   const stats = {
-    totalEmployees: 0,
-    activeEmployees: 0,
-    pendingPayroll: 0,
+    totalEmployees: 12,
+    activeEmployees: 10,
+    pendingPayroll: 2,
+    monthlyPayroll: 14500,
     upcomingDeadlines: 2,
   };
 
+  // Sample sparkline data
+  const employeeGrowth = [8, 9, 9, 10, 10, 11, 12];
+  const payrollHistory = [12000, 12500, 13000, 13200, 14000, 14200, 14500];
+
   return (
     <div className="p-4 sm:p-6 lg:p-8">
-      <div className="mb-6 sm:mb-8">
-        <h1 className="text-xl sm:text-2xl font-bold text-gray-900">{t('title')}</h1>
-        <p className="text-sm sm:text-base text-gray-500">{t('welcome')}</p>
+      {/* Header */}
+      <div className="mb-6">
+        <h1 className="text-xl font-semibold text-gray-900">
+          {t('title')}
+        </h1>
+        <p className="text-sm text-gray-500">{t('overview')}</p>
       </div>
 
       {/* Stats Grid */}
-      <div className="grid gap-4 sm:gap-6 grid-cols-2 lg:grid-cols-4 mb-6 sm:mb-8">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500">
-              {t('totalEmployees')}
-            </CardTitle>
-            <Users className="h-5 w-5 text-gray-400" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold">{stats.totalEmployees}</div>
-            <p className="text-xs text-gray-500 mt-1">
-              {stats.activeEmployees} {t('activeEmployees').toLowerCase()}
-            </p>
-          </CardContent>
-        </Card>
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mb-6">
+        <StatCard
+          title={t('totalEmployees')}
+          value={stats.totalEmployees}
+          change={8}
+          trend="up"
+          changeLabel="from last month"
+          icon={<Users className="h-4 w-4" />}
+          sparklineData={employeeGrowth}
+        />
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500">
-              {t('pendingApprovals')}
-            </CardTitle>
-            <DollarSign className="h-5 w-5 text-gray-400" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold">{stats.pendingPayroll}</div>
-            <p className="text-xs text-gray-500 mt-1">
-              runs to process
-            </p>
-          </CardContent>
-        </Card>
+        <StatCard
+          title={t('activeEmployees')}
+          value={stats.activeEmployees}
+          trend="neutral"
+          icon={<Users className="h-4 w-4" />}
+        />
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500">
-              {t('monthlyPayroll')}
-            </CardTitle>
-            <Calendar className="h-5 w-5 text-gray-400" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold">--</div>
-            <p className="text-xs text-gray-500 mt-1">
-              No payroll scheduled
-            </p>
-          </CardContent>
-        </Card>
+        <StatCard
+          title={t('monthlyPayroll')}
+          value={stats.monthlyPayroll}
+          prefix="$"
+          change={3.2}
+          trend="up"
+          changeLabel="vs last month"
+          icon={<DollarSign className="h-4 w-4" />}
+          sparklineData={payrollHistory}
+        />
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500">
-              {t('upcomingDeadlines')}
-            </CardTitle>
-            <AlertCircle className="h-5 w-5 text-orange-400" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold text-orange-500">
-              {stats.upcomingDeadlines}
-            </div>
-            <p className="text-xs text-gray-500 mt-1">
-              due this month
-            </p>
-          </CardContent>
-        </Card>
+        <StatCard
+          title={t('upcomingDeadlines')}
+          value={stats.upcomingDeadlines}
+          trend="down"
+          changeLabel="due this month"
+          icon={<AlertCircle className="h-4 w-4" />}
+        />
       </div>
 
-      {/* Quick Actions & Recent Activity */}
+      {/* Quick Actions */}
+      <div className="mb-6">
+        <h2 className="text-sm font-medium text-gray-500 mb-3">{t('quickActions')}</h2>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <FeatureCard
+            icon={<UserPlus className="h-5 w-5" />}
+            title={t('addEmployee')}
+            description="Register a new staff member"
+            href="/dashboard/employees/new"
+            color="primary"
+          />
+          <FeatureCard
+            icon={<Calculator className="h-5 w-5" />}
+            title={t('runPayroll')}
+            description="Process monthly salaries"
+            href="/dashboard/payroll"
+            color="green"
+          />
+          <FeatureCard
+            icon={<FileText className="h-5 w-5" />}
+            title="Generate Report"
+            description="Export payroll data"
+            href="/dashboard/reports"
+            color="cyan"
+          />
+          <FeatureCard
+            icon={<Calendar className="h-5 w-5" />}
+            title="Leave Requests"
+            description="Review pending requests"
+            href="/dashboard/leave"
+            color="orange"
+          />
+        </div>
+      </div>
+
+      {/* Deadlines & Compliance */}
       <div className="grid gap-4 sm:gap-6 lg:grid-cols-2">
+        {/* Upcoming Deadlines */}
         <Card>
           <CardHeader>
-            <CardTitle>{t('quickActions')}</CardTitle>
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-base font-medium">{t('upcomingDeadlines')}</CardTitle>
+              <span className="text-xs text-gray-500">
+                {stats.upcomingDeadlines} pending
+              </span>
+            </div>
           </CardHeader>
-          <CardContent className="grid gap-3">
-            <a
-              href="/dashboard/employees/new"
-              className="flex items-center gap-3 p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors"
-            >
-              <div className="p-2 bg-blue-100 rounded-lg">
-                <Users className="h-5 w-5 text-blue-600" />
+          <CardContent className="p-0">
+            <div className="divide-y divide-gray-100">
+              <div className="flex items-center gap-3 px-6 py-3 hover:bg-gray-50 transition-colors">
+                <div className="flex-shrink-0 w-8 h-8 rounded bg-gray-100 flex items-center justify-center">
+                  <span className="text-gray-600 text-sm font-medium">15</span>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-gray-900">{t('witFiling')}</p>
+                  <p className="text-xs text-gray-500">Monthly withholding tax</p>
+                </div>
+                <span className="text-xs text-amber-600">7 days</span>
               </div>
-              <div>
-                <div className="font-medium text-gray-900">{t('addEmployee')}</div>
-                <div className="text-sm text-gray-500">Register a new staff member</div>
+              <div className="flex items-center gap-3 px-6 py-3 hover:bg-gray-50 transition-colors">
+                <div className="flex-shrink-0 w-8 h-8 rounded bg-gray-100 flex items-center justify-center">
+                  <span className="text-gray-600 text-sm font-medium">15</span>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-gray-900">{t('inssFiling')}</p>
+                  <p className="text-xs text-gray-500">Social security contributions</p>
+                </div>
+                <span className="text-xs text-amber-600">7 days</span>
               </div>
-            </a>
-            <a
-              href="/dashboard/payroll/new"
-              className="flex items-center gap-3 p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors"
-            >
-              <div className="p-2 bg-green-100 rounded-lg">
-                <DollarSign className="h-5 w-5 text-green-600" />
-              </div>
-              <div>
-                <div className="font-medium text-gray-900">{t('runPayroll')}</div>
-                <div className="text-sm text-gray-500">Process monthly salaries</div>
-              </div>
-            </a>
+            </div>
+            <div className="px-6 py-3 border-t border-gray-100">
+              <Button variant="ghost" size="sm" className="w-full justify-center gap-2 text-gray-500">
+                View all
+                <ArrowRight className="h-3 w-3" />
+              </Button>
+            </div>
           </CardContent>
         </Card>
 
+        {/* Compliance Summary */}
         <Card>
           <CardHeader>
-            <CardTitle>{t('upcomingDeadlines')}</CardTitle>
+            <CardTitle className="text-base font-medium">Timor-Leste Compliance</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
-              <div className="flex items-center gap-4">
-                <div className="p-2 bg-orange-100 rounded-lg">
-                  <AlertCircle className="h-5 w-5 text-orange-600" />
-                </div>
-                <div className="flex-1">
-                  <div className="font-medium text-gray-900">{t('witFiling')}</div>
-                  <div className="text-sm text-gray-500">Due: 15th of month</div>
-                </div>
-                <span className="text-sm font-medium text-orange-600">7 days</span>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="p-3 rounded-lg bg-gray-50">
+                <p className="text-xs text-gray-500 mb-1">{tSettings('minimumWage')}</p>
+                <p className="text-lg font-semibold text-gray-900">$115</p>
+                <p className="text-xs text-gray-400">per month</p>
               </div>
-              <div className="flex items-center gap-4">
-                <div className="p-2 bg-orange-100 rounded-lg">
-                  <AlertCircle className="h-5 w-5 text-orange-600" />
-                </div>
-                <div className="flex-1">
-                  <div className="font-medium text-gray-900">{t('inssFiling')}</div>
-                  <div className="text-sm text-gray-500">Due: 15th of month</div>
-                </div>
-                <span className="text-sm font-medium text-orange-600">7 days</span>
+              <div className="p-3 rounded-lg bg-gray-50">
+                <p className="text-xs text-gray-500 mb-1">{tSettings('witRate')}</p>
+                <p className="text-lg font-semibold text-gray-900">10%</p>
+                <p className="text-xs text-gray-400">above $500</p>
+              </div>
+              <div className="p-3 rounded-lg bg-gray-50">
+                <p className="text-xs text-gray-500 mb-1">INSS Rate</p>
+                <p className="text-lg font-semibold text-gray-900">4% + 6%</p>
+                <p className="text-xs text-gray-400">employee + employer</p>
+              </div>
+              <div className="p-3 rounded-lg bg-gray-50">
+                <p className="text-xs text-gray-500 mb-1">Tax Exemption</p>
+                <p className="text-lg font-semibold text-gray-900">$500</p>
+                <p className="text-xs text-gray-400">for residents</p>
               </div>
             </div>
           </CardContent>
         </Card>
       </div>
-
-      {/* Compliance Info */}
-      <Card className="mt-4 sm:mt-6">
-        <CardHeader>
-          <CardTitle className="text-base sm:text-lg">Timor-Leste Compliance Summary</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid gap-3 sm:gap-4 grid-cols-2 md:grid-cols-4 text-center">
-            <div className="p-4 bg-gray-50 rounded-lg">
-              <div className="text-2xl font-bold text-blue-600">$115</div>
-              <div className="text-sm text-gray-500">{tSettings('minimumWage')}</div>
-            </div>
-            <div className="p-4 bg-gray-50 rounded-lg">
-              <div className="text-2xl font-bold text-blue-600">10%</div>
-              <div className="text-sm text-gray-500">{tSettings('witRate')}</div>
-            </div>
-            <div className="p-4 bg-gray-50 rounded-lg">
-              <div className="text-2xl font-bold text-blue-600">4% + 6%</div>
-              <div className="text-sm text-gray-500">INSS</div>
-            </div>
-            <div className="p-4 bg-gray-50 rounded-lg">
-              <div className="text-2xl font-bold text-blue-600">$500</div>
-              <div className="text-sm text-gray-500">Tax Exemption</div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
     </div>
   );
 }

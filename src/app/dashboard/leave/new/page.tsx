@@ -5,23 +5,17 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Loader2 } from 'lucide-react';
 import { differenceInBusinessDays, parseISO } from 'date-fns';
+import { useTranslations } from 'next-intl';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { createClient } from '@/lib/supabase/client';
 import type { Employee } from '@/types/supabase';
 
-const leaveTypes = [
-  { value: 'annual', label: 'Annual Leave', description: '12 days per year' },
-  { value: 'sick', label: 'Sick Leave', description: 'Up to 30 days with certificate' },
-  { value: 'personal', label: 'Personal Leave', description: 'For personal matters' },
-  { value: 'maternity', label: 'Maternity Leave', description: '12 weeks paid' },
-  { value: 'paternity', label: 'Paternity Leave', description: '5 days paid' },
-  { value: 'unpaid', label: 'Unpaid Leave', description: 'No pay during leave' },
-];
-
 export default function NewLeaveRequestPage() {
   const router = useRouter();
   const supabase = createClient();
+  const t = useTranslations('leave');
+  const tCommon = useTranslations('common');
 
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [loading, setLoading] = useState(false);
@@ -35,10 +29,6 @@ export default function NewLeaveRequestPage() {
     reason: '',
   });
 
-  useEffect(() => {
-    fetchEmployees();
-  }, []);
-
   async function fetchEmployees() {
     const { data } = await supabase
       .from('employees')
@@ -50,6 +40,10 @@ export default function NewLeaveRequestPage() {
       setEmployees(data);
     }
   }
+
+  useEffect(() => {
+    fetchEmployees();
+  }, []);
 
   function calculateDays(): number {
     if (!formData.start_date || !formData.end_date) return 0;
@@ -68,7 +62,7 @@ export default function NewLeaveRequestPage() {
     const daysRequested = calculateDays();
 
     if (daysRequested <= 0) {
-      setError('End date must be after start date');
+      setError(t('form.invalidDateRange'));
       setLoading(false);
       return;
     }
@@ -94,6 +88,15 @@ export default function NewLeaveRequestPage() {
     router.push('/dashboard/leave');
   }
 
+  const leaveTypes = [
+    { value: 'annual', label: t('types.annual'), description: t('descriptions.annual') },
+    { value: 'sick', label: t('types.sick'), description: t('descriptions.sick') },
+    { value: 'personal', label: t('types.personal'), description: t('descriptions.personal') },
+    { value: 'maternity', label: t('types.maternity'), description: t('descriptions.maternity') },
+    { value: 'paternity', label: t('types.paternity'), description: t('descriptions.paternity') },
+    { value: 'unpaid', label: t('types.unpaid'), description: t('descriptions.unpaid') },
+  ];
+
   return (
     <div className="p-8">
       <div className="flex items-center gap-4 mb-8">
@@ -103,14 +106,14 @@ export default function NewLeaveRequestPage() {
           </Button>
         </Link>
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">New Leave Request</h1>
-          <p className="text-gray-500">Submit a leave request for an employee</p>
+          <h1 className="text-2xl font-bold text-gray-900">{t('requestLeave')}</h1>
+          <p className="text-gray-500">{t('subtitle')}</p>
         </div>
       </div>
 
       <Card className="max-w-2xl">
         <CardHeader>
-          <CardTitle>Leave Request Details</CardTitle>
+          <CardTitle>{t('requestLeave')}</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -122,14 +125,14 @@ export default function NewLeaveRequestPage() {
 
             {/* Employee Selection */}
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700">Employee *</label>
+              <label className="text-sm font-medium text-gray-700">{t('form.employee')} *</label>
               <select
                 value={formData.employee_id}
                 onChange={(e) => setFormData({ ...formData, employee_id: e.target.value })}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required
               >
-                <option value="">Select employee</option>
+                <option value="">{t('form.selectEmployee')}</option>
                 {employees.map((emp) => (
                   <option key={emp.id} value={emp.id}>
                     {emp.first_name} {emp.last_name} ({emp.employee_number})
@@ -140,7 +143,7 @@ export default function NewLeaveRequestPage() {
 
             {/* Leave Type */}
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700">Leave Type *</label>
+              <label className="text-sm font-medium text-gray-700">{t('form.leaveType')} *</label>
               <div className="grid gap-3 md:grid-cols-2">
                 {leaveTypes.map((type) => (
                   <label
@@ -171,7 +174,7 @@ export default function NewLeaveRequestPage() {
             {/* Date Range */}
             <div className="grid gap-4 md:grid-cols-2">
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">Start Date *</label>
+                <label className="text-sm font-medium text-gray-700">{t('form.startDate')} *</label>
                 <input
                   type="date"
                   value={formData.start_date}
@@ -181,7 +184,7 @@ export default function NewLeaveRequestPage() {
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">End Date *</label>
+                <label className="text-sm font-medium text-gray-700">{t('form.endDate')} *</label>
                 <input
                   type="date"
                   value={formData.end_date}
@@ -196,20 +199,20 @@ export default function NewLeaveRequestPage() {
             {/* Days Summary */}
             {formData.start_date && formData.end_date && (
               <div className="p-4 bg-blue-50 rounded-lg">
-                <div className="text-sm text-gray-600">Business Days Requested</div>
-                <div className="text-2xl font-bold text-blue-600">{calculateDays()} days</div>
+                <div className="text-sm text-gray-600">{t('form.daysRequested')}</div>
+                <div className="text-2xl font-bold text-blue-600">{t('form.days', { count: calculateDays() })}</div>
               </div>
             )}
 
             {/* Reason */}
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700">Reason (Optional)</label>
+              <label className="text-sm font-medium text-gray-700">{t('form.reason')} ({tCommon('optional')})</label>
               <textarea
                 value={formData.reason}
                 onChange={(e) => setFormData({ ...formData, reason: e.target.value })}
                 rows={3}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Provide additional details about the leave request..."
+                placeholder={t('form.reasonPlaceholder')}
               />
             </div>
 
@@ -219,15 +222,15 @@ export default function NewLeaveRequestPage() {
                 {loading ? (
                   <>
                     <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                    Submitting...
+                    {tCommon('submitting')}
                   </>
                 ) : (
-                  'Submit Request'
+                  tCommon('submit')
                 )}
               </Button>
               <Link href="/dashboard/leave">
                 <Button type="button" variant="outline">
-                  Cancel
+                  {tCommon('cancel')}
                 </Button>
               </Link>
             </div>

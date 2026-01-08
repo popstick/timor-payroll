@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { format } from 'date-fns';
 import { Calendar, Plus, Clock, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { createClient } from '@/lib/supabase/client';
@@ -11,15 +12,6 @@ import type { LeaveRequest, Employee } from '@/types/supabase';
 
 type LeaveRequestWithEmployee = LeaveRequest & {
   employees: Pick<Employee, 'first_name' | 'last_name' | 'employee_number'>;
-};
-
-const leaveTypeLabels: Record<string, string> = {
-  annual: 'Annual Leave',
-  sick: 'Sick Leave',
-  personal: 'Personal Leave',
-  maternity: 'Maternity Leave',
-  paternity: 'Paternity Leave',
-  unpaid: 'Unpaid Leave',
 };
 
 const statusColors: Record<string, string> = {
@@ -38,13 +30,27 @@ const statusIcons: Record<string, typeof Clock> = {
 
 export default function LeavePage() {
   const supabase = createClient();
+  const t = useTranslations('leave');
+  const tCommon = useTranslations('common');
   const [requests, setRequests] = useState<LeaveRequestWithEmployee[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<string>('all');
 
-  useEffect(() => {
-    fetchLeaveRequests();
-  }, []);
+  const leaveTypeLabels: Record<string, string> = {
+    annual: t('types.annual'),
+    sick: t('types.sick'),
+    personal: t('types.personal'),
+    maternity: t('types.maternity'),
+    paternity: t('types.paternity'),
+    unpaid: t('types.unpaid'),
+  };
+
+  const statusLabels: Record<string, string> = {
+    pending: t('status.pending'),
+    approved: t('status.approved'),
+    rejected: t('status.rejected'),
+    cancelled: t('status.cancelled'),
+  };
 
   async function fetchLeaveRequests() {
     const { data, error } = await supabase
@@ -60,6 +66,10 @@ export default function LeavePage() {
     }
     setLoading(false);
   }
+
+  useEffect(() => {
+    fetchLeaveRequests();
+  }, []);
 
   async function updateRequestStatus(id: string, status: 'approved' | 'rejected') {
     const { error } = await supabase
@@ -90,13 +100,13 @@ export default function LeavePage() {
     <div className="p-4 sm:p-6 lg:p-8">
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6 sm:mb-8">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Leave Management</h1>
-          <p className="text-sm sm:text-base text-gray-500">Manage employee leave requests</p>
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">{t('title')}</h1>
+          <p className="text-sm sm:text-base text-gray-500">{t('subtitle')}</p>
         </div>
         <Link href="/dashboard/leave/new" className="w-full sm:w-auto">
           <Button className="w-full sm:w-auto">
             <Plus className="h-4 w-4 mr-2" />
-            New Request
+            {t('newRequest')}
           </Button>
         </Link>
       </div>
@@ -105,7 +115,7 @@ export default function LeavePage() {
       <div className="grid gap-4 sm:gap-6 grid-cols-2 md:grid-cols-4 mb-6 sm:mb-8">
         <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => setFilter('all')}>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500">Total Requests</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-500">{t('stats.total')}</CardTitle>
             <Calendar className="h-5 w-5 text-gray-400" />
           </CardHeader>
           <CardContent>
@@ -115,7 +125,7 @@ export default function LeavePage() {
 
         <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => setFilter('pending')}>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500">Pending</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-500">{t('stats.pending')}</CardTitle>
             <Clock className="h-5 w-5 text-yellow-500" />
           </CardHeader>
           <CardContent>
@@ -125,7 +135,7 @@ export default function LeavePage() {
 
         <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => setFilter('approved')}>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500">Approved</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-500">{t('stats.approved')}</CardTitle>
             <CheckCircle className="h-5 w-5 text-green-500" />
           </CardHeader>
           <CardContent>
@@ -135,7 +145,7 @@ export default function LeavePage() {
 
         <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => setFilter('rejected')}>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500">Rejected</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-500">{t('stats.rejected')}</CardTitle>
             <XCircle className="h-5 w-5 text-red-500" />
           </CardHeader>
           <CardContent>
@@ -156,7 +166,9 @@ export default function LeavePage() {
                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
             }`}
           >
-            {status.charAt(0).toUpperCase() + status.slice(1)}
+            {status === 'all'
+              ? tCommon('all')
+              : t(`status.${status as 'pending' | 'approved' | 'rejected'}`)}
           </button>
         ))}
       </div>
@@ -164,14 +176,16 @@ export default function LeavePage() {
       {/* Leave Requests List */}
       <Card>
         <CardHeader>
-          <CardTitle>Leave Requests</CardTitle>
+          <CardTitle>{t('leaveHistory')}</CardTitle>
         </CardHeader>
         <CardContent>
           {loading ? (
-            <div className="text-center py-8 text-gray-500">Loading...</div>
+            <div className="text-center py-8 text-gray-500">{tCommon('loading')}</div>
           ) : filteredRequests.length === 0 ? (
             <div className="text-center py-8 text-gray-500">
-              {filter === 'all' ? 'No leave requests yet' : `No ${filter} requests`}
+              {filter === 'all'
+                ? t('noRequests')
+                : t('noRequestsFor', { status: t(`status.${filter as 'pending' | 'approved' | 'rejected'}`) })}
             </div>
           ) : (
             <div className="space-y-3 sm:space-y-4">
@@ -191,7 +205,7 @@ export default function LeavePage() {
                           {request.employees?.first_name} {request.employees?.last_name}
                         </div>
                         <div className="text-xs sm:text-sm text-gray-500">
-                          {leaveTypeLabels[request.leave_type] || request.leave_type} - {request.days_requested} day(s)
+                          {leaveTypeLabels[request.leave_type] || request.leave_type} - {t('form.days', { count: request.days_requested })}
                         </div>
                         <div className="text-xs sm:text-sm text-gray-400">
                           {format(new Date(request.start_date), 'MMM d, yyyy')} - {format(new Date(request.end_date), 'MMM d, yyyy')}
@@ -200,7 +214,7 @@ export default function LeavePage() {
                     </div>
                     <div className="flex items-center justify-between sm:justify-end gap-2 sm:gap-3 ml-9 sm:ml-0">
                       <span className={`px-2 sm:px-3 py-1 rounded-full text-xs font-medium ${statusColors[request.status]}`}>
-                        {request.status}
+                        {statusLabels[request.status] || request.status}
                       </span>
                       {request.status === 'pending' && (
                         <div className="flex gap-2">
@@ -208,14 +222,14 @@ export default function LeavePage() {
                             size="sm"
                             onClick={() => updateRequestStatus(request.id, 'approved')}
                           >
-                            Approve
+                            {t('actions.approve')}
                           </Button>
                           <Button
                             size="sm"
                             variant="outline"
                             onClick={() => updateRequestStatus(request.id, 'rejected')}
                           >
-                            Reject
+                            {t('actions.reject')}
                           </Button>
                         </div>
                       )}
@@ -231,29 +245,29 @@ export default function LeavePage() {
       {/* Leave Entitlements Info */}
       <Card className="mt-4 sm:mt-6">
         <CardHeader>
-          <CardTitle className="text-base sm:text-lg">Timor-Leste Leave Entitlements</CardTitle>
+          <CardTitle className="text-base sm:text-lg">{t('entitlements.title')}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid gap-3 sm:gap-4 grid-cols-2 md:grid-cols-4 text-center">
             <div className="p-4 bg-blue-50 rounded-lg">
               <div className="text-2xl font-bold text-blue-600">12 days</div>
-              <div className="text-sm text-gray-600">Annual Leave</div>
-              <div className="text-xs text-gray-400">Per year (after 1 year)</div>
+              <div className="text-sm text-gray-600">{t('entitlements.annualLeave')}</div>
+              <div className="text-xs text-gray-400">{t('descriptions.annual')}</div>
             </div>
             <div className="p-4 bg-green-50 rounded-lg">
               <div className="text-2xl font-bold text-green-600">12 weeks</div>
-              <div className="text-sm text-gray-600">Maternity Leave</div>
-              <div className="text-xs text-gray-400">Paid leave</div>
+              <div className="text-sm text-gray-600">{t('entitlements.maternityLeave')}</div>
+              <div className="text-xs text-gray-400">{t('descriptions.maternity')}</div>
             </div>
             <div className="p-4 bg-purple-50 rounded-lg">
               <div className="text-2xl font-bold text-purple-600">5 days</div>
-              <div className="text-sm text-gray-600">Paternity Leave</div>
-              <div className="text-xs text-gray-400">Paid leave</div>
+              <div className="text-sm text-gray-600">{t('entitlements.paternityLeave')}</div>
+              <div className="text-xs text-gray-400">{t('descriptions.paternity')}</div>
             </div>
             <div className="p-4 bg-orange-50 rounded-lg">
               <div className="text-2xl font-bold text-orange-600">30 days</div>
-              <div className="text-sm text-gray-600">Sick Leave</div>
-              <div className="text-xs text-gray-400">Per year (with cert)</div>
+              <div className="text-sm text-gray-600">{t('entitlements.sickLeave')}</div>
+              <div className="text-xs text-gray-400">{t('descriptions.sick')}</div>
             </div>
           </div>
         </CardContent>

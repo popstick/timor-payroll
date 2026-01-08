@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -18,6 +19,8 @@ interface EmployeeFormProps {
 export function EmployeeForm({ employee, organizationId }: EmployeeFormProps) {
   const router = useRouter();
   const supabase = createClient();
+  const t = useTranslations('employees');
+  const tCommon = useTranslations('common');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -60,7 +63,7 @@ export function EmployeeForm({ employee, organizationId }: EmployeeFormProps) {
     // Validate minimum wage
     const salary = parseFloat(formData.base_salary);
     if (salary < MINIMUM_WAGE_MONTHLY) {
-      setError(`Salary must be at least $${MINIMUM_WAGE_MONTHLY} (minimum wage)`);
+      setError(t('compensation.belowMinimum', { amount: MINIMUM_WAGE_MONTHLY }));
       setLoading(false);
       return;
     }
@@ -144,19 +147,19 @@ export function EmployeeForm({ employee, organizationId }: EmployeeFormProps) {
         {/* Personal Information */}
         <Card>
           <CardHeader>
-            <CardTitle>Personal Information</CardTitle>
+            <CardTitle>{t('personal.title')}</CardTitle>
           </CardHeader>
           <CardContent className="grid gap-4">
             <div className="grid gap-4 sm:grid-cols-2">
               <Input
-                label="First Name *"
+                label={`${t('personal.firstName')} *`}
                 name="first_name"
                 value={formData.first_name}
                 onChange={handleChange}
                 required
               />
               <Input
-                label="Last Name *"
+                label={`${t('personal.lastName')} *`}
                 name="last_name"
                 value={formData.last_name}
                 onChange={handleChange}
@@ -164,47 +167,47 @@ export function EmployeeForm({ employee, organizationId }: EmployeeFormProps) {
               />
             </div>
             <Input
-              label="Email"
+              label={t('personal.email')}
               name="email"
               type="email"
               value={formData.email}
               onChange={handleChange}
             />
             <Input
-              label="Phone"
+              label={t('personal.phone')}
               name="phone"
               value={formData.phone}
               onChange={handleChange}
             />
             <div className="grid gap-4 sm:grid-cols-2">
               <Input
-                label="Date of Birth"
+                label={t('personal.dateOfBirth')}
                 name="date_of_birth"
                 type="date"
                 value={formData.date_of_birth}
                 onChange={handleChange}
               />
               <Select
-                label="Gender"
+                label={t('personal.gender')}
                 name="gender"
                 value={formData.gender}
                 onChange={handleChange}
                 options={[
-                  { value: '', label: 'Select...' },
-                  { value: 'male', label: 'Male' },
-                  { value: 'female', label: 'Female' },
-                  { value: 'other', label: 'Other' },
+                  { value: '', label: tCommon('selectPlaceholder') },
+                  { value: 'male', label: t('personal.male') },
+                  { value: 'female', label: t('personal.female') },
+                  { value: 'other', label: t('personal.other') },
                 ]}
               />
             </div>
             <Input
-              label="Nationality"
+              label={t('personal.nationality')}
               name="nationality"
               value={formData.nationality}
               onChange={handleChange}
             />
             <Input
-              label="Address"
+              label={t('personal.address')}
               name="address"
               value={formData.address}
               onChange={handleChange}
@@ -215,11 +218,11 @@ export function EmployeeForm({ employee, organizationId }: EmployeeFormProps) {
         {/* Employment Information */}
         <Card>
           <CardHeader>
-            <CardTitle>Employment Information</CardTitle>
+            <CardTitle>{t('employment.title')}</CardTitle>
           </CardHeader>
           <CardContent className="grid gap-4">
             <Input
-              label="Employee Number *"
+              label={`${t('employment.employeeNumber')} *`}
               name="employee_number"
               value={formData.employee_number}
               onChange={handleChange}
@@ -227,44 +230,44 @@ export function EmployeeForm({ employee, organizationId }: EmployeeFormProps) {
               placeholder="e.g., EMP001"
             />
             <Input
-              label="Position *"
+              label={`${t('employment.position')} *`}
               name="position"
               value={formData.position}
               onChange={handleChange}
               required
             />
             <Input
-              label="Department"
+              label={t('employment.department')}
               name="department"
               value={formData.department}
               onChange={handleChange}
             />
             <div className="grid gap-4 sm:grid-cols-2">
               <Select
-                label="Employment Type"
+                label={t('employment.employmentType')}
                 name="employment_type"
                 value={formData.employment_type}
                 onChange={handleChange}
                 options={[
-                  { value: 'full_time', label: 'Full Time' },
-                  { value: 'part_time', label: 'Part Time' },
-                  { value: 'contract', label: 'Contract' },
+                  { value: 'full_time', label: t('employment.fullTime') },
+                  { value: 'part_time', label: t('employment.partTime') },
+                  { value: 'contract', label: t('employment.contract') },
                 ]}
               />
               <Select
-                label="Status"
+                label={t('employment.status')}
                 name="status"
                 value={formData.status}
                 onChange={handleChange}
                 options={[
-                  { value: 'active', label: 'Active' },
-                  { value: 'inactive', label: 'Inactive' },
-                  { value: 'terminated', label: 'Terminated' },
+                  { value: 'active', label: t('employment.active') },
+                  { value: 'inactive', label: t('employment.inactive') },
+                  { value: 'terminated', label: t('employment.terminated') },
                 ]}
               />
             </div>
             <Input
-              label="Start Date *"
+              label={`${t('employment.startDate')} *`}
               name="start_date"
               type="date"
               value={formData.start_date}
@@ -277,11 +280,11 @@ export function EmployeeForm({ employee, organizationId }: EmployeeFormProps) {
         {/* Compensation */}
         <Card>
           <CardHeader>
-            <CardTitle>Compensation</CardTitle>
+            <CardTitle>{t('compensation.title')}</CardTitle>
           </CardHeader>
           <CardContent className="grid gap-4">
             <Input
-              label={`Base Salary (USD/month) * - Minimum: $${MINIMUM_WAGE_MONTHLY}`}
+              label={`${t('compensation.baseSalary')} * - ${t('compensation.minimumWage', { amount: MINIMUM_WAGE_MONTHLY })}`}
               name="base_salary"
               type="number"
               step="0.01"
@@ -291,7 +294,7 @@ export function EmployeeForm({ employee, organizationId }: EmployeeFormProps) {
               required
               error={
                 formData.base_salary && parseFloat(formData.base_salary) < MINIMUM_WAGE_MONTHLY
-                  ? `Below minimum wage ($${MINIMUM_WAGE_MONTHLY})`
+                  ? t('compensation.belowMinimum', { amount: MINIMUM_WAGE_MONTHLY })
                   : undefined
               }
             />
@@ -310,11 +313,11 @@ export function EmployeeForm({ employee, organizationId }: EmployeeFormProps) {
                 className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
               />
               <label htmlFor="is_resident" className="text-sm text-gray-700">
-                Tax Resident (≥183 days/year in Timor-Leste)
+                {t('tax.residentHelp')}
               </label>
             </div>
             <p className="text-sm text-gray-500">
-              Tax residents get $500/month tax exemption. Non-residents pay 10% on all wages.
+              {t('tax.residentBenefit')}
             </p>
           </CardContent>
         </Card>
@@ -322,22 +325,22 @@ export function EmployeeForm({ employee, organizationId }: EmployeeFormProps) {
         {/* Government IDs */}
         <Card>
           <CardHeader>
-            <CardTitle>Government IDs</CardTitle>
+            <CardTitle>{t('govIds.title')}</CardTitle>
           </CardHeader>
           <CardContent className="grid gap-4">
             <Input
-              label="Tax ID (TIN)"
+              label={t('tax.tin')}
               name="tin"
               value={formData.tin}
               onChange={handleChange}
-              placeholder="Tax Identification Number"
+              placeholder={t('govIds.tinPlaceholder')}
             />
             <Input
-              label="INSS Number"
+              label={t('tax.inssNumber')}
               name="inss_number"
               value={formData.inss_number}
               onChange={handleChange}
-              placeholder="Social Security Number"
+              placeholder={t('govIds.inssPlaceholder')}
             />
           </CardContent>
         </Card>
@@ -350,10 +353,10 @@ export function EmployeeForm({ employee, organizationId }: EmployeeFormProps) {
           variant="outline"
           onClick={() => router.back()}
         >
-          Cancel
+          {tCommon('cancel')}
         </Button>
         <Button type="submit" disabled={loading}>
-          {loading ? 'Saving...' : employee ? 'Update Employee' : 'Add Employee'}
+          {loading ? tCommon('saving') : employee ? tCommon('save') : t('addEmployee')}
         </Button>
       </div>
     </form>
