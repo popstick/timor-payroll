@@ -208,6 +208,13 @@
       "title": "ID Governu nian",
       "tinPlaceholder": "Númeru Identifikasaun Taxa",
       "inssPlaceholder": "Númeru Seguransa Sosiál"
+    },
+    "notifications": {
+      "title": "Preferénsia Notifikasaun",
+      "preference": "Simu Resibu Via",
+      "none": "Email De'it (Padraun)",
+      "whatsapp": "WhatsApp",
+      "sms": "SMS"
     }
   },
   "payroll": {

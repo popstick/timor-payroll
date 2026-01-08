@@ -76,49 +76,83 @@
   },
   "home": {
     "hero": {
-      "titlePrefix": "Payroll Made Simple for",
-      "subtitle": "Compliant payroll processing with built-in WIT tax calculations, INSS contributions, and multilingual support in English, Portuguese, and Tetun.",
+      "title": "Simple, Compliant Payroll for Timor-Leste",
+      "subtitle": "From spreadsheet chaos → compliant payroll in minutes.",
       "getStarted": "Get Started",
       "learnMore": "Learn More"
     },
-    "features": {
-      "employeeManagement": {
-        "title": "Employee Management",
-        "description": "Track employee details, contracts, TIN, and INSS numbers. Handle all employment types."
+    "problem": {
+      "title": "The Problem",
+      "p1": "Payroll in Timor-Leste is still done in Excel.",
+      "p2": "WIT & INSS calculations are complex and error-prone.",
+      "p3": "Government penalties are costly and stressful.",
+      "p4": "Xero / QuickBooks do not support Timor-Leste laws.",
+      "p5": "Payroll takes days every month instead of minutes.",
+      "quote": "One compliance mistake costs more than a year of software."
+    },
+    "solution": {
+      "title": "The Solution",
+      "description": "Timor Payroll is a cloud-based payroll system built specifically for Timor-Leste.",
+      "f1": "Accurate WIT & INSS calculations",
+      "f2": "One-click payslips & reports",
+      "f3": "Bank-ready payment files",
+      "f4": "WhatsApp payslip notifications employees actually read"
+    },
+    "product": {
+      "title": "Core Product Features",
+      "f1": "Payroll dashboard (monthly & YTD)",
+      "f2": "Automatic tax & INSS calculations",
+      "f3": "PDF payslips (email / download)",
+      "f4": "WhatsApp & SMS notifications",
+      "f5": "Bank file generation (BNU / BNCTL)",
+      "f6": "Employee self-service portal",
+      "f7": "Audit logs & historical tax records"
+    },
+    "whyNow": {
+      "title": "Why Now?",
+      "p1": "Growing formal business sector in Dili.",
+      "p2": "NGOs and contractors require stronger compliance.",
+      "p3": "No modern local payroll software exists.",
+      "p4": "WhatsApp is the default communication channel.",
+      "conclusion": "This market has been ignored — until now."
+    },
+    "pricing": {
+      "title": "Simple Pricing",
+      "starter": {
+        "price": "$19",
+        "period": "/month",
+        "title": "Starter",
+        "description": "1–5 employees",
+        "f1": "Core payroll",
+        "f2": "PDF payslips"
       },
-      "payrollProcessing": {
-        "title": "Payroll Processing",
-        "description": "Automatic tax calculations with $500 exemption, INSS contributions (4%+6%), overtime rates."
+      "business": {
+        "price": "$49",
+        "period": "/month",
+        "title": "Business",
+        "description": "+ $2/employee (over 10)",
+        "f1": "WhatsApp notifications",
+        "f2": "Bank files",
+        "f3": "Employee portal"
       },
-      "leaveManagement": {
-        "title": "Leave Management",
-        "description": "Track annual leave (12 days), sick leave, maternity (12 weeks), paternity (5 days), and more."
+      "enterprise": {
+        "price": "$199",
+        "period": "/month",
+        "title": "Enterprise / NGO",
+        "description": "Includes 100 employees",
+        "f1": "Priority support",
+        "f2": "Custom reports",
+        "f3": "Audit logs"
       },
-      "complianceReports": {
-        "title": "Compliance Reports",
-        "description": "Generate monthly WIT and INSS filings, annual reports, and employee tax certificates."
-      },
-      "timorCompliant": {
-        "title": "Timor-Leste Compliant",
-        "description": "Built for Labour Code Law No. 4/2012. Minimum wage validation, holiday pay rates, severance."
-      },
-      "multilingual": {
-        "title": "Multilingual",
-        "description": "Full support for English, Portuguese, and Tetun. Generate payslips in any language."
+      "addon": {
+        "title": "WhatsApp Add-on",
+        "description": "Credits sold separately (high-margin add-on)"
       }
     },
-    "compliance": {
-      "title": "Built for Timor-Leste Compliance",
-      "stats": {
-        "minimumWage": "Minimum Wage",
-        "perMonth": "/month",
-        "witRate": "WIT Tax Rate",
-        "witThreshold": ">$500",
-        "inssTotal": "INSS Total",
-        "inssBreakdown": "4% + 6%",
-        "annualLeave": "Annual Leave",
-        "daysPerYear": "days/year"
-      }
+    "vision": {
+      "title": "Our Vision",
+      "text": "Become the default payroll infrastructure for Timor-Leste — trusted by local businesses, NGOs, and international contractors.",
+      "tagline": "Quiet, boring, mission-critical software — done right."
     },
     "footer": {
       "tagline": "Timor Payroll - Payroll Management for Timor-Leste",
@@ -208,6 +242,13 @@
       "title": "Government IDs",
       "tinPlaceholder": "Tax Identification Number",
       "inssPlaceholder": "Social Security Number"
+    },
+    "notifications": {
+      "title": "Notification Preferences",
+      "preference": "Receive Payslips Via",
+      "none": "Email Only (Default)",
+      "whatsapp": "WhatsApp",
+      "sms": "SMS"
     }
   },
   "payroll": {

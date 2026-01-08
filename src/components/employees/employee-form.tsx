@@ -43,6 +43,7 @@ export function EmployeeForm({ employee, organizationId }: EmployeeFormProps) {
     inss_number: employee?.inss_number || '',
     is_resident: employee?.is_resident ?? true,
     status: employee?.status || 'active',
+    notification_preference: employee?.notification_preference || 'none',
   });
 
   const handleChange = (
@@ -107,6 +108,7 @@ export function EmployeeForm({ employee, organizationId }: EmployeeFormProps) {
         email: formData.email || null,
         phone: formData.phone || null,
         address: formData.address || null,
+        notification_preference: formData.notification_preference,
       };
 
       if (employee) {
@@ -211,6 +213,26 @@ export function EmployeeForm({ employee, organizationId }: EmployeeFormProps) {
               name="address"
               value={formData.address}
               onChange={handleChange}
+            />
+          </CardContent>
+        </Card>
+
+        {/* Notification Preferences */}
+        <Card>
+          <CardHeader>
+            <CardTitle>{t('notifications.title')}</CardTitle>
+          </CardHeader>
+          <CardContent className="grid gap-4">
+            <Select
+              label={t('notifications.preference')}
+              name="notification_preference"
+              value={formData.notification_preference}
+              onChange={handleChange}
+              options={[
+                { value: 'none', label: t('notifications.none') },
+                { value: 'whatsapp', label: t('notifications.whatsapp') },
+                { value: 'sms', label: t('notifications.sms') },
+              ]}
             />
           </CardContent>
         </Card>

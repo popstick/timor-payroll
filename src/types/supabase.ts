@@ -35,6 +35,7 @@ export type Database = {
           status: string | null
           tin: string | null
           updated_at: string
+          notification_preference: 'whatsapp' | 'sms' | 'none'
         }
         Insert: {
           address?: string | null
@@ -61,6 +62,7 @@ export type Database = {
           status?: string | null
           tin?: string | null
           updated_at?: string
+          notification_preference?: 'whatsapp' | 'sms' | 'none'
         }
         Update: {
           address?: string | null
@@ -87,6 +89,7 @@ export type Database = {
           status?: string | null
           tin?: string | null
           updated_at?: string
+          notification_preference?: 'whatsapp' | 'sms' | 'none'
         }
         Relationships: [
           {

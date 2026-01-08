@@ -8,6 +8,7 @@ import { createClient } from '@/lib/supabase/server';
 import { formatCurrency, formatDate } from '@/lib/utils';
 import { getLocale, getTranslations } from 'next-intl/server';
 import type { Employee, PayrollItem } from '@/types/supabase';
+import { SendNotificationsButton } from '@/components/payroll/send-notifications-button';
 
 export default async function PayrollDetailPage({
   params,
@@ -99,9 +100,8 @@ export default async function PayrollDetailPage({
             </h1>
             <div className="flex items-center gap-2 mt-1">
               <span
-                className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                  statusColors[status] || statusColors.draft
-                }`}
+                className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium ${statusColors[status] || statusColors.draft
+                  }`}
               >
                 {statusIcons[status]}
                 {tPayroll(statusLabelKey)}
@@ -127,6 +127,9 @@ export default async function PayrollDetailPage({
               <CheckCircle className="h-4 w-4 mr-2" />
               {tPayrollActions('approve')}
             </Button>
+          )}
+          {payrollRun.status === 'paid' && (
+            <SendNotificationsButton payrollRunId={id} />
           )}
         </div>
       </div>

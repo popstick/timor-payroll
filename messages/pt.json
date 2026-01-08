@@ -207,7 +207,14 @@
     "govIds": {
       "title": "Identificações Governamentais",
       "tinPlaceholder": "Número de Identificação Fiscal",
-      "inssPlaceholder": "Número de Segurança Social"
+      "inssPlaceholder": "Número da Segurança Social"
+    },
+    "notifications": {
+      "title": "Preferências de Notificação",
+      "preference": "Receber Recibos Via",
+      "none": "Apenas E-mail (Padrão)",
+      "whatsapp": "WhatsApp",
+      "sms": "SMS"
     }
   },
   "payroll": {
