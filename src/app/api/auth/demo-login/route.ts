@@ -5,15 +5,11 @@ export async function POST() {
   const email = process.env.DEMO_EMAIL;
   const password = process.env.DEMO_PASSWORD;
 
-  if (!email || !password) {
-    return NextResponse.json(
-      { error: 'Demo account not configured' },
-      { status: 400 }
-    );
-  }
-
   const supabase = await createClient();
-  const { error } = await supabase.auth.signInWithPassword({ email, password });
+  const { error } =
+    email && password
+      ? await supabase.auth.signInWithPassword({ email, password })
+      : await supabase.auth.signInAnonymously();
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 401 });
@@ -21,4 +17,3 @@ export async function POST() {
 
   return NextResponse.json({ ok: true });
 }
-
