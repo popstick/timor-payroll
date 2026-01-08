@@ -6,7 +6,6 @@ import {
   Text,
   View,
   StyleSheet,
-  Font,
 } from '@react-pdf/renderer';
 
 // Register fonts (using default for now)
@@ -160,6 +159,7 @@ interface PayslipPDFProps {
     gross_pay: number;
     tax_withheld?: number | null;
     inss_employee?: number | null;
+    other_deductions?: number | null;
     total_deductions?: number | null;
     net_pay: number;
   };
@@ -198,6 +198,7 @@ const translations = {
     deductions: 'Deductions',
     witTax: 'Wage Income Tax (WIT)',
     inss: 'INSS Contribution (4%)',
+    otherDeductions: 'Other Deductions',
     totalDeductions: 'Total Deductions',
     netPay: 'NET PAY',
     footer1: 'This is a computer-generated document.',
@@ -225,6 +226,7 @@ const translations = {
     deductions: 'Deduções',
     witTax: 'Imposto sobre Salários (WIT)',
     inss: 'Contribuição INSS (4%)',
+    otherDeductions: 'Outras Deduções',
     totalDeductions: 'Total Deduções',
     netPay: 'SALÁRIO LÍQUIDO',
     footer1: 'Este é um documento gerado por computador.',
@@ -252,6 +254,7 @@ const translations = {
     deductions: 'Dedusaun',
     witTax: 'Impostu ba Saláriu (WIT)',
     inss: 'Kontribuisaun INSS (4%)',
+    otherDeductions: 'Dedusaun Seluk',
     totalDeductions: 'Total Dedusaun',
     netPay: 'SALÁRIU LÍKIDU',
     footer1: 'Ida ne\'e dokumentu ne\'ebé komputador kria.',
@@ -375,6 +378,14 @@ export function PayslipPDF({
             <Text style={styles.label}>{t.inss}</Text>
             <Text style={styles.valueDeduction}>-{formatCurrency(payrollItem.inss_employee || 0)}</Text>
           </View>
+          {(payrollItem.other_deductions || 0) > 0 && (
+            <View style={styles.row}>
+              <Text style={styles.label}>{t.otherDeductions}</Text>
+              <Text style={styles.valueDeduction}>
+                -{formatCurrency(payrollItem.other_deductions || 0)}
+              </Text>
+            </View>
+          )}
           <View style={styles.totalRow}>
             <Text style={styles.totalLabel}>{t.totalDeductions}</Text>
             <Text style={styles.valueDeduction}>-{formatCurrency(payrollItem.total_deductions || 0)}</Text>

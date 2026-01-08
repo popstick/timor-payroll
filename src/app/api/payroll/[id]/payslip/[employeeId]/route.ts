@@ -20,9 +20,9 @@ function safeFilename(value: string): string {
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string; employeeId: string } }
+  { params }: { params: Promise<{ id: string; employeeId: string }> }
 ) {
-  const { id, employeeId } = params;
+  const { id, employeeId } = await params;
   const url = new URL(request.url);
   const language: PayslipLanguage = isPayslipLanguage(url.searchParams.get('lang'))
     ? (url.searchParams.get('lang') as PayslipLanguage)

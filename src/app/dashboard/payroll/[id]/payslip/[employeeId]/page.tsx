@@ -237,6 +237,8 @@ export default function PayslipPage() {
             payrollRunId={payrollRunId}
             employeeId={employeeId}
             employee={employee}
+            payrollItem={payrollItem}
+            organization={organization}
             payrollRun={payrollRun}
             language={language}
           />
@@ -434,12 +436,16 @@ function PayslipDownloadButton({
   payrollRunId,
   employeeId,
   employee,
+  payrollItem,
+  organization,
   payrollRun,
   language,
 }: {
   payrollRunId: string;
   employeeId: string;
   employee: Employee;
+  payrollItem: PayrollItem;
+  organization: Organization;
   payrollRun: PayrollRun;
   language: 'en' | 'pt' | 'tet';
 }) {
@@ -461,13 +467,86 @@ function PayslipDownloadButton({
     return match?.[1] || null;
   };
 
+  const fallbackClientSidePDF = async () => {
+    const [{ pdf }, { PayslipPDF }] = await Promise.all([
+      import('@react-pdf/renderer'),
+      import('@/components/payroll/payslip-pdf'),
+    ]);
+
+    const blob = await pdf(
+      <PayslipPDF
+        employee={{
+          first_name: employee.first_name,
+          last_name: employee.last_name,
+          employee_number: employee.employee_number,
+          position: employee.position,
+          department: employee.department,
+          tin: employee.tin,
+          inss_number: employee.inss_number,
+        }}
+        payrollItem={{
+          base_salary: payrollItem.base_salary,
+          overtime_hours: payrollItem.overtime_hours,
+          overtime_pay: payrollItem.overtime_pay,
+          night_shift_premium: payrollItem.night_shift_premium,
+          allowances: payrollItem.allowances,
+          bonuses: payrollItem.bonuses,
+          gross_pay: payrollItem.gross_pay,
+          tax_withheld: payrollItem.tax_withheld,
+          inss_employee: payrollItem.inss_employee,
+          other_deductions: payrollItem.other_deductions,
+          total_deductions: payrollItem.total_deductions,
+          net_pay: payrollItem.net_pay,
+        }}
+        organization={{
+          name: organization?.name || t.companyFallback,
+          address: organization?.address,
+          tin: organization?.tin,
+        }}
+        payPeriod={{
+          start: payrollRun.period_start,
+          end: payrollRun.period_end,
+          payDate: payrollRun.pay_date,
+        }}
+        language={language}
+      />
+    ).toBlob();
+
+    const fallbackFilename = `payslip-${employee.employee_number}-${payrollRun.period_start}-${language}.pdf`;
+    downloadBlob(blob, fallbackFilename);
+  };
+
   const handleDownload = async () => {
     setDownloading(true);
     try {
       const response = await fetch(
         `/api/payroll/${payrollRunId}/payslip/${employeeId}?lang=${language}`
       );
-      if (!response.ok) throw new Error(`Failed to download PDF (${response.status})`);
+      if (!response.ok) {
+        let errorDetail: string | null = null;
+        try {
+          const contentType = response.headers.get('Content-Type') || '';
+          if (contentType.includes('application/json')) {
+            const json = (await response.json()) as { error?: string };
+            errorDetail = json?.error || null;
+          } else {
+            errorDetail = await response.text();
+          }
+        } catch {
+          // ignore
+        }
+
+        console.warn(
+          'Payslip PDF API failed; falling back to client-side PDF generation',
+          {
+            status: response.status,
+            statusText: response.statusText,
+            error: errorDetail,
+          }
+        );
+        await fallbackClientSidePDF();
+        return;
+      }
 
       const blob = await response.blob();
       const headerFilename = getFilenameFromContentDisposition(
