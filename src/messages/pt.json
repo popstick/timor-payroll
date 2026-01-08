@@ -1,0 +1,137 @@
+{
+  "common": {
+    "appName": "Timor Payroll",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "add": "Adicionar",
+    "search": "Pesquisar",
+    "filter": "Filtrar",
+    "export": "Exportar",
+    "import": "Importar",
+    "loading": "A carregar...",
+    "error": "Erro",
+    "success": "Sucesso",
+    "currency": "USD"
+  },
+  "nav": {
+    "dashboard": "Painel",
+    "employees": "Funcionários",
+    "payroll": "Folha de Pagamento",
+    "leave": "Licenças",
+    "reports": "Relatórios",
+    "compliance": "Conformidade",
+    "settings": "Configurações"
+  },
+  "dashboard": {
+    "title": "Painel",
+    "totalEmployees": "Total de Funcionários",
+    "pendingPayroll": "Folha Pendente",
+    "upcomingDeadlines": "Prazos Próximos",
+    "recentActivity": "Atividade Recente"
+  },
+  "employees": {
+    "title": "Funcionários",
+    "addEmployee": "Adicionar Funcionário",
+    "employeeDetails": "Detalhes do Funcionário",
+    "personalInfo": "Informação Pessoal",
+    "employmentInfo": "Informação de Emprego",
+    "compensation": "Remuneração",
+    "governmentIds": "Identificações Governamentais",
+    "firstName": "Primeiro Nome",
+    "lastName": "Apelido",
+    "email": "Email",
+    "phone": "Telefone",
+    "position": "Cargo",
+    "department": "Departamento",
+    "startDate": "Data de Início",
+    "baseSalary": "Salário Base",
+    "tin": "NIF (TIN)",
+    "inssNumber": "Número INSS",
+    "isResident": "Residente Fiscal",
+    "status": {
+      "active": "Ativo",
+      "inactive": "Inativo",
+      "terminated": "Cessado"
+    }
+  },
+  "payroll": {
+    "title": "Folha de Pagamento",
+    "runPayroll": "Processar Folha",
+    "payrollHistory": "Histórico de Folhas",
+    "period": "Período de Pagamento",
+    "grossPay": "Salário Bruto",
+    "netPay": "Salário Líquido",
+    "deductions": "Deduções",
+    "tax": "Imposto (WIT)",
+    "inss": "INSS",
+    "overtime": "Horas Suplementares",
+    "nightShift": "Turno Noturno",
+    "allowances": "Subsídios",
+    "bonuses": "Bónus",
+    "status": {
+      "draft": "Rascunho",
+      "processing": "Em Processamento",
+      "approved": "Aprovado",
+      "paid": "Pago"
+    }
+  },
+  "tax": {
+    "title": "Impostos",
+    "wit": "Imposto sobre Rendimento do Trabalho (WIT)",
+    "taxExemption": "Isenção Fiscal",
+    "taxableIncome": "Rendimento Tributável",
+    "taxRate": "Taxa de Imposto",
+    "monthlyFiling": "Declaração Mensal",
+    "annualReport": "Relatório Anual"
+  },
+  "inss": {
+    "title": "Segurança Social (INSS)",
+    "employeeContribution": "Contribuição do Funcionário (4%)",
+    "employerContribution": "Contribuição do Empregador (6%)",
+    "totalContribution": "Contribuição Total",
+    "contributoryBase": "Base Contributiva"
+  },
+  "leave": {
+    "title": "Gestão de Licenças",
+    "annualLeave": "Férias Anuais",
+    "sickLeave": "Licença por Doença",
+    "maternityLeave": "Licença de Maternidade",
+    "paternityLeave": "Licença de Paternidade",
+    "personalLeave": "Licença Pessoal",
+    "balance": "Saldo",
+    "taken": "Gozadas",
+    "remaining": "Restantes",
+    "entitled": "Direito"
+  },
+  "compliance": {
+    "title": "Conformidade",
+    "filingDeadlines": "Prazos de Declaração",
+    "witFiling": "Declaração Mensal WIT",
+    "inssFiling": "Declaração Mensal INSS",
+    "annualWitReport": "Relatório Anual WIT",
+    "dueDate": "Data Limite",
+    "status": {
+      "pending": "Pendente",
+      "filed": "Declarado",
+      "paid": "Pago",
+      "overdue": "Em Atraso"
+    }
+  },
+  "reports": {
+    "title": "Relatórios",
+    "payslip": "Recibo de Vencimento",
+    "payrollSummary": "Resumo da Folha",
+    "taxReport": "Relatório Fiscal",
+    "inssReport": "Relatório INSS",
+    "employeeReport": "Relatório de Funcionários"
+  },
+  "validation": {
+    "required": "Este campo é obrigatório",
+    "invalidEmail": "Endereço de email inválido",
+    "belowMinimumWage": "Salário abaixo do mínimo ($115/mês)",
+    "invalidTin": "Formato de NIF inválido",
+    "invalidInss": "Formato de número INSS inválido"
+  }
+}

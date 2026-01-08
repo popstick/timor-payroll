@@ -1,0 +1,137 @@
+{
+  "common": {
+    "appName": "Timor Payroll",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "search": "Search",
+    "filter": "Filter",
+    "export": "Export",
+    "import": "Import",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "currency": "USD"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "employees": "Employees",
+    "payroll": "Payroll",
+    "leave": "Leave",
+    "reports": "Reports",
+    "compliance": "Compliance",
+    "settings": "Settings"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "totalEmployees": "Total Employees",
+    "pendingPayroll": "Pending Payroll",
+    "upcomingDeadlines": "Upcoming Deadlines",
+    "recentActivity": "Recent Activity"
+  },
+  "employees": {
+    "title": "Employees",
+    "addEmployee": "Add Employee",
+    "employeeDetails": "Employee Details",
+    "personalInfo": "Personal Information",
+    "employmentInfo": "Employment Information",
+    "compensation": "Compensation",
+    "governmentIds": "Government IDs",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email",
+    "phone": "Phone",
+    "position": "Position",
+    "department": "Department",
+    "startDate": "Start Date",
+    "baseSalary": "Base Salary",
+    "tin": "Tax ID (TIN)",
+    "inssNumber": "INSS Number",
+    "isResident": "Tax Resident",
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "terminated": "Terminated"
+    }
+  },
+  "payroll": {
+    "title": "Payroll",
+    "runPayroll": "Run Payroll",
+    "payrollHistory": "Payroll History",
+    "period": "Pay Period",
+    "grossPay": "Gross Pay",
+    "netPay": "Net Pay",
+    "deductions": "Deductions",
+    "tax": "Tax (WIT)",
+    "inss": "INSS",
+    "overtime": "Overtime",
+    "nightShift": "Night Shift",
+    "allowances": "Allowances",
+    "bonuses": "Bonuses",
+    "status": {
+      "draft": "Draft",
+      "processing": "Processing",
+      "approved": "Approved",
+      "paid": "Paid"
+    }
+  },
+  "tax": {
+    "title": "Tax",
+    "wit": "Wage Income Tax (WIT)",
+    "taxExemption": "Tax Exemption",
+    "taxableIncome": "Taxable Income",
+    "taxRate": "Tax Rate",
+    "monthlyFiling": "Monthly Filing",
+    "annualReport": "Annual Report"
+  },
+  "inss": {
+    "title": "Social Security (INSS)",
+    "employeeContribution": "Employee Contribution (4%)",
+    "employerContribution": "Employer Contribution (6%)",
+    "totalContribution": "Total Contribution",
+    "contributoryBase": "Contributory Base"
+  },
+  "leave": {
+    "title": "Leave Management",
+    "annualLeave": "Annual Leave",
+    "sickLeave": "Sick Leave",
+    "maternityLeave": "Maternity Leave",
+    "paternityLeave": "Paternity Leave",
+    "personalLeave": "Personal Leave",
+    "balance": "Balance",
+    "taken": "Taken",
+    "remaining": "Remaining",
+    "entitled": "Entitled"
+  },
+  "compliance": {
+    "title": "Compliance",
+    "filingDeadlines": "Filing Deadlines",
+    "witFiling": "WIT Monthly Filing",
+    "inssFiling": "INSS Monthly Filing",
+    "annualWitReport": "Annual WIT Report",
+    "dueDate": "Due Date",
+    "status": {
+      "pending": "Pending",
+      "filed": "Filed",
+      "paid": "Paid",
+      "overdue": "Overdue"
+    }
+  },
+  "reports": {
+    "title": "Reports",
+    "payslip": "Payslip",
+    "payrollSummary": "Payroll Summary",
+    "taxReport": "Tax Report",
+    "inssReport": "INSS Report",
+    "employeeReport": "Employee Report"
+  },
+  "validation": {
+    "required": "This field is required",
+    "invalidEmail": "Invalid email address",
+    "belowMinimumWage": "Salary is below minimum wage ($115/month)",
+    "invalidTin": "Invalid Tax ID format",
+    "invalidInss": "Invalid INSS number format"
+  }
+}

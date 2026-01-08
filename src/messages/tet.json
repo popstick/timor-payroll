@@ -1,0 +1,137 @@
+{
+  "common": {
+    "appName": "Timor Payroll",
+    "save": "Rai",
+    "cancel": "Kansela",
+    "delete": "Hamoos",
+    "edit": "Edita",
+    "add": "Aumenta",
+    "search": "Buka",
+    "filter": "Filtra",
+    "export": "Esporta",
+    "import": "Importa",
+    "loading": "Karrega hela...",
+    "error": "Erru",
+    "success": "Susesu",
+    "currency": "USD"
+  },
+  "nav": {
+    "dashboard": "Painel",
+    "employees": "Funsionáriu sira",
+    "payroll": "Saláriu",
+    "leave": "Lisensa",
+    "reports": "Relatóriu",
+    "compliance": "Kunformi",
+    "settings": "Konfigurasaun"
+  },
+  "dashboard": {
+    "title": "Painel",
+    "totalEmployees": "Total Funsionáriu",
+    "pendingPayroll": "Saláriu Pendente",
+    "upcomingDeadlines": "Prazu sira Besik",
+    "recentActivity": "Atividade Foun"
+  },
+  "employees": {
+    "title": "Funsionáriu sira",
+    "addEmployee": "Aumenta Funsionáriu",
+    "employeeDetails": "Detallu Funsionáriu",
+    "personalInfo": "Informasaun Pessoál",
+    "employmentInfo": "Informasaun Servisu",
+    "compensation": "Remunerasaun",
+    "governmentIds": "ID Governu",
+    "firstName": "Naran Primeiru",
+    "lastName": "Apelidu",
+    "email": "Email",
+    "phone": "Telefone",
+    "position": "Kargo",
+    "department": "Departamentu",
+    "startDate": "Data Hahú",
+    "baseSalary": "Saláriu Báziku",
+    "tin": "NIF (TIN)",
+    "inssNumber": "Númeru INSS",
+    "isResident": "Residente Fiskál",
+    "status": {
+      "active": "Ativu",
+      "inactive": "Inativu",
+      "terminated": "Remata ona"
+    }
+  },
+  "payroll": {
+    "title": "Saláriu",
+    "runPayroll": "Prosesa Saláriu",
+    "payrollHistory": "Istória Saláriu",
+    "period": "Períodu Pagamentu",
+    "grossPay": "Saláriu Brutu",
+    "netPay": "Saláriu Líkidu",
+    "deductions": "Dedusaun",
+    "tax": "Impostu (WIT)",
+    "inss": "INSS",
+    "overtime": "Oras Suplementár",
+    "nightShift": "Turnu Kalan",
+    "allowances": "Subsídiu",
+    "bonuses": "Bónus",
+    "status": {
+      "draft": "Raskuñu",
+      "processing": "Prosesa hela",
+      "approved": "Aprova ona",
+      "paid": "Selu ona"
+    }
+  },
+  "tax": {
+    "title": "Impostu",
+    "wit": "Impostu ba Saláriu (WIT)",
+    "taxExemption": "Izensaun Fiskál",
+    "taxableIncome": "Rendimentu Tributável",
+    "taxRate": "Taxa Impostu",
+    "monthlyFiling": "Deklarasaun Mensál",
+    "annualReport": "Relatóriu Anuál"
+  },
+  "inss": {
+    "title": "Seguransa Sosiál (INSS)",
+    "employeeContribution": "Kontribuisaun Funsionáriu (4%)",
+    "employerContribution": "Kontribuisaun Empregador (6%)",
+    "totalContribution": "Kontribuisaun Total",
+    "contributoryBase": "Baze Kontributiva"
+  },
+  "leave": {
+    "title": "Jestaun Lisensa",
+    "annualLeave": "Férias Anuál",
+    "sickLeave": "Lisensa Moras",
+    "maternityLeave": "Lisensa Maternidade",
+    "paternityLeave": "Lisensa Paternidade",
+    "personalLeave": "Lisensa Pessoál",
+    "balance": "Saldo",
+    "taken": "Uza ona",
+    "remaining": "Restu",
+    "entitled": "Direitu"
+  },
+  "compliance": {
+    "title": "Kunformi",
+    "filingDeadlines": "Prazu Deklarasaun",
+    "witFiling": "Deklarasaun Mensál WIT",
+    "inssFiling": "Deklarasaun Mensál INSS",
+    "annualWitReport": "Relatóriu Anuál WIT",
+    "dueDate": "Data Limiti",
+    "status": {
+      "pending": "Pendente",
+      "filed": "Deklara ona",
+      "paid": "Selu ona",
+      "overdue": "Atrazu"
+    }
+  },
+  "reports": {
+    "title": "Relatóriu",
+    "payslip": "Resibu Saláriu",
+    "payrollSummary": "Rezumu Saláriu",
+    "taxReport": "Relatóriu Fiskál",
+    "inssReport": "Relatóriu INSS",
+    "employeeReport": "Relatóriu Funsionáriu"
+  },
+  "validation": {
+    "required": "Kampu ida ne'e obrigatóriu",
+    "invalidEmail": "Enderesu email la válidu",
+    "belowMinimumWage": "Saláriu kraik liu mínimo ($115/fulan)",
+    "invalidTin": "Formatu NIF la válidu",
+    "invalidInss": "Formatu númeru INSS la válidu"
+  }
+}

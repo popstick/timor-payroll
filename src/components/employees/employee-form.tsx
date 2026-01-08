@@ -1,0 +1,361 @@
+'use client';
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Select } from '@/components/ui/select';
+import { createClient } from '@/lib/supabase/client';
+import { MINIMUM_WAGE_MONTHLY } from '@/lib/payroll/constants';
+import type { Employee } from '@/types/supabase';
+
+interface EmployeeFormProps {
+  employee?: Employee;
+  organizationId?: string;
+}
+
+export function EmployeeForm({ employee, organizationId }: EmployeeFormProps) {
+  const router = useRouter();
+  const supabase = createClient();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const [formData, setFormData] = useState({
+    first_name: employee?.first_name || '',
+    last_name: employee?.last_name || '',
+    email: employee?.email || '',
+    phone: employee?.phone || '',
+    date_of_birth: employee?.date_of_birth || '',
+    gender: employee?.gender || '',
+    nationality: employee?.nationality || 'Timorese',
+    address: employee?.address || '',
+    employee_number: employee?.employee_number || '',
+    position: employee?.position || '',
+    department: employee?.department || '',
+    employment_type: employee?.employment_type || 'full_time',
+    start_date: employee?.start_date || new Date().toISOString().split('T')[0],
+    base_salary: employee?.base_salary?.toString() || '',
+    tin: employee?.tin || '',
+    inss_number: employee?.inss_number || '',
+    is_resident: employee?.is_resident ?? true,
+    status: employee?.status || 'active',
+  });
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value, type } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value,
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+
+    // Validate minimum wage
+    const salary = parseFloat(formData.base_salary);
+    if (salary < MINIMUM_WAGE_MONTHLY) {
+      setError(`Salary must be at least $${MINIMUM_WAGE_MONTHLY} (minimum wage)`);
+      setLoading(false);
+      return;
+    }
+
+    try {
+      // For now, we'll create a default organization if none exists
+      // In production, this would come from auth context
+      let orgId = organizationId;
+
+      if (!orgId) {
+        // Check if org exists, if not create one
+        const { data: orgs } = await supabase
+          .from('organizations')
+          .select('id')
+          .limit(1);
+
+        if (orgs && orgs.length > 0) {
+          orgId = orgs[0].id;
+        } else {
+          // Create default organization
+          const { data: newOrg, error: orgError } = await supabase
+            .from('organizations')
+            .insert({ name: 'My Company' })
+            .select()
+            .single();
+
+          if (orgError) throw orgError;
+          orgId = newOrg.id;
+        }
+      }
+
+      const employeeData = {
+        ...formData,
+        base_salary: parseFloat(formData.base_salary),
+        organization_id: orgId,
+        date_of_birth: formData.date_of_birth || null,
+        gender: formData.gender || null,
+        department: formData.department || null,
+        tin: formData.tin || null,
+        inss_number: formData.inss_number || null,
+        email: formData.email || null,
+        phone: formData.phone || null,
+        address: formData.address || null,
+      };
+
+      if (employee) {
+        // Update existing employee
+        const { error: updateError } = await supabase
+          .from('employees')
+          .update(employeeData)
+          .eq('id', employee.id);
+
+        if (updateError) throw updateError;
+      } else {
+        // Create new employee
+        const { error: insertError } = await supabase
+          .from('employees')
+          .insert(employeeData);
+
+        if (insertError) throw insertError;
+      }
+
+      router.push('/dashboard/employees');
+      router.refresh();
+    } catch (err: any) {
+      setError(err.message || 'Failed to save employee');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      {error && (
+        <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
+          {error}
+        </div>
+      )}
+
+      <div className="grid gap-6 lg:grid-cols-2">
+        {/* Personal Information */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Personal Information</CardTitle>
+          </CardHeader>
+          <CardContent className="grid gap-4">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Input
+                label="First Name *"
+                name="first_name"
+                value={formData.first_name}
+                onChange={handleChange}
+                required
+              />
+              <Input
+                label="Last Name *"
+                name="last_name"
+                value={formData.last_name}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <Input
+              label="Email"
+              name="email"
+              type="email"
+              value={formData.email}
+              onChange={handleChange}
+            />
+            <Input
+              label="Phone"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+            />
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Input
+                label="Date of Birth"
+                name="date_of_birth"
+                type="date"
+                value={formData.date_of_birth}
+                onChange={handleChange}
+              />
+              <Select
+                label="Gender"
+                name="gender"
+                value={formData.gender}
+                onChange={handleChange}
+                options={[
+                  { value: '', label: 'Select...' },
+                  { value: 'male', label: 'Male' },
+                  { value: 'female', label: 'Female' },
+                  { value: 'other', label: 'Other' },
+                ]}
+              />
+            </div>
+            <Input
+              label="Nationality"
+              name="nationality"
+              value={formData.nationality}
+              onChange={handleChange}
+            />
+            <Input
+              label="Address"
+              name="address"
+              value={formData.address}
+              onChange={handleChange}
+            />
+          </CardContent>
+        </Card>
+
+        {/* Employment Information */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Employment Information</CardTitle>
+          </CardHeader>
+          <CardContent className="grid gap-4">
+            <Input
+              label="Employee Number *"
+              name="employee_number"
+              value={formData.employee_number}
+              onChange={handleChange}
+              required
+              placeholder="e.g., EMP001"
+            />
+            <Input
+              label="Position *"
+              name="position"
+              value={formData.position}
+              onChange={handleChange}
+              required
+            />
+            <Input
+              label="Department"
+              name="department"
+              value={formData.department}
+              onChange={handleChange}
+            />
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Select
+                label="Employment Type"
+                name="employment_type"
+                value={formData.employment_type}
+                onChange={handleChange}
+                options={[
+                  { value: 'full_time', label: 'Full Time' },
+                  { value: 'part_time', label: 'Part Time' },
+                  { value: 'contract', label: 'Contract' },
+                ]}
+              />
+              <Select
+                label="Status"
+                name="status"
+                value={formData.status}
+                onChange={handleChange}
+                options={[
+                  { value: 'active', label: 'Active' },
+                  { value: 'inactive', label: 'Inactive' },
+                  { value: 'terminated', label: 'Terminated' },
+                ]}
+              />
+            </div>
+            <Input
+              label="Start Date *"
+              name="start_date"
+              type="date"
+              value={formData.start_date}
+              onChange={handleChange}
+              required
+            />
+          </CardContent>
+        </Card>
+
+        {/* Compensation */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Compensation</CardTitle>
+          </CardHeader>
+          <CardContent className="grid gap-4">
+            <Input
+              label={`Base Salary (USD/month) * - Minimum: $${MINIMUM_WAGE_MONTHLY}`}
+              name="base_salary"
+              type="number"
+              step="0.01"
+              min={MINIMUM_WAGE_MONTHLY}
+              value={formData.base_salary}
+              onChange={handleChange}
+              required
+              error={
+                formData.base_salary && parseFloat(formData.base_salary) < MINIMUM_WAGE_MONTHLY
+                  ? `Below minimum wage ($${MINIMUM_WAGE_MONTHLY})`
+                  : undefined
+              }
+            />
+            <div className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                id="is_resident"
+                name="is_resident"
+                checked={formData.is_resident}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    is_resident: e.target.checked,
+                  }))
+                }
+                className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+              />
+              <label htmlFor="is_resident" className="text-sm text-gray-700">
+                Tax Resident (≥183 days/year in Timor-Leste)
+              </label>
+            </div>
+            <p className="text-sm text-gray-500">
+              Tax residents get $500/month tax exemption. Non-residents pay 10% on all wages.
+            </p>
+          </CardContent>
+        </Card>
+
+        {/* Government IDs */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Government IDs</CardTitle>
+          </CardHeader>
+          <CardContent className="grid gap-4">
+            <Input
+              label="Tax ID (TIN)"
+              name="tin"
+              value={formData.tin}
+              onChange={handleChange}
+              placeholder="Tax Identification Number"
+            />
+            <Input
+              label="INSS Number"
+              name="inss_number"
+              value={formData.inss_number}
+              onChange={handleChange}
+              placeholder="Social Security Number"
+            />
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Actions */}
+      <div className="flex justify-end gap-4 mt-6">
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => router.back()}
+        >
+          Cancel
+        </Button>
+        <Button type="submit" disabled={loading}>
+          {loading ? 'Saving...' : employee ? 'Update Employee' : 'Add Employee'}
+        </Button>
+      </div>
+    </form>
+  );
+}
