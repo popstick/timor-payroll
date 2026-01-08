@@ -17,8 +17,9 @@ export default function LoginPage() {
   const t = useTranslations('auth');
   const tCommon = useTranslations('common');
 
-  const publicDemoEmail = process.env.NEXT_PUBLIC_DEMO_EMAIL || '';
-  const publicDemoPassword = process.env.NEXT_PUBLIC_DEMO_PASSWORD || '';
+  // Dev-only: avoid ever shipping demo credentials to production bundles.
+  const publicDemoEmail = process.env.NODE_ENV !== 'production' ? process.env.NEXT_PUBLIC_DEMO_EMAIL || '' : '';
+  const publicDemoPassword = process.env.NODE_ENV !== 'production' ? process.env.NEXT_PUBLIC_DEMO_PASSWORD || '' : '';
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
