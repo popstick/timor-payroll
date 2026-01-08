@@ -103,7 +103,7 @@ export async function GET(
   const buffer = await renderPayslipsPDFBuffer({ items, language });
   const filename = safeFilename(`payslips-${payrollRun.period_start}-${language}.pdf`);
 
-  return new Response(buffer, {
+  return new Response(new Uint8Array(buffer), {
     headers: {
       'Content-Type': 'application/pdf',
       'Content-Disposition': `attachment; filename="${filename}"`,
