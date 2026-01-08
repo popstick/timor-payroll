@@ -17,9 +17,6 @@ export default function LoginPage() {
   const t = useTranslations('auth');
   const tCommon = useTranslations('common');
 
-  const demoEmail = process.env.NEXT_PUBLIC_DEMO_EMAIL || '';
-  const demoPassword = process.env.NEXT_PUBLIC_DEMO_PASSWORD || '';
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -132,19 +129,18 @@ export default function LoginPage() {
             className="w-full"
             disabled={loading}
             onClick={async () => {
-              if (!demoEmail || !demoPassword) {
-                setEmail(demoEmail);
-                setPassword(demoPassword);
-                setError(
-                  'Demo account not configured. Set NEXT_PUBLIC_DEMO_EMAIL and NEXT_PUBLIC_DEMO_PASSWORD.'
-                );
-                return;
-              }
-
               setLoading(true);
               setError(null);
               try {
-                await signInAndRedirect(demoEmail, demoPassword);
+                const response = await fetch('/api/auth/demo-login', { method: 'POST' });
+                if (!response.ok) {
+                  const json = (await response.json()) as { error?: string };
+                  throw new Error(json?.error || 'Demo account not configured');
+                }
+
+                const redirectTo = searchParams.get('redirectTo') || '/dashboard';
+                router.push(redirectTo);
+                router.refresh();
               } catch (err: unknown) {
                 setError(err instanceof Error ? err.message : 'Failed to sign in');
               } finally {
