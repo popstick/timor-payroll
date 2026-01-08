@@ -1,18 +1,33 @@
-import { NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
+import { createServerClient } from '@supabase/ssr';
+import { NextRequest, NextResponse } from 'next/server';
+import type { Database } from '@/types/supabase';
 
-export async function POST() {
+export async function POST(request: NextRequest) {
   const email = process.env.DEMO_EMAIL;
   const password = process.env.DEMO_PASSWORD;
 
-  const supabase = await createClient();
-  if (email && password) {
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) return NextResponse.json({ error: error.message }, { status: 401 });
-    return NextResponse.json({ ok: true });
-  }
+  const response = NextResponse.json({ ok: true });
+  const supabase = createServerClient<Database>(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll();
+        },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value, options }) =>
+            response.cookies.set(name, value, options)
+          );
+        },
+      },
+    }
+  );
 
-  const { error } = await supabase.auth.signInAnonymously();
+  const { error } =
+    email && password
+      ? await supabase.auth.signInWithPassword({ email, password })
+      : await supabase.auth.signInAnonymously();
 
   if (error) {
     return NextResponse.json(
@@ -25,5 +40,5 @@ export async function POST() {
     );
   }
 
-  return NextResponse.json({ ok: true });
+  return response;
 }
