@@ -15,11 +15,28 @@ export default function LoginPage() {
   const searchParams = useSearchParams();
   const supabase = createClient();
   const t = useTranslations('auth');
+  const tCommon = useTranslations('common');
+
+  const demoEmail = process.env.NEXT_PUBLIC_DEMO_EMAIL || '';
+  const demoPassword = process.env.NEXT_PUBLIC_DEMO_PASSWORD || '';
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const signInAndRedirect = async (emailToUse: string, passwordToUse: string) => {
+    const { error: signInError } = await supabase.auth.signInWithPassword({
+      email: emailToUse,
+      password: passwordToUse,
+    });
+
+    if (signInError) throw signInError;
+
+    const redirectTo = searchParams.get('redirectTo') || '/dashboard';
+    router.push(redirectTo);
+    router.refresh();
+  };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,16 +44,7 @@ export default function LoginPage() {
     setError(null);
 
     try {
-      const { error: signInError } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-
-      if (signInError) throw signInError;
-
-      const redirectTo = searchParams.get('redirectTo') || '/dashboard';
-      router.push(redirectTo);
-      router.refresh();
+      await signInAndRedirect(email, password);
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Failed to sign in');
     } finally {
@@ -108,6 +116,44 @@ export default function LoginPage() {
               )}
             </Button>
           </form>
+
+          <div className="relative my-6">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-200"></div>
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-2 bg-white text-gray-500">{tCommon('or')}</span>
+            </div>
+          </div>
+
+          <Button
+            type="button"
+            variant="outline"
+            className="w-full"
+            disabled={loading}
+            onClick={async () => {
+              if (!demoEmail || !demoPassword) {
+                setEmail(demoEmail);
+                setPassword(demoPassword);
+                setError(
+                  'Demo account not configured. Set NEXT_PUBLIC_DEMO_EMAIL and NEXT_PUBLIC_DEMO_PASSWORD.'
+                );
+                return;
+              }
+
+              setLoading(true);
+              setError(null);
+              try {
+                await signInAndRedirect(demoEmail, demoPassword);
+              } catch (err: unknown) {
+                setError(err instanceof Error ? err.message : 'Failed to sign in');
+              } finally {
+                setLoading(false);
+              }
+            }}
+          >
+            {t('continueAsGuest')}
+          </Button>
 
           <div className="mt-6 text-center text-sm">
             <span className="text-gray-500">{t('noAccount')} </span>
