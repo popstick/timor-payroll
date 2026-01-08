@@ -17,12 +17,15 @@ export default function LoginPage() {
   const t = useTranslations('auth');
   const tCommon = useTranslations('common');
 
-  // Dev-only: avoid ever shipping demo credentials to production bundles.
-  const publicDemoEmail = process.env.NODE_ENV !== 'production' ? process.env.NEXT_PUBLIC_DEMO_EMAIL || '' : '';
-  const publicDemoPassword = process.env.NODE_ENV !== 'production' ? process.env.NEXT_PUBLIC_DEMO_PASSWORD || '' : '';
+  // Dev-only: allow optionally prefilling demo credentials without requiring it.
+  // Never use NEXT_PUBLIC_* values in production builds.
+  const initialEmail =
+    process.env.NODE_ENV !== 'production' ? process.env.NEXT_PUBLIC_DEMO_EMAIL || '' : '';
+  const initialPassword =
+    process.env.NODE_ENV !== 'production' ? process.env.NEXT_PUBLIC_DEMO_PASSWORD || '' : '';
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState(initialEmail);
+  const [password, setPassword] = useState(initialPassword);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -136,18 +139,13 @@ export default function LoginPage() {
               setLoading(true);
               setError(null);
               try {
-                if (publicDemoEmail && publicDemoPassword) {
-                  await signInAndRedirect(publicDemoEmail, publicDemoPassword);
-                  return;
-                }
-
                 const response = await fetch('/api/auth/demo-login', { method: 'POST' });
                 if (!response.ok) {
                   const json = (await response.json()) as { error?: string; details?: string };
                   throw new Error(
                     json?.error ||
                       json?.details ||
-                      'Demo account not configured. Set NEXT_PUBLIC_DEMO_EMAIL/NEXT_PUBLIC_DEMO_PASSWORD (local), or DEMO_EMAIL/DEMO_PASSWORD (server).'
+                      'Guest login is not configured. Set DEMO_EMAIL/DEMO_PASSWORD on the server (or enable Supabase Anonymous sign-ins).'
                   );
                 }
 
