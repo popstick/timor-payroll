@@ -350,6 +350,7 @@
     "subtitle": "Kria relatóriu saláriu no kumprimentu",
     "generate": "Kria Relatóriu",
     "exportCsv": "Exporta CSV",
+    "exportPdf": "Exporta PDF",
     "selectType": "Tipu Relatóriu",
     "selectPeriod": "Períodu",
     "csvHeaders": {
@@ -464,6 +465,20 @@
       "overtimeRateNote": "Oras extra normál; +100% feriadu",
       "annualLeave": "Lisensa Anuál",
       "annualLeaveNote": "Hafoin tinan ida servisu"
+    },
+    "holidays": {
+      "title": "Feriadu Públiku",
+      "subtitle": "Feriadu públiku ofisiál Timor-Leste nian",
+      "backToSettings": "Fila ba Konfigurasaun",
+      "totalHolidays": "Total Feriadu",
+      "nationalDays": "Loron Nasionál",
+      "religiousHolidays": "Feriadu Relijiozu",
+      "upcomingHolidays": "Feriadu Tuir Mai",
+      "holidayCalendar": "Kalendáriu Feriadu",
+      "holidayCalendarDesc": "Feriadu públiku ofisiál hotu ba tinan ne'ebé hili",
+      "daysAway": "loron seidauk to'o",
+      "note": "Nota",
+      "noteText": "Feriadu Islámiku (Eid al-Fitr, Eid al-Adha) mak estimasaun no depende ba haree fulan. Data bele diferensa loron 1-2."
     }
   },
   "months": {
@@ -482,7 +497,8 @@
   },
   "language": {
     "select": "Lian",
-    "en": "Inglés",
-    "tet": "Tetun"
+    "en": "EN",
+    "pt": "PT",
+    "tet": "TET"
   }
 }

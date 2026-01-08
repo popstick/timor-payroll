@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, Suspense, lazy } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { useLocale } from 'next-intl';
@@ -10,6 +10,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Select } from '@/components/ui/select';
 import { createClient } from '@/lib/supabase/client';
 import { formatCurrency, formatDate } from '@/lib/utils';
+import type { Employee, Organization, PayrollItem, PayrollRun } from '@/types/supabase';
 
 const payslipTranslations = {
   en: {
@@ -35,12 +36,14 @@ const payslipTranslations = {
     earnings: 'Earnings',
     baseSalary: 'Base Salary',
     overtime: 'Overtime Pay',
+    nightShift: 'Night Shift Premium',
     allowances: 'Allowances',
     bonuses: 'Bonuses',
     grossPay: 'Gross Pay',
     deductions: 'Deductions',
     witTax: 'Wage Income Tax (WIT)',
     inss: 'INSS Contribution (4%)',
+    otherDeductions: 'Other Deductions',
     totalDeductions: 'Total Deductions',
     netPay: 'NET PAY',
   },
@@ -67,12 +70,14 @@ const payslipTranslations = {
     earnings: 'Rendimentos',
     baseSalary: 'Salário Base',
     overtime: 'Horas Suplementares',
+    nightShift: 'Subsídio Noturno',
     allowances: 'Subsídios',
     bonuses: 'Bónus',
     grossPay: 'Salário Bruto',
     deductions: 'Deduções',
     witTax: 'Imposto sobre Salários (WIT)',
     inss: 'Contribuição INSS (4%)',
+    otherDeductions: 'Outras Deduções',
     totalDeductions: 'Total Deduções',
     netPay: 'SALÁRIO LÍQUIDO',
   },
@@ -99,12 +104,14 @@ const payslipTranslations = {
     earnings: 'Rendimentu',
     baseSalary: 'Saláriu Báziku',
     overtime: 'Oras Suplementár',
+    nightShift: 'Subsídiu Kalan',
     allowances: 'Subsídiu sira',
     bonuses: 'Bónus',
     grossPay: 'Saláriu Brutu',
     deductions: 'Dedusaun',
     witTax: 'Impostu ba Saláriu (WIT)',
     inss: 'Kontribuisaun INSS (4%)',
+    otherDeductions: 'Dedusaun Seluk',
     totalDeductions: 'Total Dedusaun',
     netPay: 'SALÁRIU LÍKIDU',
   },
@@ -115,62 +122,65 @@ export default function PayslipPage() {
   const payrollRunId = params.id as string;
   const employeeId = params.employeeId as string;
 
-  const supabase = createClient();
+  const supabase = useMemo(() => createClient(), []);
   const locale = useLocale();
-  const initialLanguage: 'en' | 'tet' = locale === 'tet' ? 'tet' : 'en';
+  const initialLanguage: 'en' | 'pt' | 'tet' =
+    locale === 'tet' ? 'tet' : locale === 'pt' ? 'pt' : 'en';
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [language, setLanguage] = useState<'en' | 'pt' | 'tet'>(initialLanguage);
   const [data, setData] = useState<{
-    employee: any;
-    payrollItem: any;
-    payrollRun: any;
-    organization: any;
+    employee: Employee;
+    payrollItem: PayrollItem;
+    payrollRun: PayrollRun;
+    organization: Organization;
   } | null>(null);
-  const [pdfReady, setPdfReady] = useState(false);
 
   useEffect(() => {
+    const loadData = async () => {
+      setLoading(true);
+      try {
+        type PayrollRunWithOrg = PayrollRun & { organizations: Organization | null };
+        type PayrollItemWithEmployee = PayrollItem & { employees: Employee | null };
+
+        const { data: payrollRun, error: runError } = await supabase
+          .from('payroll_runs')
+          .select('*, organizations(*)')
+          .eq('id', payrollRunId)
+          .single<PayrollRunWithOrg>();
+
+        if (runError) throw runError;
+        if (!payrollRun?.organizations) throw new Error('Organization not found');
+
+        const { data: payrollItem, error: itemError } = await supabase
+          .from('payroll_items')
+          .select('*, employees(*)')
+          .eq('payroll_run_id', payrollRunId)
+          .eq('employee_id', employeeId)
+          .single<PayrollItemWithEmployee>();
+
+        if (itemError) throw itemError;
+        if (!payrollItem?.employees) throw new Error('Employee not found');
+
+        const { organizations: organization, ...payrollRunRow } = payrollRun;
+        const { employees: employee, ...payrollItemRow } = payrollItem;
+
+        setData({
+          employee,
+          payrollItem: payrollItemRow,
+          payrollRun: payrollRunRow,
+          organization,
+        });
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : String(err));
+      } finally {
+        setLoading(false);
+      }
+    };
+
     loadData();
-    // Delay PDF loading to avoid SSR issues
-    const timer = setTimeout(() => setPdfReady(true), 100);
-    return () => clearTimeout(timer);
-  }, [payrollRunId, employeeId]);
-
-  const loadData = async () => {
-    setLoading(true);
-    try {
-      // Fetch payroll run
-      const { data: payrollRun, error: runError } = await supabase
-        .from('payroll_runs')
-        .select('*, organizations(*)')
-        .eq('id', payrollRunId)
-        .single();
-
-      if (runError) throw runError;
-
-      // Fetch payroll item with employee
-      const { data: payrollItem, error: itemError } = await supabase
-        .from('payroll_items')
-        .select('*, employees(*)')
-        .eq('payroll_run_id', payrollRunId)
-        .eq('employee_id', employeeId)
-        .single();
-
-      if (itemError) throw itemError;
-
-      setData({
-        employee: payrollItem.employees,
-        payrollItem,
-        payrollRun,
-        organization: payrollRun.organizations,
-      });
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+  }, [employeeId, payrollRunId, supabase]);
 
   if (loading) {
     return (
@@ -223,15 +233,13 @@ export default function PayslipPage() {
               { value: 'tet', label: payslipTranslations.tet.languageName },
             ]}
           />
-          {pdfReady && (
-            <PayslipDownloadButton
-              employee={employee}
-              payrollItem={payrollItem}
-              organization={organization}
-              payrollRun={payrollRun}
-              language={language}
-            />
-          )}
+          <PayslipDownloadButton
+            payrollRunId={payrollRunId}
+            employeeId={employeeId}
+            employee={employee}
+            payrollRun={payrollRun}
+            language={language}
+          />
         </div>
       </div>
 
@@ -287,10 +295,10 @@ function PayslipPreview({
   payrollRun,
   language,
 }: {
-  employee: any;
-  payrollItem: any;
-  organization: any;
-  payrollRun: any;
+  employee: Employee;
+  payrollItem: PayrollItem;
+  organization: Organization;
+  payrollRun: PayrollRun;
   language: 'en' | 'pt' | 'tet';
 }) {
   const t = payslipTranslations[language];
@@ -358,6 +366,14 @@ function PayslipPreview({
               <span className="font-medium">{formatCurrency(payrollItem.overtime_pay)}</span>
             </div>
           )}
+          {(payrollItem.night_shift_premium || 0) > 0 && (
+            <div className="flex justify-between">
+              <span>{t.nightShift}</span>
+              <span className="font-medium">
+                {formatCurrency(payrollItem.night_shift_premium)}
+              </span>
+            </div>
+          )}
           {(payrollItem.allowances || 0) > 0 && (
             <div className="flex justify-between">
               <span>{t.allowances}</span>
@@ -389,6 +405,14 @@ function PayslipPreview({
             <span>{t.inss}</span>
             <span className="font-medium text-red-600">-{formatCurrency(payrollItem.inss_employee || 0)}</span>
           </div>
+          {(payrollItem.other_deductions || 0) > 0 && (
+            <div className="flex justify-between">
+              <span>{t.otherDeductions}</span>
+              <span className="font-medium text-red-600">
+                -{formatCurrency(payrollItem.other_deductions || 0)}
+              </span>
+            </div>
+          )}
           <div className="flex justify-between pt-2 border-t font-semibold">
             <span>{t.totalDeductions}</span>
             <span className="text-red-600">-{formatCurrency(payrollItem.total_deductions || 0)}</span>
@@ -407,72 +431,50 @@ function PayslipPreview({
 
 // Lazy-loaded PDF download button
 function PayslipDownloadButton({
+  payrollRunId,
+  employeeId,
   employee,
-  payrollItem,
-  organization,
   payrollRun,
   language,
 }: {
-  employee: any;
-  payrollItem: any;
-  organization: any;
-  payrollRun: any;
+  payrollRunId: string;
+  employeeId: string;
+  employee: Employee;
+  payrollRun: PayrollRun;
   language: 'en' | 'pt' | 'tet';
 }) {
   const [downloading, setDownloading] = useState(false);
   const t = payslipTranslations[language];
 
+  const downloadBlob = (blob: Blob, filename: string) => {
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const getFilenameFromContentDisposition = (value: string | null) => {
+    if (!value) return null;
+    const match = /filename="([^"]+)"/.exec(value);
+    return match?.[1] || null;
+  };
+
   const handleDownload = async () => {
     setDownloading(true);
     try {
-      // Dynamic import to avoid SSR issues
-      const { pdf } = await import('@react-pdf/renderer');
-      const { PayslipPDF } = await import('@/components/payroll/payslip-pdf');
+      const response = await fetch(
+        `/api/payroll/${payrollRunId}/payslip/${employeeId}?lang=${language}`
+      );
+      if (!response.ok) throw new Error(`Failed to download PDF (${response.status})`);
 
-      const blob = await pdf(
-        <PayslipPDF
-          employee={{
-            first_name: employee.first_name,
-            last_name: employee.last_name,
-            employee_number: employee.employee_number,
-            position: employee.position,
-            department: employee.department,
-            tin: employee.tin,
-            inss_number: employee.inss_number,
-          }}
-          payrollItem={{
-            base_salary: payrollItem.base_salary,
-            overtime_hours: payrollItem.overtime_hours,
-            overtime_pay: payrollItem.overtime_pay,
-            night_shift_premium: payrollItem.night_shift_premium,
-            allowances: payrollItem.allowances,
-            bonuses: payrollItem.bonuses,
-            gross_pay: payrollItem.gross_pay,
-            tax_withheld: payrollItem.tax_withheld,
-            inss_employee: payrollItem.inss_employee,
-            total_deductions: payrollItem.total_deductions,
-            net_pay: payrollItem.net_pay,
-          }}
-          organization={{
-            name: organization?.name || t.companyFallback,
-            address: organization?.address,
-            tin: organization?.tin,
-          }}
-          payPeriod={{
-            start: payrollRun.period_start,
-            end: payrollRun.period_end,
-            payDate: payrollRun.pay_date,
-          }}
-          language={language}
-        />
-      ).toBlob();
-
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `payslip-${employee.employee_number}-${payrollRun.period_start}-${language}.pdf`;
-      link.click();
-      URL.revokeObjectURL(url);
+      const blob = await response.blob();
+      const headerFilename = getFilenameFromContentDisposition(
+        response.headers.get('Content-Disposition')
+      );
+      const fallbackFilename = `payslip-${employee.employee_number}-${payrollRun.period_start}-${language}.pdf`;
+      downloadBlob(blob, headerFilename || fallbackFilename);
     } catch (err) {
       console.error('Failed to generate PDF:', err);
     } finally {

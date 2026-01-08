@@ -1,0 +1,504 @@
+{
+  "common": {
+    "appName": "Timor Payroll",
+    "loading": "A carregar...",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "back": "Voltar",
+    "submit": "Submeter",
+    "search": "Pesquisar",
+    "filter": "Filtrar",
+    "export": "Exportar",
+    "download": "Descarregar",
+    "view": "Ver",
+    "actions": "Ações",
+    "status": "Estado",
+    "active": "Ativo",
+    "inactive": "Inativo",
+    "pending": "Pendente",
+    "approved": "Aprovado",
+    "rejected": "Rejeitado",
+    "all": "Todos",
+    "yes": "Sim",
+    "no": "Não",
+    "or": "ou",
+    "and": "e",
+    "required": "Obrigatório",
+    "optional": "Opcional",
+    "noData": "Sem dados disponíveis",
+    "error": "Erro",
+    "success": "Sucesso",
+    "warning": "Aviso",
+    "info": "Informação",
+    "selectPlaceholder": "Selecionar...",
+    "saving": "A guardar...",
+    "submitting": "A submeter...",
+    "perMonth": "/mês",
+    "resident": "Residente",
+    "nonResident": "Não residente",
+    "inss": "INSS"
+  },
+  "nav": {
+    "dashboard": "Painel",
+    "employees": "Funcionários",
+    "payroll": "Salários",
+    "leave": "Férias",
+    "reports": "Relatórios",
+    "settings": "Definições",
+    "logout": "Sair",
+    "more": "Mais"
+  },
+  "auth": {
+    "login": "Entrar",
+    "signup": "Registar",
+    "logout": "Sair",
+    "email": "Email",
+    "password": "Palavra-passe",
+    "companyName": "Nome da Empresa",
+    "welcomeBack": "Bem-vindo de volta",
+    "signInTo": "Entrar no Timor Payroll",
+    "createAccount": "Criar uma conta",
+    "getStarted": "Começar com o Timor Payroll",
+    "signingIn": "A entrar...",
+    "creatingAccount": "A criar conta...",
+    "noAccount": "Não tem uma conta?",
+    "haveAccount": "Já tem uma conta?",
+    "continueAsGuest": "Continuar como Convidado",
+    "checkEmail": "Verifique o seu email",
+    "confirmationSent": "Enviámos um link de confirmação para",
+    "backToLogin": "Voltar ao login",
+    "minPassword": "Mínimo de 6 caracteres",
+    "emailPlaceholder": "voce@empresa.com",
+    "passwordPlaceholder": "Introduza a sua palavra-passe",
+    "companyPlaceholder": "A Sua Empresa Lda"
+  },
+  "home": {
+    "hero": {
+      "titlePrefix": "Salários Simplificados para",
+      "subtitle": "Processamento de salários conforme a lei com cálculos de imposto WIT, contribuições INSS, e suporte multilingue em Inglês, Português e Tetum.",
+      "getStarted": "Começar",
+      "learnMore": "Saber Mais"
+    },
+    "features": {
+      "employeeManagement": {
+        "title": "Gestão de Funcionários",
+        "description": "Registe detalhes de funcionários, contratos, NIF e números INSS. Gerencie todos os tipos de emprego."
+      },
+      "payrollProcessing": {
+        "title": "Processamento de Salários",
+        "description": "Cálculos automáticos de impostos com isenção de $500, contribuições INSS (4%+6%), taxas de horas extra."
+      },
+      "leaveManagement": {
+        "title": "Gestão de Férias",
+        "description": "Registe férias anuais (12 dias), licença médica, maternidade (12 semanas), paternidade (5 dias), e mais."
+      },
+      "complianceReports": {
+        "title": "Relatórios de Conformidade",
+        "description": "Gere declarações mensais WIT e INSS, relatórios anuais, e certificados fiscais de funcionários."
+      },
+      "timorCompliant": {
+        "title": "Conforme a Lei de Timor-Leste",
+        "description": "Desenvolvido para o Código Laboral Lei Nº 4/2012. Validação de salário mínimo, taxas de feriados, indemnizações."
+      },
+      "multilingual": {
+        "title": "Multilingue",
+        "description": "Suporte completo para Inglês, Português e Tetum. Gere recibos de vencimento em qualquer idioma."
+      }
+    },
+    "compliance": {
+      "title": "Desenvolvido para Conformidade com Timor-Leste",
+      "stats": {
+        "minimumWage": "Salário Mínimo",
+        "perMonth": "/mês",
+        "witRate": "Taxa de Imposto WIT",
+        "witThreshold": ">$500",
+        "inssTotal": "INSS Total",
+        "inssBreakdown": "4% + 6%",
+        "annualLeave": "Férias Anuais",
+        "daysPerYear": "dias/ano"
+      }
+    },
+    "footer": {
+      "tagline": "Timor Payroll - Gestão de Salários para Timor-Leste",
+      "compliance": "Conforme o Código Laboral Lei Nº 4/2012 e Lei INSS Nº 12/2016"
+    }
+  },
+  "dashboard": {
+    "title": "Painel",
+    "welcome": "Bem-vindo ao Timor Payroll",
+    "overview": "Visão geral das operações de salários",
+    "quickActions": "Ações Rápidas",
+    "recentActivity": "Atividade Recente",
+    "upcomingDeadlines": "Próximos Prazos",
+    "totalEmployees": "Total de Funcionários",
+    "activeEmployees": "Funcionários Ativos",
+    "monthlyPayroll": "Salários Mensais",
+    "pendingApprovals": "Aprovações Pendentes",
+    "addEmployee": "Adicionar Funcionário",
+    "runPayroll": "Processar Salários",
+    "witFiling": "Declaração Mensal WIT",
+    "inssFiling": "Declaração Mensal INSS",
+    "dueBy": "Prazo: {date}",
+    "viewAll": "Ver Todos"
+  },
+  "employees": {
+    "title": "Funcionários",
+    "subtitle": "Gerir o seu pessoal",
+    "addEmployee": "Adicionar Funcionário",
+    "editEmployee": "Editar Funcionário",
+    "employeeDetails": "Detalhes do Funcionário",
+    "searchPlaceholder": "Pesquisar funcionários...",
+    "noEmployees": "Nenhum funcionário encontrado",
+    "addFirst": "Adicione o seu primeiro funcionário para começar",
+    "totalEmployees": "{count} funcionários",
+    "personal": {
+      "title": "Informação Pessoal",
+      "firstName": "Nome Próprio",
+      "lastName": "Apelido",
+      "fullName": "Nome Completo",
+      "email": "Email",
+      "phone": "Telefone",
+      "dateOfBirth": "Data de Nascimento",
+      "gender": "Género",
+      "male": "Masculino",
+      "female": "Feminino",
+      "other": "Outro",
+      "nationality": "Nacionalidade",
+      "address": "Morada",
+      "timorese": "Timorense"
+    },
+    "employment": {
+      "title": "Informação de Emprego",
+      "employeeNumber": "Número de Funcionário",
+      "position": "Cargo",
+      "department": "Departamento",
+      "employmentType": "Tipo de Contrato",
+      "fullTime": "Tempo Inteiro",
+      "partTime": "Tempo Parcial",
+      "contract": "Contrato",
+      "startDate": "Data de Início",
+      "endDate": "Data de Fim",
+      "status": "Estado",
+      "active": "Ativo",
+      "inactive": "Inativo",
+      "terminated": "Terminado"
+    },
+    "compensation": {
+      "title": "Remuneração",
+      "baseSalary": "Salário Base",
+      "monthlySalary": "Salário Mensal",
+      "annualSalary": "Salário Anual",
+      "currency": "Moeda",
+      "minimumWage": "Mínimo: ${amount}",
+      "belowMinimum": "Abaixo do salário mínimo (${amount})",
+      "employerCost": "Custo Patronal",
+      "includingEmployerInss": "incl. 6% INSS"
+    },
+    "tax": {
+      "title": "Informação Fiscal",
+      "tin": "NIF (TIN)",
+      "inssNumber": "Número INSS",
+      "isResident": "Residente Fiscal",
+      "residentHelp": "Residente Fiscal (183+ dias/ano em Timor-Leste)",
+      "residentBenefit": "Residentes fiscais têm isenção de $500/mês. Não residentes pagam 10% sobre todos os salários."
+    },
+    "govIds": {
+      "title": "Identificações Governamentais",
+      "tinPlaceholder": "Número de Identificação Fiscal",
+      "inssPlaceholder": "Número de Segurança Social"
+    }
+  },
+  "payroll": {
+    "title": "Salários",
+    "subtitle": "Gerir pagamentos de salários",
+    "runPayroll": "Processar Salários",
+    "newPayroll": "Novo Processamento",
+    "payrollHistory": "Histórico de Salários",
+    "noPayrolls": "Ainda sem processamentos",
+    "createFirst": "Execute o seu primeiro processamento para começar",
+    "noActiveEmployees": "Sem funcionários ativos",
+    "addEmployeesFirst": "Adicione funcionários antes de processar salários.",
+    "period": "Período de Pagamento",
+    "periodStart": "Início do Período",
+    "periodEnd": "Fim do Período",
+    "payDate": "Data de Pagamento",
+    "summaryCards": {
+      "thisMonth": "Este Mês",
+      "totalPaidYtd": "Total Pago (Ano)",
+      "pendingRuns": "Processamentos Pendentes"
+    },
+    "status": {
+      "draft": "Rascunho",
+      "processing": "Em Processamento",
+      "approved": "Aprovado",
+      "paid": "Pago",
+      "completed": "Concluído",
+      "cancelled": "Cancelado"
+    },
+    "calculation": {
+      "title": "Cálculo de Salário",
+      "baseSalary": "Salário Base",
+      "overtime": "Horas Extra",
+      "overtimeRegular": "HE (Normal)",
+      "overtimeHoliday": "HE (Feriado)",
+      "allowances": "Subsídios",
+      "bonuses": "Bónus",
+      "grossPay": "Salário Bruto",
+      "deductions": "Deduções",
+      "taxWithheld": "Imposto Retido",
+      "inssEmployee": "INSS (Funcionário)",
+      "inssEmployer": "INSS (Patronal)",
+      "totalDeductions": "Total de Deduções",
+      "netPay": "Salário Líquido"
+    },
+    "summary": {
+      "title": "Resumo",
+      "totalGross": "Total Bruto",
+      "totalTax": "Total Imposto WIT",
+      "totalInssEmployee": "INSS (Funcionário)",
+      "totalInssEmployer": "INSS (Patronal)",
+      "totalNet": "Total Líquido",
+      "employeeCount": "{count} funcionários"
+    },
+    "actions": {
+      "process": "Processar Salários",
+      "approve": "Aprovar",
+      "reject": "Rejeitar",
+      "viewPayslip": "Ver Recibo",
+      "downloadPayslip": "Descarregar Recibo",
+      "printAllPayslips": "Imprimir Todos os Recibos",
+      "createRun": "Criar Processamento"
+    },
+    "payslip": {
+      "title": "Recibo de Vencimento",
+      "earnings": "Rendimentos",
+      "deductions": "Deduções",
+      "employerContributions": "Contribuições Patronais",
+      "generatedOn": "Gerado em {date}"
+    }
+  },
+  "leave": {
+    "title": "Gestão de Férias",
+    "subtitle": "Acompanhar pedidos de férias dos funcionários",
+    "newRequest": "Novo Pedido",
+    "requestLeave": "Pedir Férias",
+    "leaveHistory": "Histórico de Férias",
+    "noRequests": "Sem pedidos de férias",
+    "noRequestsFor": "Sem pedidos {status}",
+    "balance": "Saldo de Férias",
+    "types": {
+      "annual": "Férias Anuais",
+      "sick": "Licença Médica",
+      "personal": "Licença Pessoal",
+      "maternity": "Licença de Maternidade",
+      "paternity": "Licença de Paternidade",
+      "unpaid": "Licença Sem Vencimento"
+    },
+    "descriptions": {
+      "annual": "12 dias por ano",
+      "sick": "Até 30 dias com atestado",
+      "personal": "Para assuntos pessoais",
+      "maternity": "12 semanas pagas",
+      "paternity": "5 dias pagos",
+      "unpaid": "Sem remuneração durante a licença"
+    },
+    "form": {
+      "employee": "Funcionário",
+      "selectEmployee": "Selecionar funcionário",
+      "leaveType": "Tipo de Licença",
+      "startDate": "Data de Início",
+      "endDate": "Data de Fim",
+      "reason": "Motivo",
+      "reasonPlaceholder": "Forneça detalhes adicionais sobre o pedido de licença...",
+      "invalidDateRange": "A data de fim deve ser posterior à data de início",
+      "daysRequested": "Dias Úteis Pedidos",
+      "days": "{count} dias"
+    },
+    "status": {
+      "pending": "Pendente",
+      "approved": "Aprovado",
+      "rejected": "Rejeitado",
+      "cancelled": "Cancelado"
+    },
+    "actions": {
+      "approve": "Aprovar",
+      "reject": "Rejeitar",
+      "cancel": "Cancelar Pedido"
+    },
+    "stats": {
+      "total": "Total de Pedidos",
+      "pending": "Pendentes",
+      "approved": "Aprovados",
+      "rejected": "Rejeitados"
+    },
+    "entitlements": {
+      "title": "Direitos de Férias de Timor-Leste",
+      "annualLeave": "Férias Anuais",
+      "annualLeaveDesc": "12 dias úteis após 1 ano de serviço",
+      "sickLeave": "Licença Médica",
+      "sickLeaveDesc": "Até 30 dias por ano com atestado médico",
+      "maternityLeave": "Licença de Maternidade",
+      "maternityLeaveDesc": "12 semanas (60 dias úteis) de licença paga",
+      "paternityLeave": "Licença de Paternidade",
+      "paternityLeaveDesc": "5 dias úteis de licença paga"
+    }
+  },
+  "reports": {
+    "title": "Relatórios",
+    "subtitle": "Gerar relatórios de salários e conformidade",
+    "generate": "Gerar Relatório",
+    "exportCsv": "Exportar CSV",
+    "exportPdf": "Exportar PDF",
+    "selectType": "Tipo de Relatório",
+    "selectPeriod": "Período",
+    "csvHeaders": {
+      "payroll": "Funcionário,Salário Bruto,Imposto,INSS Funcionário,INSS Patronal,Salário Líquido",
+      "wit": "Funcionário,NIF,Residente,Salários Brutos,Imposto Retido",
+      "inss": "Funcionário,Número INSS,Salários Brutos,Contribuição Funcionário (4%),Contribuição Patronal (6%)",
+      "employees": "Número Funcionário,Nome,Cargo,Departamento,Salário Base,Estado,Data Início"
+    },
+    "table": {
+      "employee": "Funcionário",
+      "gross": "Bruto",
+      "tax": "Imposto",
+      "wages": "Salários",
+      "net": "Líquido",
+      "salary": "Salário"
+    },
+    "noDataForPeriod": "Sem dados disponíveis para este período",
+    "selectToGenerate": "Selecione um tipo de relatório para gerar",
+    "types": {
+      "payroll": "Resumo de Salários",
+      "payrollDesc": "Detalhe mensal de salários",
+      "wit": "Relatório de Imposto WIT",
+      "witDesc": "Detalhes de retenção na fonte",
+      "inss": "Relatório INSS",
+      "inssDesc": "Contribuições de segurança social",
+      "employees": "Lista de Funcionários",
+      "employeesDesc": "Todos os detalhes de funcionários"
+    },
+    "payroll": {
+      "title": "Detalhes de Salários",
+      "totalGross": "Total Salário Bruto",
+      "totalDeductions": "Total Deduções",
+      "totalNet": "Total Salário Líquido"
+    },
+    "wit": {
+      "title": "Detalhes de Imposto WIT",
+      "totalWages": "Total Salários",
+      "totalTax": "Total WIT (10%)",
+      "filingDeadline": "Prazo de Entrega",
+      "resident": "Residente"
+    },
+    "inss": {
+      "title": "Detalhes INSS",
+      "employeeRate": "Funcionário (4%)",
+      "employerRate": "Patronal (6%)",
+      "totalDue": "Total INSS a Pagar"
+    },
+    "employeeList": {
+      "title": "Diretório de Funcionários",
+      "totalEmployees": "Total de Funcionários",
+      "activeInactive": "Ativos / Inativos",
+      "avgSalary": "Salário Médio"
+    }
+  },
+  "settings": {
+    "title": "Definições",
+    "subtitle": "Gerir a sua organização e preferências",
+    "saveChanges": "Guardar Alterações",
+    "saving": "A guardar...",
+    "savedSuccess": "Definições guardadas com sucesso",
+    "organization": {
+      "title": "Detalhes da Organização",
+      "subtitle": "Informação básica sobre a sua organização",
+      "name": "Nome da Organização",
+      "namePlaceholder": "Nome da Sua Empresa",
+      "tin": "Número de Identificação Fiscal (NIF)",
+      "tinPlaceholder": "Introduza o NIF",
+      "address": "Morada",
+      "addressPlaceholder": "Introduza a morada comercial"
+    },
+    "payroll": {
+      "title": "Definições de Salários",
+      "subtitle": "Configurar preferências de salários",
+      "currency": "Moeda Predefinida",
+      "currencyNote": "Timor-Leste usa USD como moeda oficial",
+      "fiscalYear": "Mês de Início do Ano Fiscal"
+    },
+    "inss": {
+      "title": "Conformidade INSS",
+      "subtitle": "Definições de contribuições de segurança social",
+      "timoresePercentage": "Percentagem de Funcionários Timorenses",
+      "qualificationNote": "Organizações com 80%+ funcionários timorenses qualificam para contribuições INSS reduzidas",
+      "qualifies": "Qualifica para Redução INSS",
+      "qualifiesDesc": "A sua organização qualifica para taxas de contribuição patronal reduzidas",
+      "standard": "Taxas INSS Padrão Aplicam-se",
+      "standardDesc": "Precisa de mais {percent}% de funcionários timorenses para qualificar",
+      "employeeRate": "Taxa Funcionário",
+      "employerRate": "Taxa Patronal"
+    },
+    "compliance": {
+      "title": "Calendário de Conformidade",
+      "subtitle": "Principais prazos de entrega",
+      "witMonthly": "Declaração Mensal WIT",
+      "witDesc": "Imposto retido na fonte",
+      "inssMonthly": "Declaração Mensal INSS",
+      "inssDesc": "Contribuições de segurança social",
+      "annualTax": "Declaração Anual de Impostos",
+      "annualTaxDesc": "Imposto sobre rendimento da empresa",
+      "employeeDeclarations": "Declarações de Funcionários",
+      "employeeDeclarationsDesc": "Declarações anuais de salários",
+      "ofEachMonth": "de cada mês",
+      "annually": "anualmente"
+    },
+    "reference": {
+      "title": "Referência de Conformidade de Salários de Timor-Leste",
+      "subtitle": "Requisitos legais chave para processamento de salários",
+      "minimumWage": "Salário Mínimo",
+      "minimumWageNote": "Taxa do setor governamental",
+      "witRate": "Taxa de Imposto WIT",
+      "witRateNote": "Sobre salários acima de $500",
+      "overtimeRate": "Taxa de Horas Extra",
+      "overtimeRateNote": "Horas extra normais; +100% feriados",
+      "annualLeave": "Férias Anuais",
+      "annualLeaveNote": "Após 1 ano de serviço"
+    },
+    "holidays": {
+      "title": "Feriados Públicos",
+      "subtitle": "Feriados públicos oficiais de Timor-Leste",
+      "backToSettings": "Voltar às Definições",
+      "totalHolidays": "Total de Feriados",
+      "nationalDays": "Dias Nacionais",
+      "religiousHolidays": "Feriados Religiosos",
+      "upcomingHolidays": "Próximos Feriados",
+      "holidayCalendar": "Calendário de Feriados",
+      "holidayCalendarDesc": "Todos os feriados públicos oficiais para o ano selecionado",
+      "daysAway": "dias restantes",
+      "note": "Nota",
+      "noteText": "Os feriados islâmicos (Eid al-Fitr, Eid al-Adha) são aproximados e dependem da observação da lua. As datas podem variar 1-2 dias."
+    }
+  },
+  "months": {
+    "january": "Janeiro",
+    "february": "Fevereiro",
+    "march": "Março",
+    "april": "Abril",
+    "may": "Maio",
+    "june": "Junho",
+    "july": "Julho",
+    "august": "Agosto",
+    "september": "Setembro",
+    "october": "Outubro",
+    "november": "Novembro",
+    "december": "Dezembro"
+  },
+  "language": {
+    "select": "Idioma",
+    "en": "EN",
+    "pt": "PT",
+    "tet": "TET"
+  }
+}

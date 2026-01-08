@@ -1,8 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { useTranslations } from 'next-intl';
-import { Save, Building2, Globe, Calendar, Shield, Loader2 } from 'lucide-react';
+import { Save, Building2, Globe, Calendar, Shield, Loader2, ChevronRight } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { createClient } from '@/lib/supabase/client';
@@ -332,6 +333,21 @@ export default function SettingsPage() {
                   <div className="text-xs text-gray-500">{t('compliance.annually')}</div>
                 </div>
               </div>
+
+              {/* Link to Public Holidays */}
+              <Link
+                href="/dashboard/settings/holidays"
+                className="flex justify-between items-center p-3 bg-[#F86037]/5 border border-[#F86037]/20 rounded-lg hover:bg-[#F86037]/10 transition-colors"
+              >
+                <div className="flex items-center gap-3">
+                  <Calendar className="h-5 w-5 text-[#F86037]" />
+                  <div>
+                    <div className="font-medium text-gray-900">{t('holidays.title')}</div>
+                    <div className="text-sm text-gray-500">{t('holidays.subtitle')}</div>
+                  </div>
+                </div>
+                <ChevronRight className="h-5 w-5 text-gray-400" />
+              </Link>
             </div>
           </CardContent>
         </Card>

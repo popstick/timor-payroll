@@ -293,17 +293,17 @@ Must include:
 - [x] Project setup (Next.js + Supabase)
 - [x] Database schema created
 - [x] Payroll calculation engine
-- [x] i18n translations (EN/PT/TET)
-- [ ] Employee CRUD
-- [ ] Monthly pay calculation UI
+- [x] i18n translations (EN/PT/TET) - English, Portuguese, and Tetum
+- [x] Employee CRUD - Add, edit, view employees
+- [x] Monthly pay calculation UI - Payroll run creation
 - [ ] Payslip generation (PDF)
-- [ ] Basic dashboard
+- [x] Basic dashboard - Stats, quick actions, compliance info
 
 ### Phase 2: Compliance
-- [ ] Government form generation (WIT/INSS)
-- [ ] Leave management
-- [ ] Holiday calendar management
-- [ ] Deadline reminders/notifications
+- [x] Government form generation (WIT/INSS) - PDF export for tax/INSS forms
+- [x] Leave management - Request and approve leave
+- [x] Holiday calendar management - View/manage public holidays
+- [x] Deadline reminders/notifications - Dynamic deadline tracking
 
 ### Phase 3: Advanced
 - [ ] Employee self-service portal

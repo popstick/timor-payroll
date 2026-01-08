@@ -350,6 +350,7 @@
     "subtitle": "Generate payroll and compliance reports",
     "generate": "Generate Report",
     "exportCsv": "Export CSV",
+    "exportPdf": "Export PDF",
     "selectType": "Report Type",
     "selectPeriod": "Period",
     "csvHeaders": {
@@ -464,6 +465,20 @@
       "overtimeRateNote": "Regular overtime; +100% holidays",
       "annualLeave": "Annual Leave",
       "annualLeaveNote": "After 1 year of service"
+    },
+    "holidays": {
+      "title": "Public Holidays",
+      "subtitle": "Timor-Leste official public holidays",
+      "backToSettings": "Back to Settings",
+      "totalHolidays": "Total Holidays",
+      "nationalDays": "National Days",
+      "religiousHolidays": "Religious Holidays",
+      "upcomingHolidays": "Upcoming Holidays",
+      "holidayCalendar": "Holiday Calendar",
+      "holidayCalendarDesc": "All official public holidays for the selected year",
+      "daysAway": "days away",
+      "note": "Note",
+      "noteText": "Islamic holidays (Eid al-Fitr, Eid al-Adha) are approximate and depend on moon sighting. Dates may vary by 1-2 days."
     }
   },
   "months": {
@@ -482,7 +497,8 @@
   },
   "language": {
     "select": "Language",
-    "en": "English",
-    "tet": "Tetun"
+    "en": "EN",
+    "pt": "PT",
+    "tet": "TET"
   }
 }

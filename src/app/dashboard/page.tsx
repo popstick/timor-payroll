@@ -1,9 +1,10 @@
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
-import { Users, DollarSign, Calendar, AlertCircle, ArrowRight, FileText, UserPlus, Calculator } from 'lucide-react';
+import { Users, DollarSign, Calendar, AlertCircle, FileText, UserPlus, Calculator } from 'lucide-react';
 import { StatCard } from '@/components/ui/stat-card';
 import { FeatureCard } from '@/components/ui/glass-card';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { DeadlineList } from '@/components/deadlines';
 
 export default async function DashboardPage() {
   const t = await getTranslations('dashboard');
@@ -109,46 +110,7 @@ export default async function DashboardPage() {
       {/* Deadlines & Compliance */}
       <div className="grid gap-4 sm:gap-6 lg:grid-cols-2">
         {/* Upcoming Deadlines */}
-        <Card>
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <CardTitle className="text-base font-medium">{t('upcomingDeadlines')}</CardTitle>
-              <span className="text-xs text-gray-500">
-                {stats.upcomingDeadlines} pending
-              </span>
-            </div>
-          </CardHeader>
-          <CardContent className="p-0">
-            <div className="divide-y divide-gray-100">
-              <div className="flex items-center gap-3 px-6 py-3 hover:bg-gray-50 transition-colors">
-                <div className="flex-shrink-0 w-8 h-8 rounded bg-gray-100 flex items-center justify-center">
-                  <span className="text-gray-600 text-sm font-medium">15</span>
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-gray-900">{t('witFiling')}</p>
-                  <p className="text-xs text-gray-500">Monthly withholding tax</p>
-                </div>
-                <span className="text-xs text-amber-600">7 days</span>
-              </div>
-              <div className="flex items-center gap-3 px-6 py-3 hover:bg-gray-50 transition-colors">
-                <div className="flex-shrink-0 w-8 h-8 rounded bg-gray-100 flex items-center justify-center">
-                  <span className="text-gray-600 text-sm font-medium">15</span>
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-gray-900">{t('inssFiling')}</p>
-                  <p className="text-xs text-gray-500">Social security contributions</p>
-                </div>
-                <span className="text-xs text-amber-600">7 days</span>
-              </div>
-            </div>
-            <div className="px-6 py-3 border-t border-gray-100">
-              <Link href="/dashboard/settings" className="flex items-center justify-center gap-2 text-sm text-gray-500 hover:text-gray-900">
-                View all
-                <ArrowRight className="h-3 w-3" />
-              </Link>
-            </div>
-          </CardContent>
-        </Card>
+        <DeadlineList maxItems={4} showViewAll={true} />
 
         {/* Compliance Summary */}
         <Card>

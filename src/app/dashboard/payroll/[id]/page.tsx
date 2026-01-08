@@ -6,13 +6,14 @@ import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { createClient } from '@/lib/supabase/server';
 import { formatCurrency, formatDate } from '@/lib/utils';
-import { getTranslations } from 'next-intl/server';
+import { getLocale, getTranslations } from 'next-intl/server';
 
 export default async function PayrollDetailPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
+  const locale = await getLocale();
   const tPayroll = await getTranslations('payroll');
   const tPayrollCalc = await getTranslations('payroll.calculation');
   const tPayrollSummary = await getTranslations('payroll.summary');
@@ -98,10 +99,12 @@ export default async function PayrollDetailPage({
           </div>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline">
-            <Printer className="h-4 w-4 mr-2" />
-            {tPayrollActions('printAllPayslips')}
-          </Button>
+          <Link href={`/api/payroll/${id}/payslips?lang=${locale}`} prefetch={false}>
+            <Button variant="outline">
+              <Printer className="h-4 w-4 mr-2" />
+              {tPayrollActions('printAllPayslips')}
+            </Button>
+          </Link>
           <Button variant="outline">
             <Download className="h-4 w-4 mr-2" />
             {tCommon('export')}
@@ -118,25 +121,25 @@ export default async function PayrollDetailPage({
       {/* Summary Cards */}
       <div className="grid gap-6 md:grid-cols-5 mb-8">
         <Card>
-          <CardContent className="pt-6">
+          <CardContent className="py-4">
             <div className="text-sm text-gray-500">{tNav('employees')}</div>
             <div className="text-2xl font-bold">{payrollRun.employee_count}</div>
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="pt-6">
+          <CardContent className="py-4">
             <div className="text-sm text-gray-500">{tPayrollSummary('totalGross')}</div>
             <div className="text-2xl font-bold">{formatCurrency(payrollRun.total_gross || 0)}</div>
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="pt-6">
+          <CardContent className="py-4">
             <div className="text-sm text-gray-500">{tPayrollSummary('totalTax')}</div>
             <div className="text-2xl font-bold text-red-600">{formatCurrency(payrollRun.total_tax || 0)}</div>
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="pt-6">
+          <CardContent className="py-4">
             <div className="text-sm text-gray-500">{tCommon('inss')}</div>
             <div className="text-2xl font-bold text-red-600">
               {formatCurrency((payrollRun.total_inss_employee || 0) + (payrollRun.total_inss_employer || 0))}
@@ -147,7 +150,7 @@ export default async function PayrollDetailPage({
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="pt-6">
+          <CardContent className="py-4">
             <div className="text-sm text-gray-500">{tPayrollSummary('totalNet')}</div>
             <div className="text-2xl font-bold text-green-600">{formatCurrency(payrollRun.total_net || 0)}</div>
           </CardContent>
