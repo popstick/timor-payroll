@@ -87,6 +87,25 @@ export function DropdownItem({
   className,
 }: DropdownItemProps) {
   if (href) {
+    const isApiRoute = href.startsWith('/api/');
+    if (isApiRoute) {
+      return (
+        <a
+          href={href}
+          className={cn(
+            'flex w-full items-center gap-2 px-4 py-2 text-left text-sm transition-colors',
+            'hover:bg-gray-100 focus:bg-gray-100 focus:outline-none',
+            destructive ? 'text-red-600 hover:bg-red-50' : 'text-gray-700',
+            className
+          )}
+          role="menuitem"
+        >
+          {icon && <span className="h-4 w-4">{icon}</span>}
+          {children}
+        </a>
+      );
+    }
+
     return (
       <Link
         href={href}
