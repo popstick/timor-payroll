@@ -29,14 +29,14 @@ export default async function PayrollPage() {
   };
 
   return (
-    <div className="p-8">
-      <div className="flex justify-between items-center mb-8">
+    <div className="p-4 sm:p-6 lg:p-8">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6 sm:mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Payroll</h1>
-          <p className="text-gray-500">Manage monthly payroll runs</p>
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Payroll</h1>
+          <p className="text-sm sm:text-base text-gray-500">Manage monthly payroll runs</p>
         </div>
-        <Link href="/dashboard/payroll/new">
-          <Button>
+        <Link href="/dashboard/payroll/new" className="w-full sm:w-auto">
+          <Button className="w-full sm:w-auto">
             <Plus className="h-4 w-4 mr-2" />
             Run Payroll
           </Button>
@@ -44,7 +44,7 @@ export default async function PayrollPage() {
       </div>
 
       {/* Summary Cards */}
-      <div className="grid gap-6 md:grid-cols-3 mb-8">
+      <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-3 mb-6 sm:mb-8">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-gray-500">

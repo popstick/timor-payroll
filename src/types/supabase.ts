@@ -201,6 +201,62 @@ export type Database = {
           },
         ]
       }
+      leave_requests: {
+        Row: {
+          approved_at: string | null
+          approved_by: string | null
+          created_at: string | null
+          days_requested: number
+          employee_id: string
+          end_date: string
+          id: string
+          leave_type: string
+          reason: string | null
+          rejection_reason: string | null
+          start_date: string
+          status: string
+          updated_at: string | null
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          created_at?: string | null
+          days_requested: number
+          employee_id: string
+          end_date: string
+          id?: string
+          leave_type: string
+          reason?: string | null
+          rejection_reason?: string | null
+          start_date: string
+          status?: string
+          updated_at?: string | null
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          created_at?: string | null
+          days_requested?: number
+          employee_id?: string
+          end_date?: string
+          id?: string
+          leave_type?: string
+          reason?: string | null
+          rejection_reason?: string | null
+          start_date?: string
+          status?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "leave_requests_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       organizations: {
         Row: {
           address: string | null
@@ -499,6 +555,7 @@ export type Organization = Tables<'organizations'>
 export type PayrollRun = Tables<'payroll_runs'>
 export type PayrollItem = Tables<'payroll_items'>
 export type LeaveBalance = Tables<'leave_balances'>
+export type LeaveRequest = Tables<'leave_requests'>
 export type PublicHoliday = Tables<'public_holidays'>
 export type TaxFiling = Tables<'tax_filings'>
 export type INSSFiling = Tables<'inss_filings'>

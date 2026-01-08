@@ -1,0 +1,399 @@
+{
+  "common": {
+    "appName": "Timor Payroll",
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "back": "Back",
+    "submit": "Submit",
+    "search": "Search",
+    "filter": "Filter",
+    "export": "Export",
+    "download": "Download",
+    "view": "View",
+    "actions": "Actions",
+    "status": "Status",
+    "active": "Active",
+    "inactive": "Inactive",
+    "pending": "Pending",
+    "approved": "Approved",
+    "rejected": "Rejected",
+    "all": "All",
+    "yes": "Yes",
+    "no": "No",
+    "or": "or",
+    "and": "and",
+    "required": "Required",
+    "optional": "Optional",
+    "noData": "No data available",
+    "error": "Error",
+    "success": "Success",
+    "warning": "Warning",
+    "info": "Information"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "employees": "Employees",
+    "payroll": "Payroll",
+    "leave": "Leave",
+    "reports": "Reports",
+    "settings": "Settings",
+    "logout": "Logout"
+  },
+  "auth": {
+    "login": "Sign in",
+    "signup": "Sign up",
+    "logout": "Sign out",
+    "email": "Email",
+    "password": "Password",
+    "companyName": "Company Name",
+    "welcomeBack": "Welcome back",
+    "signInTo": "Sign in to Timor Payroll",
+    "createAccount": "Create an account",
+    "getStarted": "Get started with Timor Payroll",
+    "signingIn": "Signing in...",
+    "creatingAccount": "Creating account...",
+    "noAccount": "Don't have an account?",
+    "haveAccount": "Already have an account?",
+    "continueAsGuest": "Continue as Guest",
+    "checkEmail": "Check your email",
+    "confirmationSent": "We've sent a confirmation link to",
+    "backToLogin": "Back to login",
+    "minPassword": "Minimum 6 characters",
+    "emailPlaceholder": "you@company.com",
+    "passwordPlaceholder": "Enter your password",
+    "companyPlaceholder": "Your Company Ltd"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome to Timor Payroll",
+    "overview": "Overview of your payroll operations",
+    "quickActions": "Quick Actions",
+    "recentActivity": "Recent Activity",
+    "upcomingDeadlines": "Upcoming Deadlines",
+    "totalEmployees": "Total Employees",
+    "activeEmployees": "Active Employees",
+    "monthlyPayroll": "Monthly Payroll",
+    "pendingApprovals": "Pending Approvals",
+    "addEmployee": "Add Employee",
+    "runPayroll": "Run Payroll",
+    "witFiling": "WIT Monthly Filing",
+    "inssFiling": "INSS Monthly Filing",
+    "dueBy": "Due by {date}",
+    "viewAll": "View All"
+  },
+  "employees": {
+    "title": "Employees",
+    "subtitle": "Manage your staff",
+    "addEmployee": "Add Employee",
+    "editEmployee": "Edit Employee",
+    "employeeDetails": "Employee Details",
+    "searchPlaceholder": "Search employees...",
+    "noEmployees": "No employees found",
+    "addFirst": "Add your first employee to get started",
+    "totalEmployees": "{count} employees",
+    "personal": {
+      "title": "Personal Information",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "fullName": "Full Name",
+      "email": "Email",
+      "phone": "Phone",
+      "dateOfBirth": "Date of Birth",
+      "gender": "Gender",
+      "male": "Male",
+      "female": "Female",
+      "other": "Other",
+      "nationality": "Nationality",
+      "address": "Address",
+      "timorese": "Timorese"
+    },
+    "employment": {
+      "title": "Employment Information",
+      "employeeNumber": "Employee Number",
+      "position": "Position",
+      "department": "Department",
+      "employmentType": "Employment Type",
+      "fullTime": "Full Time",
+      "partTime": "Part Time",
+      "contract": "Contract",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "status": "Status",
+      "active": "Active",
+      "inactive": "Inactive",
+      "terminated": "Terminated"
+    },
+    "compensation": {
+      "title": "Compensation",
+      "baseSalary": "Base Salary",
+      "monthlySalary": "Monthly Salary",
+      "annualSalary": "Annual Salary",
+      "currency": "Currency",
+      "minimumWage": "Minimum: ${amount}",
+      "belowMinimum": "Below minimum wage (${amount})"
+    },
+    "tax": {
+      "title": "Tax Information",
+      "tin": "Tax ID (TIN)",
+      "inssNumber": "INSS Number",
+      "isResident": "Tax Resident",
+      "residentHelp": "Tax Resident (183+ days/year in Timor-Leste)",
+      "residentBenefit": "Tax residents get $500/month tax exemption. Non-residents pay 10% on all wages."
+    },
+    "govIds": {
+      "title": "Government IDs",
+      "tinPlaceholder": "Tax Identification Number",
+      "inssPlaceholder": "Social Security Number"
+    }
+  },
+  "payroll": {
+    "title": "Payroll",
+    "subtitle": "Manage salary payments",
+    "runPayroll": "Run Payroll",
+    "newPayroll": "New Payroll Run",
+    "payrollHistory": "Payroll History",
+    "noPayrolls": "No payroll runs yet",
+    "createFirst": "Run your first payroll to get started",
+    "period": "Pay Period",
+    "periodStart": "Period Start",
+    "periodEnd": "Period End",
+    "payDate": "Pay Date",
+    "status": {
+      "draft": "Draft",
+      "processing": "Processing",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "calculation": {
+      "title": "Payroll Calculation",
+      "baseSalary": "Base Salary",
+      "overtime": "Overtime",
+      "overtimeRegular": "OT (Regular)",
+      "overtimeHoliday": "OT (Holiday)",
+      "allowances": "Allowances",
+      "bonuses": "Bonuses",
+      "grossPay": "Gross Pay",
+      "deductions": "Deductions",
+      "taxWithheld": "Tax Withheld",
+      "inssEmployee": "INSS (Employee)",
+      "inssEmployer": "INSS (Employer)",
+      "totalDeductions": "Total Deductions",
+      "netPay": "Net Pay"
+    },
+    "summary": {
+      "title": "Summary",
+      "totalGross": "Total Gross",
+      "totalTax": "Total WIT Tax",
+      "totalInssEmployee": "INSS (Employee)",
+      "totalInssEmployer": "INSS (Employer)",
+      "totalNet": "Total Net Pay",
+      "employeeCount": "{count} employees"
+    },
+    "actions": {
+      "process": "Process Payroll",
+      "approve": "Approve",
+      "reject": "Reject",
+      "viewPayslip": "View Payslip",
+      "downloadPayslip": "Download Payslip",
+      "createRun": "Create Payroll Run"
+    },
+    "payslip": {
+      "title": "Payslip",
+      "earnings": "Earnings",
+      "deductions": "Deductions",
+      "employerContributions": "Employer Contributions",
+      "generatedOn": "Generated on {date}"
+    }
+  },
+  "leave": {
+    "title": "Leave Management",
+    "subtitle": "Track employee leave requests",
+    "newRequest": "New Request",
+    "requestLeave": "Request Leave",
+    "leaveHistory": "Leave History",
+    "noRequests": "No leave requests",
+    "balance": "Leave Balance",
+    "types": {
+      "annual": "Annual Leave",
+      "sick": "Sick Leave",
+      "personal": "Personal Leave",
+      "maternity": "Maternity Leave",
+      "paternity": "Paternity Leave",
+      "unpaid": "Unpaid Leave"
+    },
+    "descriptions": {
+      "annual": "12 days per year",
+      "sick": "Up to 30 days with certificate",
+      "personal": "For personal matters",
+      "maternity": "12 weeks paid",
+      "paternity": "5 days paid",
+      "unpaid": "No pay during leave"
+    },
+    "form": {
+      "employee": "Employee",
+      "selectEmployee": "Select employee",
+      "leaveType": "Leave Type",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "reason": "Reason",
+      "reasonPlaceholder": "Provide additional details about the leave request...",
+      "daysRequested": "Business Days Requested",
+      "days": "{count} days"
+    },
+    "status": {
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "cancelled": "Cancelled"
+    },
+    "actions": {
+      "approve": "Approve",
+      "reject": "Reject",
+      "cancel": "Cancel Request"
+    },
+    "stats": {
+      "total": "Total Requests",
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected"
+    },
+    "entitlements": {
+      "title": "Timor-Leste Leave Entitlements",
+      "annualLeave": "Annual Leave",
+      "annualLeaveDesc": "12 working days after 1 year of service",
+      "sickLeave": "Sick Leave",
+      "sickLeaveDesc": "Up to 30 days per year with medical certificate",
+      "maternityLeave": "Maternity Leave",
+      "maternityLeaveDesc": "12 weeks (60 working days) paid leave",
+      "paternityLeave": "Paternity Leave",
+      "paternityLeaveDesc": "5 working days paid leave"
+    }
+  },
+  "reports": {
+    "title": "Reports",
+    "subtitle": "Generate payroll and compliance reports",
+    "generate": "Generate Report",
+    "exportCsv": "Export CSV",
+    "selectType": "Report Type",
+    "selectPeriod": "Period",
+    "types": {
+      "payroll": "Payroll Summary",
+      "payrollDesc": "Monthly payroll breakdown",
+      "wit": "WIT Tax Report",
+      "witDesc": "Withholding tax details",
+      "inss": "INSS Report",
+      "inssDesc": "Social security contributions",
+      "employees": "Employee List",
+      "employeesDesc": "All employee details"
+    },
+    "payroll": {
+      "title": "Payroll Details",
+      "totalGross": "Total Gross Pay",
+      "totalDeductions": "Total Deductions",
+      "totalNet": "Total Net Pay"
+    },
+    "wit": {
+      "title": "WIT Tax Details",
+      "totalWages": "Total Wages",
+      "totalTax": "Total WIT (10%)",
+      "filingDeadline": "Filing Deadline",
+      "resident": "Resident"
+    },
+    "inss": {
+      "title": "INSS Details",
+      "employeeRate": "Employee (4%)",
+      "employerRate": "Employer (6%)",
+      "totalDue": "Total INSS Due"
+    },
+    "employeeList": {
+      "title": "Employee Directory",
+      "totalEmployees": "Total Employees",
+      "activeInactive": "Active / Inactive",
+      "avgSalary": "Avg. Salary"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Manage your organization and preferences",
+    "saveChanges": "Save Changes",
+    "saving": "Saving...",
+    "savedSuccess": "Settings saved successfully",
+    "organization": {
+      "title": "Organization Details",
+      "subtitle": "Basic information about your organization",
+      "name": "Organization Name",
+      "namePlaceholder": "Your Company Name",
+      "tin": "Tax Identification Number (TIN)",
+      "tinPlaceholder": "Enter TIN",
+      "address": "Address",
+      "addressPlaceholder": "Enter business address"
+    },
+    "payroll": {
+      "title": "Payroll Settings",
+      "subtitle": "Configure payroll preferences",
+      "currency": "Default Currency",
+      "currencyNote": "Timor-Leste uses USD as official currency",
+      "fiscalYear": "Fiscal Year Start Month"
+    },
+    "inss": {
+      "title": "INSS Compliance",
+      "subtitle": "Social security contribution settings",
+      "timoresePercentage": "Timorese Employee Percentage",
+      "qualificationNote": "Organizations with 80%+ Timorese employees qualify for reduced INSS contributions",
+      "qualifies": "Qualifies for INSS Reduction",
+      "qualifiesDesc": "Your organization qualifies for reduced employer contribution rates",
+      "standard": "Standard INSS Rates Apply",
+      "standardDesc": "Need {percent}% more Timorese employees to qualify",
+      "employeeRate": "Employee Rate",
+      "employerRate": "Employer Rate"
+    },
+    "compliance": {
+      "title": "Compliance Calendar",
+      "subtitle": "Key filing deadlines",
+      "witMonthly": "WIT Monthly Filing",
+      "witDesc": "Withholding income tax",
+      "inssMonthly": "INSS Monthly Filing",
+      "inssDesc": "Social security contributions",
+      "annualTax": "Annual Tax Return",
+      "annualTaxDesc": "Company income tax",
+      "employeeDeclarations": "Employee Declarations",
+      "employeeDeclarationsDesc": "Annual salary statements",
+      "ofEachMonth": "of each month",
+      "annually": "annually"
+    },
+    "reference": {
+      "title": "Timor-Leste Payroll Compliance Reference",
+      "subtitle": "Key legal requirements for payroll processing",
+      "minimumWage": "Minimum Wage",
+      "minimumWageNote": "Government sector rate",
+      "witRate": "WIT Tax Rate",
+      "witRateNote": "On wages above $500",
+      "overtimeRate": "Overtime Rate",
+      "overtimeRateNote": "Regular overtime; +100% holidays",
+      "annualLeave": "Annual Leave",
+      "annualLeaveNote": "After 1 year of service"
+    }
+  },
+  "months": {
+    "january": "January",
+    "february": "February",
+    "march": "March",
+    "april": "April",
+    "may": "May",
+    "june": "June",
+    "july": "July",
+    "august": "August",
+    "september": "September",
+    "october": "October",
+    "november": "November",
+    "december": "December"
+  },
+  "language": {
+    "select": "Language",
+    "en": "English",
+    "tet": "Tetum"
+  }
+}

@@ -3,14 +3,17 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { DollarSign, Mail, Lock, Building, Loader2, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { createClient } from '@/lib/supabase/client';
+import { LanguageSwitcher } from '@/components/language-switcher';
 
 export default function SignupPage() {
   const router = useRouter();
   const supabase = createClient();
+  const t = useTranslations('auth');
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -62,6 +65,9 @@ export default function SignupPage() {
   if (success) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+        <div className="absolute top-4 right-4">
+          <LanguageSwitcher />
+        </div>
         <Card className="w-full max-w-md">
           <CardContent className="pt-6">
             <div className="text-center">
@@ -70,13 +76,13 @@ export default function SignupPage() {
                   <Check className="h-8 w-8 text-green-600" />
                 </div>
               </div>
-              <h2 className="text-xl font-bold mb-2">Check your email</h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-2">{t('checkEmail')}</h2>
               <p className="text-gray-500 mb-6">
-                We've sent a confirmation link to <strong>{email}</strong>
+                {t('confirmationSent')} <strong>{email}</strong>
               </p>
               <Link href="/login">
                 <Button variant="outline" className="w-full">
-                  Back to login
+                  {t('backToLogin')}
                 </Button>
               </Link>
             </div>
@@ -88,6 +94,9 @@ export default function SignupPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+      <div className="absolute top-4 right-4">
+        <LanguageSwitcher />
+      </div>
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <div className="flex justify-center mb-4">
@@ -95,8 +104,8 @@ export default function SignupPage() {
               <DollarSign className="h-8 w-8 text-blue-600" />
             </div>
           </div>
-          <CardTitle className="text-2xl">Create an account</CardTitle>
-          <CardDescription>Get started with Timor Payroll</CardDescription>
+          <CardTitle className="text-2xl text-gray-900">{t('createAccount')}</CardTitle>
+          <CardDescription>{t('getStarted')}</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSignup} className="space-y-4">
@@ -107,68 +116,68 @@ export default function SignupPage() {
             )}
 
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700">Company Name</label>
+              <label className="text-sm font-medium text-gray-700">{t('companyName')}</label>
               <div className="relative">
                 <Building className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                 <input
                   type="text"
                   value={companyName}
                   onChange={(e) => setCompanyName(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="Your Company Ltd"
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder={t('companyPlaceholder')}
                   required
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700">Email</label>
+              <label className="text-sm font-medium text-gray-700">{t('email')}</label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="you@company.com"
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder={t('emailPlaceholder')}
                   required
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700">Password</label>
+              <label className="text-sm font-medium text-gray-700">{t('password')}</label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                 <input
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="••••••••"
                   minLength={6}
                   required
                 />
               </div>
-              <p className="text-xs text-gray-500">Minimum 6 characters</p>
+              <p className="text-xs text-gray-500">{t('minPassword')}</p>
             </div>
 
             <Button type="submit" className="w-full" disabled={loading}>
               {loading ? (
                 <>
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                  Creating account...
+                  {t('creatingAccount')}
                 </>
               ) : (
-                'Create account'
+                t('createAccount')
               )}
             </Button>
           </form>
 
           <div className="mt-6 text-center text-sm">
-            <span className="text-gray-500">Already have an account? </span>
+            <span className="text-gray-500">{t('haveAccount')} </span>
             <Link href="/login" className="text-blue-600 hover:underline font-medium">
-              Sign in
+              {t('login')}
             </Link>
           </div>
         </CardContent>

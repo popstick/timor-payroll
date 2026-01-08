@@ -305,7 +305,7 @@ export default function NewPayrollPage() {
                             type="number"
                             min="0"
                             step="0.5"
-                            className="w-16 px-2 py-1 border rounded text-sm"
+                            className="w-16 px-2 py-1 border rounded text-sm bg-white text-gray-900"
                             value={preview.overtimeHoursRegular}
                             onChange={(e) =>
                               updatePreview(index, 'overtimeHoursRegular', parseFloat(e.target.value) || 0)
@@ -317,7 +317,7 @@ export default function NewPayrollPage() {
                             type="number"
                             min="0"
                             step="0.5"
-                            className="w-16 px-2 py-1 border rounded text-sm"
+                            className="w-16 px-2 py-1 border rounded text-sm bg-white text-gray-900"
                             value={preview.overtimeHoursHoliday}
                             onChange={(e) =>
                               updatePreview(index, 'overtimeHoursHoliday', parseFloat(e.target.value) || 0)
@@ -329,7 +329,7 @@ export default function NewPayrollPage() {
                             type="number"
                             min="0"
                             step="1"
-                            className="w-20 px-2 py-1 border rounded text-sm"
+                            className="w-20 px-2 py-1 border rounded text-sm bg-white text-gray-900"
                             value={preview.allowances}
                             onChange={(e) =>
                               updatePreview(index, 'allowances', parseFloat(e.target.value) || 0)
@@ -341,7 +341,7 @@ export default function NewPayrollPage() {
                             type="number"
                             min="0"
                             step="1"
-                            className="w-20 px-2 py-1 border rounded text-sm"
+                            className="w-20 px-2 py-1 border rounded text-sm bg-white text-gray-900"
                             value={preview.bonuses}
                             onChange={(e) =>
                               updatePreview(index, 'bonuses', parseFloat(e.target.value) || 0)

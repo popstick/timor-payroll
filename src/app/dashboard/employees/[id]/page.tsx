@@ -32,31 +32,33 @@ export default async function EmployeeDetailPage({
   });
 
   return (
-    <div className="p-8">
+    <div className="p-4 sm:p-6 lg:p-8">
       {/* Header */}
-      <div className="flex items-center gap-4 mb-8">
-        <Link href="/dashboard/employees">
-          <Button variant="ghost" size="icon">
-            <ArrowLeft className="h-5 w-5" />
-          </Button>
-        </Link>
-        <div className="flex-1">
-          <h1 className="text-2xl font-bold text-gray-900">
-            {employee.first_name} {employee.last_name}
-          </h1>
-          <p className="text-gray-500">{employee.position}</p>
+      <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-6 sm:mb-8">
+        <div className="flex items-center gap-3 flex-1 min-w-0">
+          <Link href="/dashboard/employees">
+            <Button variant="ghost" size="icon" className="shrink-0">
+              <ArrowLeft className="h-5 w-5" />
+            </Button>
+          </Link>
+          <div className="min-w-0">
+            <h1 className="text-xl sm:text-2xl font-bold text-gray-900 truncate">
+              {employee.first_name} {employee.last_name}
+            </h1>
+            <p className="text-sm sm:text-base text-gray-500">{employee.position}</p>
+          </div>
         </div>
-        <Link href={`/dashboard/employees/${id}/edit`}>
-          <Button variant="outline">
+        <Link href={`/dashboard/employees/${id}/edit`} className="w-full sm:w-auto">
+          <Button variant="outline" className="w-full sm:w-auto">
             <Edit className="h-4 w-4 mr-2" />
             Edit
           </Button>
         </Link>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-3">
+      <div className="grid gap-4 sm:gap-6 lg:grid-cols-3">
         {/* Main Info */}
-        <div className="lg:col-span-2 space-y-6">
+        <div className="lg:col-span-2 space-y-4 sm:space-y-6">
           {/* Personal Info */}
           <Card>
             <CardHeader>
@@ -66,29 +68,29 @@ export default async function EmployeeDetailPage({
               <dl className="grid gap-4 sm:grid-cols-2">
                 <div>
                   <dt className="text-sm text-gray-500">Full Name</dt>
-                  <dd className="font-medium">{employee.first_name} {employee.last_name}</dd>
+                  <dd className="font-medium text-gray-900">{employee.first_name} {employee.last_name}</dd>
                 </div>
                 <div>
                   <dt className="text-sm text-gray-500">Employee Number</dt>
-                  <dd className="font-medium">{employee.employee_number}</dd>
+                  <dd className="font-medium text-gray-900">{employee.employee_number}</dd>
                 </div>
                 <div>
                   <dt className="text-sm text-gray-500">Email</dt>
-                  <dd className="font-medium">{employee.email || '-'}</dd>
+                  <dd className="font-medium text-gray-900">{employee.email || '-'}</dd>
                 </div>
                 <div>
                   <dt className="text-sm text-gray-500">Phone</dt>
-                  <dd className="font-medium">{employee.phone || '-'}</dd>
+                  <dd className="font-medium text-gray-900">{employee.phone || '-'}</dd>
                 </div>
                 <div>
                   <dt className="text-sm text-gray-500">Date of Birth</dt>
-                  <dd className="font-medium">
+                  <dd className="font-medium text-gray-900">
                     {employee.date_of_birth ? formatDate(employee.date_of_birth) : '-'}
                   </dd>
                 </div>
                 <div>
                   <dt className="text-sm text-gray-500">Nationality</dt>
-                  <dd className="font-medium">{employee.nationality || '-'}</dd>
+                  <dd className="font-medium text-gray-900">{employee.nationality || '-'}</dd>
                 </div>
               </dl>
             </CardContent>
@@ -103,15 +105,15 @@ export default async function EmployeeDetailPage({
               <dl className="grid gap-4 sm:grid-cols-2">
                 <div>
                   <dt className="text-sm text-gray-500">Position</dt>
-                  <dd className="font-medium">{employee.position}</dd>
+                  <dd className="font-medium text-gray-900">{employee.position}</dd>
                 </div>
                 <div>
                   <dt className="text-sm text-gray-500">Department</dt>
-                  <dd className="font-medium">{employee.department || '-'}</dd>
+                  <dd className="font-medium text-gray-900">{employee.department || '-'}</dd>
                 </div>
                 <div>
                   <dt className="text-sm text-gray-500">Employment Type</dt>
-                  <dd className="font-medium capitalize">{employee.employment_type?.replace('_', ' ')}</dd>
+                  <dd className="font-medium text-gray-900 capitalize">{employee.employment_type?.replace('_', ' ')}</dd>
                 </div>
                 <div>
                   <dt className="text-sm text-gray-500">Status</dt>
@@ -131,11 +133,11 @@ export default async function EmployeeDetailPage({
                 </div>
                 <div>
                   <dt className="text-sm text-gray-500">Start Date</dt>
-                  <dd className="font-medium">{formatDate(employee.start_date)}</dd>
+                  <dd className="font-medium text-gray-900">{formatDate(employee.start_date)}</dd>
                 </div>
                 <div>
                   <dt className="text-sm text-gray-500">Tax Resident</dt>
-                  <dd className="font-medium">{employee.is_resident ? 'Yes' : 'No'}</dd>
+                  <dd className="font-medium text-gray-900">{employee.is_resident ? 'Yes' : 'No'}</dd>
                 </div>
               </dl>
             </CardContent>
@@ -150,11 +152,11 @@ export default async function EmployeeDetailPage({
               <dl className="grid gap-4 sm:grid-cols-2">
                 <div>
                   <dt className="text-sm text-gray-500">Tax ID (TIN)</dt>
-                  <dd className="font-medium font-mono">{employee.tin || '-'}</dd>
+                  <dd className="font-medium font-mono text-gray-900">{employee.tin || '-'}</dd>
                 </div>
                 <div>
                   <dt className="text-sm text-gray-500">INSS Number</dt>
-                  <dd className="font-medium font-mono">{employee.inss_number || '-'}</dd>
+                  <dd className="font-medium font-mono text-gray-900">{employee.inss_number || '-'}</dd>
                 </div>
               </dl>
             </CardContent>
@@ -162,7 +164,7 @@ export default async function EmployeeDetailPage({
         </div>
 
         {/* Sidebar */}
-        <div className="space-y-6">
+        <div className="space-y-4 sm:space-y-6">
           {/* Compensation Summary */}
           <Card>
             <CardHeader>
@@ -180,7 +182,7 @@ export default async function EmployeeDetailPage({
               <div className="space-y-3 text-sm">
                 <div className="flex justify-between">
                   <span className="text-gray-500">Gross Pay</span>
-                  <span className="font-medium">{formatCurrency(payrollSample.grossPay)}</span>
+                  <span className="font-medium text-gray-900">{formatCurrency(payrollSample.grossPay)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-500">WIT Tax ({employee.is_resident ? 'resident' : 'non-resident'})</span>
@@ -192,14 +194,14 @@ export default async function EmployeeDetailPage({
                 </div>
                 <hr className="border-gray-200" />
                 <div className="flex justify-between font-medium">
-                  <span>Net Pay</span>
+                  <span className="text-gray-900">Net Pay</span>
                   <span className="text-green-600">{formatCurrency(payrollSample.netPay)}</span>
                 </div>
               </div>
 
               <div className="mt-4 p-3 bg-gray-50 rounded-lg">
                 <div className="text-xs text-gray-500 mb-1">Employer Cost</div>
-                <div className="font-medium">
+                <div className="font-medium text-gray-900">
                   {formatCurrency(payrollSample.totalEmployerCost)}
                   <span className="text-xs text-gray-500 ml-1">
                     (incl. 6% INSS)

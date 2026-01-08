@@ -1,0 +1,399 @@
+{
+  "common": {
+    "appName": "Timor Payroll",
+    "loading": "Karrega...",
+    "save": "Rai",
+    "cancel": "Kansela",
+    "edit": "Edita",
+    "delete": "Hamoos",
+    "back": "Fila",
+    "submit": "Hatama",
+    "search": "Buka",
+    "filter": "Filtra",
+    "export": "Exporta",
+    "download": "Download",
+    "view": "Haree",
+    "actions": "Asaun",
+    "status": "Estatutu",
+    "active": "Ativu",
+    "inactive": "La Ativu",
+    "pending": "Hein",
+    "approved": "Aprova ona",
+    "rejected": "Rejeita ona",
+    "all": "Hotu",
+    "yes": "Sin",
+    "no": "Lae",
+    "or": "ka",
+    "and": "no",
+    "required": "Presiza",
+    "optional": "Opsional",
+    "noData": "Laiha dadus",
+    "error": "Erru",
+    "success": "Susesu",
+    "warning": "Avizu",
+    "info": "Informasaun"
+  },
+  "nav": {
+    "dashboard": "Pajina Prinsipál",
+    "employees": "Funsionáriu sira",
+    "payroll": "Saláriu",
+    "leave": "Lisensa",
+    "reports": "Relatóriu",
+    "settings": "Konfigurasaun",
+    "logout": "Sai"
+  },
+  "auth": {
+    "login": "Tama",
+    "signup": "Rejista",
+    "logout": "Sai",
+    "email": "Email",
+    "password": "Liafuan-xave",
+    "companyName": "Naran Kompañia",
+    "welcomeBack": "Bem-vindu fila fali",
+    "signInTo": "Tama ba Timor Payroll",
+    "createAccount": "Kria konta",
+    "getStarted": "Hahú ho Timor Payroll",
+    "signingIn": "Tama hela...",
+    "creatingAccount": "Kria konta hela...",
+    "noAccount": "Seidauk iha konta?",
+    "haveAccount": "Iha ona konta?",
+    "continueAsGuest": "Kontinua hanesan Vizitante",
+    "checkEmail": "Haree ita-nia email",
+    "confirmationSent": "Ami haruka ligasaun konfirmasaun ba",
+    "backToLogin": "Fila ba tama",
+    "minPassword": "Mínumu karakter 6",
+    "emailPlaceholder": "ita@kompania.com",
+    "passwordPlaceholder": "Hatama ita-nia liafuan-xave",
+    "companyPlaceholder": "Ita-nia Kompañia Lda"
+  },
+  "dashboard": {
+    "title": "Pajina Prinsipál",
+    "welcome": "Bem-vindu ba Timor Payroll",
+    "overview": "Vizaun jerál kona-ba operasaun saláriu",
+    "quickActions": "Asaun Lalais",
+    "recentActivity": "Atividade Foin Lalais",
+    "upcomingDeadlines": "Prazu sira mai hela",
+    "totalEmployees": "Total Funsionáriu",
+    "activeEmployees": "Funsionáriu Ativu",
+    "monthlyPayroll": "Saláriu Fulan-fulan",
+    "pendingApprovals": "Aprovasaun Hein hela",
+    "addEmployee": "Aumenta Funsionáriu",
+    "runPayroll": "Prosesu Saláriu",
+    "witFiling": "Relatóriu WIT Fulan-fulan",
+    "inssFiling": "Relatóriu INSS Fulan-fulan",
+    "dueBy": "Prazu: {date}",
+    "viewAll": "Haree Hotu"
+  },
+  "employees": {
+    "title": "Funsionáriu sira",
+    "subtitle": "Jere ita-nia funsionáriu",
+    "addEmployee": "Aumenta Funsionáriu",
+    "editEmployee": "Edita Funsionáriu",
+    "employeeDetails": "Detallus Funsionáriu",
+    "searchPlaceholder": "Buka funsionáriu...",
+    "noEmployees": "Laiha funsionáriu",
+    "addFirst": "Aumenta ita-nia funsionáriu primeiru atu hahú",
+    "totalEmployees": "Funsionáriu {count}",
+    "personal": {
+      "title": "Informasaun Pessoál",
+      "firstName": "Naran Primeiru",
+      "lastName": "Apelidu",
+      "fullName": "Naran Kompletu",
+      "email": "Email",
+      "phone": "Telefone",
+      "dateOfBirth": "Data Moris",
+      "gender": "Jéneru",
+      "male": "Mane",
+      "female": "Feto",
+      "other": "Seluk",
+      "nationality": "Nasionalidade",
+      "address": "Enderesu",
+      "timorese": "Timor-oan"
+    },
+    "employment": {
+      "title": "Informasaun Servisu",
+      "employeeNumber": "Númeru Funsionáriu",
+      "position": "Kargo",
+      "department": "Departamentu",
+      "employmentType": "Tipu Servisu",
+      "fullTime": "Tempu Tomak",
+      "partTime": "Tempu Parsiál",
+      "contract": "Kontratu",
+      "startDate": "Data Hahú",
+      "endDate": "Data Remata",
+      "status": "Estatutu",
+      "active": "Ativu",
+      "inactive": "La Ativu",
+      "terminated": "Termina ona"
+    },
+    "compensation": {
+      "title": "Remunerasaun",
+      "baseSalary": "Saláriu Báziku",
+      "monthlySalary": "Saláriu Fulan-fulan",
+      "annualSalary": "Saláriu Anuál",
+      "currency": "Moeda",
+      "minimumWage": "Mínumu: ${amount}",
+      "belowMinimum": "Kraik liu saláriu mínimu (${amount})"
+    },
+    "tax": {
+      "title": "Informasaun Taxa",
+      "tin": "Númeru Identifikasaun Taxa (TIN)",
+      "inssNumber": "Númeru INSS",
+      "isResident": "Residente Taxa",
+      "residentHelp": "Residente Taxa (183+ loron/tinan iha Timor-Leste)",
+      "residentBenefit": "Residente taxa hetan isensaun $500/fulan. La residente selu 10% ba saláriu hotu."
+    },
+    "govIds": {
+      "title": "ID Governu nian",
+      "tinPlaceholder": "Númeru Identifikasaun Taxa",
+      "inssPlaceholder": "Númeru Seguransa Sosiál"
+    }
+  },
+  "payroll": {
+    "title": "Saláriu",
+    "subtitle": "Jere pagamentu saláriu",
+    "runPayroll": "Prosesu Saláriu",
+    "newPayroll": "Prosesu Saláriu Foun",
+    "payrollHistory": "Istória Saláriu",
+    "noPayrolls": "Seidauk iha prosesu saláriu",
+    "createFirst": "Prosesu ita-nia saláriu primeiru atu hahú",
+    "period": "Períodu Pagamentu",
+    "periodStart": "Períodu Hahú",
+    "periodEnd": "Períodu Remata",
+    "payDate": "Data Pagamentu",
+    "status": {
+      "draft": "Raskuñu",
+      "processing": "Prosesa hela",
+      "completed": "Kompleta ona",
+      "cancelled": "Kansela ona"
+    },
+    "calculation": {
+      "title": "Kalkulasaun Saláriu",
+      "baseSalary": "Saláriu Báziku",
+      "overtime": "Oras Extra",
+      "overtimeRegular": "OE (Normál)",
+      "overtimeHoliday": "OE (Feriadu)",
+      "allowances": "Subsídiu",
+      "bonuses": "Bónus",
+      "grossPay": "Saláriu Brutu",
+      "deductions": "Deskonta",
+      "taxWithheld": "Taxa Retén",
+      "inssEmployee": "INSS (Funsionáriu)",
+      "inssEmployer": "INSS (Empregadór)",
+      "totalDeductions": "Total Deskonta",
+      "netPay": "Saláriu Líkuidu"
+    },
+    "summary": {
+      "title": "Sumáriu",
+      "totalGross": "Total Brutu",
+      "totalTax": "Total Taxa WIT",
+      "totalInssEmployee": "INSS (Funsionáriu)",
+      "totalInssEmployer": "INSS (Empregadór)",
+      "totalNet": "Total Saláriu Líkuidu",
+      "employeeCount": "Funsionáriu {count}"
+    },
+    "actions": {
+      "process": "Prosesu Saláriu",
+      "approve": "Aprova",
+      "reject": "Rejeita",
+      "viewPayslip": "Haree Recibo",
+      "downloadPayslip": "Download Recibo",
+      "createRun": "Kria Prosesu Saláriu"
+    },
+    "payslip": {
+      "title": "Recibo Saláriu",
+      "earnings": "Rendimentu",
+      "deductions": "Deskonta",
+      "employerContributions": "Kontribuisaun Empregadór",
+      "generatedOn": "Kria iha {date}"
+    }
+  },
+  "leave": {
+    "title": "Jestaun Lisensa",
+    "subtitle": "Akompaña pedidu lisensa funsionáriu",
+    "newRequest": "Pedidu Foun",
+    "requestLeave": "Husu Lisensa",
+    "leaveHistory": "Istória Lisensa",
+    "noRequests": "Laiha pedidu lisensa",
+    "balance": "Balansu Lisensa",
+    "types": {
+      "annual": "Lisensa Anuál",
+      "sick": "Lisensa Moras",
+      "personal": "Lisensa Pessoál",
+      "maternity": "Lisensa Maternidade",
+      "paternity": "Lisensa Paternidade",
+      "unpaid": "Lisensa La Selu"
+    },
+    "descriptions": {
+      "annual": "Loron 12 kada tinan",
+      "sick": "Toó loron 30 ho sertifikadu",
+      "personal": "Ba asuntu pessoál",
+      "maternity": "Semana 12 ho pagamentu",
+      "paternity": "Loron 5 ho pagamentu",
+      "unpaid": "La iha pagamentu durante lisensa"
+    },
+    "form": {
+      "employee": "Funsionáriu",
+      "selectEmployee": "Hili funsionáriu",
+      "leaveType": "Tipu Lisensa",
+      "startDate": "Data Hahú",
+      "endDate": "Data Remata",
+      "reason": "Razaun",
+      "reasonPlaceholder": "Fó detallus adisionál kona-ba pedidu lisensa...",
+      "daysRequested": "Loron Servisu Husu",
+      "days": "Loron {count}"
+    },
+    "status": {
+      "pending": "Hein",
+      "approved": "Aprova ona",
+      "rejected": "Rejeita ona",
+      "cancelled": "Kansela ona"
+    },
+    "actions": {
+      "approve": "Aprova",
+      "reject": "Rejeita",
+      "cancel": "Kansela Pedidu"
+    },
+    "stats": {
+      "total": "Total Pedidu",
+      "pending": "Hein",
+      "approved": "Aprova ona",
+      "rejected": "Rejeita ona"
+    },
+    "entitlements": {
+      "title": "Direitu Lisensa Timor-Leste",
+      "annualLeave": "Lisensa Anuál",
+      "annualLeaveDesc": "Loron servisu 12 hafoin tinan ida servisu",
+      "sickLeave": "Lisensa Moras",
+      "sickLeaveDesc": "Toó loron 30 kada tinan ho sertifikadu médiku",
+      "maternityLeave": "Lisensa Maternidade",
+      "maternityLeaveDesc": "Semana 12 (loron servisu 60) ho pagamentu",
+      "paternityLeave": "Lisensa Paternidade",
+      "paternityLeaveDesc": "Loron servisu 5 ho pagamentu"
+    }
+  },
+  "reports": {
+    "title": "Relatóriu",
+    "subtitle": "Kria relatóriu saláriu no kumprimentu",
+    "generate": "Kria Relatóriu",
+    "exportCsv": "Exporta CSV",
+    "selectType": "Tipu Relatóriu",
+    "selectPeriod": "Períodu",
+    "types": {
+      "payroll": "Sumáriu Saláriu",
+      "payrollDesc": "Detallus saláriu fulan-fulan",
+      "wit": "Relatóriu Taxa WIT",
+      "witDesc": "Detallus taxa retén",
+      "inss": "Relatóriu INSS",
+      "inssDesc": "Kontribuisaun seguransa sosiál",
+      "employees": "Lista Funsionáriu",
+      "employeesDesc": "Detallus funsionáriu hotu"
+    },
+    "payroll": {
+      "title": "Detallus Saláriu",
+      "totalGross": "Total Saláriu Brutu",
+      "totalDeductions": "Total Deskonta",
+      "totalNet": "Total Saláriu Líkuidu"
+    },
+    "wit": {
+      "title": "Detallus Taxa WIT",
+      "totalWages": "Total Saláriu",
+      "totalTax": "Total WIT (10%)",
+      "filingDeadline": "Prazu Relatóriu",
+      "resident": "Residente"
+    },
+    "inss": {
+      "title": "Detallus INSS",
+      "employeeRate": "Funsionáriu (4%)",
+      "employerRate": "Empregadór (6%)",
+      "totalDue": "Total INSS Tenke Selu"
+    },
+    "employeeList": {
+      "title": "Diretóriu Funsionáriu",
+      "totalEmployees": "Total Funsionáriu",
+      "activeInactive": "Ativu / La Ativu",
+      "avgSalary": "Saláriu Médiu"
+    }
+  },
+  "settings": {
+    "title": "Konfigurasaun",
+    "subtitle": "Jere ita-nia organizasaun no preferénsia",
+    "saveChanges": "Rai Mudansa",
+    "saving": "Rai hela...",
+    "savedSuccess": "Konfigurasaun rai ona ho susesu",
+    "organization": {
+      "title": "Detallus Organizasaun",
+      "subtitle": "Informasaun báziku kona-ba ita-nia organizasaun",
+      "name": "Naran Organizasaun",
+      "namePlaceholder": "Naran Ita-nia Kompañia",
+      "tin": "Númeru Identifikasaun Taxa (TIN)",
+      "tinPlaceholder": "Hatama TIN",
+      "address": "Enderesu",
+      "addressPlaceholder": "Hatama enderesu negósiu"
+    },
+    "payroll": {
+      "title": "Konfigurasaun Saláriu",
+      "subtitle": "Konfigura preferénsia saláriu",
+      "currency": "Moeda Default",
+      "currencyNote": "Timor-Leste uza USD hanesan moeda ofisiál",
+      "fiscalYear": "Fulan Hahú Tinan Fiskál"
+    },
+    "inss": {
+      "title": "Kumprimentu INSS",
+      "subtitle": "Konfigurasaun kontribuisaun seguransa sosiál",
+      "timoresePercentage": "Persentajen Funsionáriu Timor-oan",
+      "qualificationNote": "Organizasaun ho 80%+ funsionáriu Timor-oan hetan redusaun kontribuisaun INSS",
+      "qualifies": "Kualifika ba Redusaun INSS",
+      "qualifiesDesc": "Ita-nia organizasaun kualifika ba taxa kontribuisaun empregadór ne'ebé menus",
+      "standard": "Taxa INSS Normál Aplika",
+      "standardDesc": "Presiza tan {percent}% funsionáriu Timor-oan atu kualifika",
+      "employeeRate": "Taxa Funsionáriu",
+      "employerRate": "Taxa Empregadór"
+    },
+    "compliance": {
+      "title": "Kalendáriu Kumprimentu",
+      "subtitle": "Prazu importante sira",
+      "witMonthly": "Relatóriu WIT Fulan-fulan",
+      "witDesc": "Taxa retén rendimentu",
+      "inssMonthly": "Relatóriu INSS Fulan-fulan",
+      "inssDesc": "Kontribuisaun seguransa sosiál",
+      "annualTax": "Relatóriu Taxa Anuál",
+      "annualTaxDesc": "Taxa rendimentu kompañia",
+      "employeeDeclarations": "Deklarasaun Funsionáriu",
+      "employeeDeclarationsDesc": "Relatóriu saláriu anuál",
+      "ofEachMonth": "kada fulan",
+      "annually": "kada tinan"
+    },
+    "reference": {
+      "title": "Referénsia Kumprimentu Saláriu Timor-Leste",
+      "subtitle": "Rekizitu legál importante ba prosesu saláriu",
+      "minimumWage": "Saláriu Mínimu",
+      "minimumWageNote": "Taxa setór governu",
+      "witRate": "Taxa WIT",
+      "witRateNote": "Ba saláriu liu $500",
+      "overtimeRate": "Taxa Oras Extra",
+      "overtimeRateNote": "Oras extra normál; +100% feriadu",
+      "annualLeave": "Lisensa Anuál",
+      "annualLeaveNote": "Hafoin tinan ida servisu"
+    }
+  },
+  "months": {
+    "january": "Janeiru",
+    "february": "Fevereiru",
+    "march": "Marsu",
+    "april": "Abríl",
+    "may": "Maiu",
+    "june": "Juñu",
+    "july": "Jullu",
+    "august": "Agostu",
+    "september": "Setembru",
+    "october": "Outubru",
+    "november": "Novembru",
+    "december": "Dezembru"
+  },
+  "language": {
+    "select": "Lian",
+    "en": "Inglés",
+    "tet": "Tetum"
+  }
+}

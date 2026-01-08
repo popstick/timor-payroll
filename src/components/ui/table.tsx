@@ -4,9 +4,9 @@ interface TableProps extends React.HTMLAttributes<HTMLTableElement> {}
 
 export function Table({ className, ...props }: TableProps) {
   return (
-    <div className="relative w-full overflow-auto">
+    <div className="relative w-full overflow-auto -mx-4 sm:mx-0 px-4 sm:px-0">
       <table
-        className={cn('w-full caption-bottom text-sm', className)}
+        className={cn('w-full caption-bottom text-xs sm:text-sm', className)}
         {...props}
       />
     </div>
@@ -37,7 +37,7 @@ export function TableHead({ className, ...props }: React.ThHTMLAttributes<HTMLTa
   return (
     <th
       className={cn(
-        'h-10 px-4 text-left align-middle font-medium text-gray-500 [&:has([role=checkbox])]:pr-0',
+        'h-9 sm:h-10 px-2 sm:px-4 text-left align-middle font-medium text-gray-500 [&:has([role=checkbox])]:pr-0 whitespace-nowrap',
         className
       )}
       {...props}
@@ -48,7 +48,7 @@ export function TableHead({ className, ...props }: React.ThHTMLAttributes<HTMLTa
 export function TableCell({ className, ...props }: React.TdHTMLAttributes<HTMLTableCellElement>) {
   return (
     <td
-      className={cn('p-4 align-middle [&:has([role=checkbox])]:pr-0', className)}
+      className={cn('p-2 sm:p-4 align-middle text-gray-700 [&:has([role=checkbox])]:pr-0', className)}
       {...props}
     />
   );

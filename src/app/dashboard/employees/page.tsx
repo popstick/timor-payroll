@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Plus, Search } from 'lucide-react';
+import { getTranslations } from 'next-intl/server';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -8,6 +9,8 @@ import { formatCurrency } from '@/lib/utils';
 
 export default async function EmployeesPage() {
   const supabase = await createClient();
+  const t = await getTranslations('employees');
+  const tCommon = await getTranslations('common');
 
   const { data: employees, error } = await supabase
     .from('employees')
@@ -15,40 +18,38 @@ export default async function EmployeesPage() {
     .order('created_at', { ascending: false });
 
   return (
-    <div className="p-8">
-      <div className="flex justify-between items-center mb-8">
+    <div className="p-4 sm:p-6 lg:p-8">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6 sm:mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Employees</h1>
-          <p className="text-gray-500">Manage your workforce</p>
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">{t('title')}</h1>
+          <p className="text-sm sm:text-base text-gray-500">{t('subtitle')}</p>
         </div>
-        <Link href="/dashboard/employees/new">
-          <Button>
+        <Link href="/dashboard/employees/new" className="w-full sm:w-auto">
+          <Button className="w-full sm:w-auto">
             <Plus className="h-4 w-4 mr-2" />
-            Add Employee
+            {t('addEmployee')}
           </Button>
         </Link>
       </div>
 
       <Card>
         <CardHeader>
-          <div className="flex items-center justify-between">
-            <CardTitle>All Employees</CardTitle>
-            <div className="flex items-center gap-2">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                <input
-                  type="text"
-                  placeholder="Search employees..."
-                  className="pl-9 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <CardTitle>{tCommon('all')} {t('title')}</CardTitle>
+            <div className="relative w-full sm:w-auto">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <input
+                type="text"
+                placeholder={t('searchPlaceholder')}
+                className="w-full sm:w-64 pl-9 pr-4 py-2 border border-gray-300 rounded-lg text-sm bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
             </div>
           </div>
         </CardHeader>
         <CardContent>
           {error && (
             <div className="text-red-500 p-4">
-              Error loading employees: {error.message}
+              {tCommon('error')}: {error.message}
             </div>
           )}
 
@@ -69,12 +70,12 @@ export default async function EmployeesPage() {
                   />
                 </svg>
               </div>
-              <h3 className="text-lg font-medium text-gray-900 mb-1">No employees yet</h3>
-              <p className="text-gray-500 mb-4">Get started by adding your first employee.</p>
+              <h3 className="text-lg font-medium text-gray-900 mb-1">{t('noEmployees')}</h3>
+              <p className="text-gray-500 mb-4">{t('addFirst')}</p>
               <Link href="/dashboard/employees/new">
                 <Button>
                   <Plus className="h-4 w-4 mr-2" />
-                  Add Employee
+                  {t('addEmployee')}
                 </Button>
               </Link>
             </div>
@@ -84,12 +85,12 @@ export default async function EmployeesPage() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Employee</TableHead>
-                  <TableHead>Position</TableHead>
-                  <TableHead>Department</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Salary</TableHead>
-                  <TableHead>Actions</TableHead>
+                  <TableHead>{t('personal.fullName')}</TableHead>
+                  <TableHead>{t('employment.position')}</TableHead>
+                  <TableHead>{t('employment.department')}</TableHead>
+                  <TableHead>{tCommon('status')}</TableHead>
+                  <TableHead>{t('compensation.baseSalary')}</TableHead>
+                  <TableHead>{tCommon('actions')}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -97,7 +98,7 @@ export default async function EmployeesPage() {
                   <TableRow key={employee.id}>
                     <TableCell>
                       <div>
-                        <div className="font-medium">
+                        <div className="font-medium text-gray-900">
                           {employee.first_name} {employee.last_name}
                         </div>
                         <div className="text-sm text-gray-500">
@@ -117,7 +118,9 @@ export default async function EmployeesPage() {
                             : 'bg-red-100 text-red-800'
                         }`}
                       >
-                        {employee.status}
+                        {employee.status === 'active' ? t('employment.active') :
+                         employee.status === 'inactive' ? t('employment.inactive') :
+                         t('employment.terminated')}
                       </span>
                     </TableCell>
                     <TableCell>{formatCurrency(employee.base_salary)}</TableCell>
@@ -126,7 +129,7 @@ export default async function EmployeesPage() {
                         href={`/dashboard/employees/${employee.id}`}
                         className="text-blue-600 hover:text-blue-800 text-sm font-medium"
                       >
-                        View
+                        {tCommon('view')}
                       </Link>
                     </TableCell>
                   </TableRow>
