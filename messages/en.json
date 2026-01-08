@@ -269,6 +269,7 @@
       "viewPayslip": "View Payslip",
       "downloadPayslip": "Download Payslip",
       "printAllPayslips": "Print All Payslips",
+      "downloadAllPayslips": "Download All Payslips",
       "createRun": "Create Payroll Run"
     },
     "payslip": {

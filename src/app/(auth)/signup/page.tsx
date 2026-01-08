@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { DollarSign, Mail, Lock, Building, Loader2, Check } from 'lucide-react';
@@ -11,7 +10,6 @@ import { createClient } from '@/lib/supabase/client';
 import { LanguageSwitcher } from '@/components/language-switcher';
 
 export default function SignupPage() {
-  const router = useRouter();
   const supabase = createClient();
   const t = useTranslations('auth');
 
@@ -29,7 +27,7 @@ export default function SignupPage() {
 
     try {
       // Sign up the user
-      const { data: authData, error: signUpError } = await supabase.auth.signUp({
+      const { error: signUpError } = await supabase.auth.signUp({
         email,
         password,
         options: {
@@ -41,22 +39,9 @@ export default function SignupPage() {
 
       if (signUpError) throw signUpError;
 
-      // Create organization for this user
-      if (authData.user) {
-        const { error: orgError } = await supabase
-          .from('organizations')
-          .insert({
-            name: companyName,
-          });
-
-        if (orgError) {
-          console.error('Failed to create organization:', orgError);
-        }
-      }
-
       setSuccess(true);
-    } catch (err: any) {
-      setError(err.message || 'Failed to sign up');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to sign up');
     } finally {
       setLoading(false);
     }

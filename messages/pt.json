@@ -269,6 +269,7 @@
       "viewPayslip": "Ver Recibo",
       "downloadPayslip": "Descarregar Recibo",
       "printAllPayslips": "Imprimir Todos os Recibos",
+      "downloadAllPayslips": "Descarregar Todos os Recibos",
       "createRun": "Criar Processamento"
     },
     "payslip": {

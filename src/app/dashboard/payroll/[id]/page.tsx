@@ -1,12 +1,13 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, Download, CheckCircle, Clock, FileText, Printer } from 'lucide-react';
+import { ArrowLeft, Download, CheckCircle, Clock, FileText } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { createClient } from '@/lib/supabase/server';
 import { formatCurrency, formatDate } from '@/lib/utils';
 import { getLocale, getTranslations } from 'next-intl/server';
+import type { Employee, PayrollItem } from '@/types/supabase';
 
 export default async function PayrollDetailPage({
   params,
@@ -51,7 +52,15 @@ export default async function PayrollDetailPage({
         inss_number
       )
     `)
-    .eq('payroll_run_id', id);
+    .eq('payroll_run_id', id)
+    .returns<
+      (PayrollItem & {
+        employees: Pick<
+          Employee,
+          'id' | 'first_name' | 'last_name' | 'employee_number' | 'position' | 'tin' | 'inss_number'
+        > | null;
+      })[]
+    >();
 
   const statusColors = {
     draft: 'bg-gray-100 text-gray-800',
@@ -66,6 +75,10 @@ export default async function PayrollDetailPage({
     approved: <CheckCircle className="h-4 w-4" />,
     paid: <CheckCircle className="h-4 w-4" />,
   };
+
+  type PayrollStatus = keyof typeof statusColors;
+  const status: PayrollStatus = (payrollRun.status as PayrollStatus) || 'draft';
+  const statusLabelKey = `status.${status}` as `status.${PayrollStatus}`;
 
   const periodEnd = new Date(payrollRun.period_end);
   const filingDeadline = new Date(periodEnd.getFullYear(), periodEnd.getMonth() + 1, 15);
@@ -87,11 +100,11 @@ export default async function PayrollDetailPage({
             <div className="flex items-center gap-2 mt-1">
               <span
                 className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                  statusColors[payrollRun.status as keyof typeof statusColors] || statusColors.draft
+                  statusColors[status] || statusColors.draft
                 }`}
               >
-                {statusIcons[payrollRun.status as keyof typeof statusIcons]}
-                {tPayroll(`status.${payrollRun.status}` as any)}
+                {statusIcons[status]}
+                {tPayroll(statusLabelKey)}
               </span>
               <span className="text-gray-500">•</span>
               <span className="text-gray-500">{tPayroll('payDate')}: {formatDate(payrollRun.pay_date)}</span>
@@ -99,10 +112,10 @@ export default async function PayrollDetailPage({
           </div>
         </div>
         <div className="flex gap-2">
-          <Link href={`/api/payroll/${id}/payslips?lang=${locale}`} prefetch={false}>
+          <Link href={`/api/payroll/${id}/payslips?lang=${locale}&signed=1`} prefetch={false}>
             <Button variant="outline">
-              <Printer className="h-4 w-4 mr-2" />
-              {tPayrollActions('printAllPayslips')}
+              <Download className="h-4 w-4 mr-2" />
+              {tPayrollActions('downloadAllPayslips')}
             </Button>
           </Link>
           <Button variant="outline">
@@ -183,7 +196,7 @@ export default async function PayrollDetailPage({
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {payrollItems.map((item: any) => (
+                {payrollItems.map((item) => (
                   <TableRow key={item.id}>
                     <TableCell>
                       <div className="font-medium">
@@ -209,13 +222,23 @@ export default async function PayrollDetailPage({
                       {formatCurrency(item.net_pay)}
                     </TableCell>
                     <TableCell>
-                      <Link
-                        href={`/dashboard/payroll/${id}/payslip/${item.employee_id}`}
-                        className="text-blue-600 hover:text-blue-800 text-sm font-medium inline-flex items-center gap-1"
-                      >
-                        <FileText className="h-3 w-3" />
-                        {tPayroll('payslip.title')}
-                      </Link>
+                      <div className="flex items-center gap-3">
+                        <Link
+                          href={`/dashboard/payroll/${id}/payslip/${item.employee_id}`}
+                          className="text-blue-600 hover:text-blue-800 text-sm font-medium inline-flex items-center gap-1"
+                        >
+                          <FileText className="h-3 w-3" />
+                          {tPayrollActions('viewPayslip')}
+                        </Link>
+                        <Link
+                          href={`/api/payroll/${id}/payslip/${item.employee_id}?lang=${locale}&signed=1`}
+                          prefetch={false}
+                          className="text-gray-600 hover:text-gray-900 text-sm font-medium inline-flex items-center gap-1"
+                        >
+                          <Download className="h-3 w-3" />
+                          {tPayrollActions('downloadPayslip')}
+                        </Link>
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))}

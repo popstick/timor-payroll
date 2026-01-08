@@ -159,6 +159,7 @@ interface PayslipPDFProps {
     gross_pay: number;
     tax_withheld?: number | null;
     inss_employee?: number | null;
+    inss_employer?: number | null;
     other_deductions?: number | null;
     total_deductions?: number | null;
     net_pay: number;
@@ -200,6 +201,8 @@ const translations = {
     inss: 'INSS Contribution (4%)',
     otherDeductions: 'Other Deductions',
     totalDeductions: 'Total Deductions',
+    employerContributions: 'Employer Contributions',
+    inssEmployer: 'INSS Contribution (6%)',
     netPay: 'NET PAY',
     footer1: 'This is a computer-generated document.',
     footer2: 'Tax calculated as per Timor-Leste regulations (10% above $500 for residents).',
@@ -228,6 +231,8 @@ const translations = {
     inss: 'Contribuição INSS (4%)',
     otherDeductions: 'Outras Deduções',
     totalDeductions: 'Total Deduções',
+    employerContributions: 'Contribuições do Empregador',
+    inssEmployer: 'Contribuição INSS (6%)',
     netPay: 'SALÁRIO LÍQUIDO',
     footer1: 'Este é um documento gerado por computador.',
     footer2: 'Imposto calculado conforme regulamentos de Timor-Leste (10% acima de $500 para residentes).',
@@ -256,6 +261,8 @@ const translations = {
     inss: 'Kontribuisaun INSS (4%)',
     otherDeductions: 'Dedusaun Seluk',
     totalDeductions: 'Total Dedusaun',
+    employerContributions: 'Kontribuisaun Empregadór',
+    inssEmployer: 'Kontribuisaun INSS (6%)',
     netPay: 'SALÁRIU LÍKIDU',
     footer1: 'Ida ne\'e dokumentu ne\'ebé komputador kria.',
     footer2: 'Impostu kalkula tuir regulamentu Timor-Leste (10% liu $500 ba residente).',
@@ -264,7 +271,7 @@ const translations = {
 };
 
 function formatCurrency(amount: number): string {
-  return `$${amount.toFixed(2)}`;
+  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
 }
 
 function formatDate(date: string): string {
@@ -391,6 +398,16 @@ export function PayslipPDF({
             <Text style={styles.valueDeduction}>-{formatCurrency(payrollItem.total_deductions || 0)}</Text>
           </View>
         </View>
+
+        {(payrollItem.inss_employer || 0) > 0 && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>{t.employerContributions}</Text>
+            <View style={styles.row}>
+              <Text style={styles.label}>{t.inssEmployer}</Text>
+              <Text style={styles.value}>{formatCurrency(payrollItem.inss_employer || 0)}</Text>
+            </View>
+          </View>
+        )}
 
         {/* Net Pay */}
         <View style={styles.netPayBox}>

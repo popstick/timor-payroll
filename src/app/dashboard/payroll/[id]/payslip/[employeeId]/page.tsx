@@ -494,6 +494,7 @@ function PayslipDownloadButton({
           gross_pay: payrollItem.gross_pay,
           tax_withheld: payrollItem.tax_withheld,
           inss_employee: payrollItem.inss_employee,
+          inss_employer: payrollItem.inss_employer,
           other_deductions: payrollItem.other_deductions,
           total_deductions: payrollItem.total_deductions,
           net_pay: payrollItem.net_pay,

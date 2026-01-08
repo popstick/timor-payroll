@@ -15,9 +15,7 @@ export async function middleware(request: NextRequest) {
           return request.cookies.getAll();
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) =>
-            request.cookies.set(name, value)
-          );
+          cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
           supabaseResponse = NextResponse.next({
             request,
           });
@@ -34,24 +32,28 @@ export async function middleware(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // For now, allow guest access to all routes
-  // In production, uncomment below to require authentication
+  const pathname = request.nextUrl.pathname;
+  const isDashboardRoute = pathname.startsWith('/dashboard');
+  const isPayrollApiRoute = pathname.startsWith('/api/payroll');
+  const isAuthRoute = pathname.startsWith('/login') || pathname.startsWith('/signup');
 
-  // const isProtectedRoute = request.nextUrl.pathname.startsWith('/dashboard');
-  // const isAuthRoute = request.nextUrl.pathname.startsWith('/login') ||
-  //                     request.nextUrl.pathname.startsWith('/signup');
+  if ((isDashboardRoute || isPayrollApiRoute) && !user) {
+    if (isPayrollApiRoute) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
 
-  // if (isProtectedRoute && !user) {
-  //   const url = request.nextUrl.clone();
-  //   url.pathname = '/login';
-  //   return NextResponse.redirect(url);
-  // }
+    const url = request.nextUrl.clone();
+    url.pathname = '/login';
+    url.searchParams.set('redirectTo', pathname);
+    return NextResponse.redirect(url);
+  }
 
-  // if (isAuthRoute && user) {
-  //   const url = request.nextUrl.clone();
-  //   url.pathname = '/dashboard';
-  //   return NextResponse.redirect(url);
-  // }
+  if (isAuthRoute && user) {
+    const url = request.nextUrl.clone();
+    url.pathname = '/dashboard';
+    url.searchParams.delete('redirectTo');
+    return NextResponse.redirect(url);
+  }
 
   return supabaseResponse;
 }

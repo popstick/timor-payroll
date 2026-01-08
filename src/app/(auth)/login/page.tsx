@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { DollarSign, Mail, Lock, Loader2 } from 'lucide-react';
@@ -12,9 +12,9 @@ import { LanguageSwitcher } from '@/components/language-switcher';
 
 export default function LoginPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const supabase = createClient();
   const t = useTranslations('auth');
-  const tCommon = useTranslations('common');
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -34,10 +34,11 @@ export default function LoginPage() {
 
       if (signInError) throw signInError;
 
-      router.push('/dashboard');
+      const redirectTo = searchParams.get('redirectTo') || '/dashboard';
+      router.push(redirectTo);
       router.refresh();
-    } catch (err: any) {
-      setError(err.message || 'Failed to sign in');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to sign in');
     } finally {
       setLoading(false);
     }
@@ -107,27 +108,6 @@ export default function LoginPage() {
               )}
             </Button>
           </form>
-
-          <div className="relative my-6">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-200"></div>
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">{tCommon('or')}</span>
-            </div>
-          </div>
-
-          <Button
-            type="button"
-            variant="outline"
-            className="w-full"
-            onClick={async () => {
-              setLoading(true);
-              router.push('/dashboard');
-            }}
-          >
-            {t('continueAsGuest')}
-          </Button>
 
           <div className="mt-6 text-center text-sm">
             <span className="text-gray-500">{t('noAccount')} </span>

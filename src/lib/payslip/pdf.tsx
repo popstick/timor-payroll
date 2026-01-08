@@ -37,9 +37,28 @@ export interface PayslipPayrollItem {
   gross_pay: number;
   tax_withheld?: number | null;
   inss_employee?: number | null;
+  inss_employer?: number | null;
   other_deductions?: number | null;
   total_deductions?: number | null;
   net_pay: number;
+}
+
+export interface PayslipLeaveBalances {
+  annualLeaveRemaining?: number | null;
+  annualLeaveEntitled?: number | null;
+  annualLeaveTaken?: number | null;
+  sickLeaveEntitled?: number | null;
+  sickLeaveTaken?: number | null;
+  personalLeaveEntitled?: number | null;
+  personalLeaveTaken?: number | null;
+}
+
+export interface PayslipYtdSummary {
+  gross: number;
+  tax: number;
+  inssEmployee: number;
+  inssEmployer: number;
+  net: number;
 }
 
 export interface PayslipOrganization {
@@ -59,6 +78,8 @@ export interface PayslipPDFInput {
   payrollItem: PayslipPayrollItem;
   organization: PayslipOrganization;
   payPeriod: PayslipPayPeriod;
+  leaveBalances?: PayslipLeaveBalances;
+  ytd?: PayslipYtdSummary;
 }
 
 const styles = StyleSheet.create({
@@ -208,8 +229,21 @@ const translations: Record<PayslipLanguage, Record<string, string>> = {
     deductions: 'Deductions',
     witTax: 'Wage Income Tax (WIT)',
     inss: 'INSS Contribution (4%)',
+    employerContributions: 'Employer Contributions',
+    inssEmployer: 'INSS Contribution (6%)',
     otherDeductions: 'Other Deductions',
     totalDeductions: 'Total Deductions',
+    leave: 'Leave',
+    leaveBalance: 'Leave Balance',
+    annualLeave: 'Annual Leave',
+    sickLeave: 'Sick Leave',
+    personalLeave: 'Personal Leave',
+    ytd: 'Year-to-Date (YTD)',
+    ytdGross: 'YTD Gross Pay',
+    ytdTax: 'YTD WIT',
+    ytdInssEmployee: 'YTD INSS (Employee)',
+    ytdInssEmployer: 'YTD INSS (Employer)',
+    ytdNet: 'YTD Net Pay',
     netPay: 'NET PAY',
     footer1: 'This is a computer-generated document.',
     footer2: 'Tax calculated as per Timor-Leste regulations (10% above $500 for residents).',
@@ -236,8 +270,21 @@ const translations: Record<PayslipLanguage, Record<string, string>> = {
     deductions: 'Deduções',
     witTax: 'Imposto sobre Salários (WIT)',
     inss: 'Contribuição INSS (4%)',
+    employerContributions: 'Contribuições do Empregador',
+    inssEmployer: 'Contribuição INSS (6%)',
     otherDeductions: 'Outras Deduções',
     totalDeductions: 'Total Deduções',
+    leave: 'Férias',
+    leaveBalance: 'Saldo de Férias',
+    annualLeave: 'Férias Anuais',
+    sickLeave: 'Baixa Médica',
+    personalLeave: 'Licença Pessoal',
+    ytd: 'Acumulado no Ano (YTD)',
+    ytdGross: 'Bruto Acumulado',
+    ytdTax: 'WIT Acumulado',
+    ytdInssEmployee: 'INSS Acumulado (Funcionário)',
+    ytdInssEmployer: 'INSS Acumulado (Empregador)',
+    ytdNet: 'Líquido Acumulado',
     netPay: 'SALÁRIO LÍQUIDO',
     footer1: 'Este é um documento gerado por computador.',
     footer2: 'Imposto calculado conforme regulamentos de Timor-Leste (10% acima de $500 para residentes).',
@@ -264,8 +311,21 @@ const translations: Record<PayslipLanguage, Record<string, string>> = {
     deductions: 'Dedusaun',
     witTax: 'Impostu ba Saláriu (WIT)',
     inss: 'Kontribuisaun INSS (4%)',
+    employerContributions: 'Kontribuisaun Empregadór',
+    inssEmployer: 'Kontribuisaun INSS (6%)',
     otherDeductions: 'Dedusaun Seluk',
     totalDeductions: 'Total Dedusaun',
+    leave: 'Lisensa',
+    leaveBalance: 'Saldo Lisensa',
+    annualLeave: 'Férias Anuál',
+    sickLeave: 'Lisensa Moras',
+    personalLeave: 'Lisensa Pessoál',
+    ytd: 'Akumuladu Tinan Ida (YTD)',
+    ytdGross: 'Brutu Akumuladu',
+    ytdTax: 'WIT Akumuladu',
+    ytdInssEmployee: 'INSS Akumuladu (Funsionáriu)',
+    ytdInssEmployer: 'INSS Akumuladu (Empregadór)',
+    ytdNet: 'Líkidu Akumuladu',
     netPay: 'SALÁRIU LÍKIDU',
     footer1: "Ida ne'e dokumentu ne'ebé komputador kria.",
     footer2: 'Impostu kalkula tuir regulamentu Timor-Leste (10% liu $500 ba residente).',
@@ -274,7 +334,7 @@ const translations: Record<PayslipLanguage, Record<string, string>> = {
 };
 
 function formatCurrency(amount: number): string {
-  return `$${amount.toFixed(2)}`;
+  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
 }
 
 function formatDate(date: string): string {
@@ -286,10 +346,29 @@ function PayslipPageContent({
   payrollItem,
   organization,
   payPeriod,
+  leaveBalances,
+  ytd,
   language,
 }: PayslipPDFInput & { language: PayslipLanguage }) {
   const t = translations[language];
   const otherDeductions = payrollItem.other_deductions ?? 0;
+  const employerInss = payrollItem.inss_employer ?? 0;
+
+  const annualLeaveRemaining =
+    leaveBalances?.annualLeaveRemaining ??
+    (leaveBalances?.annualLeaveEntitled != null && leaveBalances?.annualLeaveTaken != null
+      ? leaveBalances.annualLeaveEntitled - leaveBalances.annualLeaveTaken
+      : null);
+  const sickLeaveRemaining =
+    leaveBalances?.sickLeaveEntitled != null && leaveBalances?.sickLeaveTaken != null
+      ? leaveBalances.sickLeaveEntitled - leaveBalances.sickLeaveTaken
+      : null;
+  const personalLeaveRemaining =
+    leaveBalances?.personalLeaveEntitled != null && leaveBalances?.personalLeaveTaken != null
+      ? leaveBalances.personalLeaveEntitled - leaveBalances.personalLeaveTaken
+      : null;
+  const hasLeaveRows =
+    annualLeaveRemaining != null || sickLeaveRemaining != null || personalLeaveRemaining != null;
 
   return (
     <>
@@ -404,6 +483,66 @@ function PayslipPageContent({
         </View>
       </View>
 
+      {employerInss > 0 ? (
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>{t.employerContributions}</Text>
+          <View style={styles.row}>
+            <Text style={styles.label}>{t.inssEmployer}</Text>
+            <Text style={styles.value}>{formatCurrency(employerInss)}</Text>
+          </View>
+        </View>
+      ) : null}
+
+      {leaveBalances && hasLeaveRows ? (
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>{t.leaveBalance}</Text>
+          {annualLeaveRemaining != null ? (
+            <View style={styles.row}>
+              <Text style={styles.label}>{t.annualLeave}</Text>
+              <Text style={styles.value}>{String(annualLeaveRemaining)}</Text>
+            </View>
+          ) : null}
+          {sickLeaveRemaining != null ? (
+            <View style={styles.rowAlt}>
+              <Text style={styles.label}>{t.sickLeave}</Text>
+              <Text style={styles.value}>{String(sickLeaveRemaining)}</Text>
+            </View>
+          ) : null}
+          {personalLeaveRemaining != null ? (
+            <View style={styles.row}>
+              <Text style={styles.label}>{t.personalLeave}</Text>
+              <Text style={styles.value}>{String(personalLeaveRemaining)}</Text>
+            </View>
+          ) : null}
+        </View>
+      ) : null}
+
+      {ytd ? (
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>{t.ytd}</Text>
+          <View style={styles.row}>
+            <Text style={styles.label}>{t.ytdGross}</Text>
+            <Text style={styles.value}>{formatCurrency(ytd.gross)}</Text>
+          </View>
+          <View style={styles.rowAlt}>
+            <Text style={styles.label}>{t.ytdTax}</Text>
+            <Text style={styles.valueDeduction}>-{formatCurrency(ytd.tax)}</Text>
+          </View>
+          <View style={styles.row}>
+            <Text style={styles.label}>{t.ytdInssEmployee}</Text>
+            <Text style={styles.valueDeduction}>-{formatCurrency(ytd.inssEmployee)}</Text>
+          </View>
+          <View style={styles.rowAlt}>
+            <Text style={styles.label}>{t.ytdInssEmployer}</Text>
+            <Text style={styles.value}>{formatCurrency(ytd.inssEmployer)}</Text>
+          </View>
+          <View style={styles.totalRow}>
+            <Text style={styles.totalLabel}>{t.ytdNet}</Text>
+            <Text style={styles.value}>{formatCurrency(ytd.net)}</Text>
+          </View>
+        </View>
+      ) : null}
+
       <View style={styles.netPayBox}>
         <Text style={styles.netPayLabel}>{t.netPay}</Text>
         <Text style={styles.netPayValue}>{formatCurrency(payrollItem.net_pay)}</Text>
@@ -445,4 +584,3 @@ export async function renderPayslipsPDFBuffer({
 }): Promise<Buffer> {
   return renderToBuffer(<PayslipsDocument items={items} language={language} />);
 }
-

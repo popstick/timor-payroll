@@ -269,6 +269,7 @@
       "viewPayslip": "Haree Recibo",
       "downloadPayslip": "Baixa Resibu",
       "printAllPayslips": "Imprime Resibu hotu",
+      "downloadAllPayslips": "Baixa Resibu hotu",
       "createRun": "Kria Prosesu Saláriu"
     },
     "payslip": {
