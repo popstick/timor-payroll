@@ -208,7 +208,7 @@ export default async function PayrollDetailPage({
                     </TableCell>
                     <TableCell>{formatCurrency(item.base_salary)}</TableCell>
                     <TableCell>
-                      {item.overtime_pay > 0 ? formatCurrency(item.overtime_pay) : '-'}
+                      {(item.overtime_pay || 0) > 0 ? formatCurrency(item.overtime_pay || 0) : '-'}
                     </TableCell>
                     <TableCell>
                       {(item.allowances || 0) + (item.bonuses || 0) > 0
@@ -216,8 +216,8 @@ export default async function PayrollDetailPage({
                         : '-'}
                     </TableCell>
                     <TableCell className="font-medium">{formatCurrency(item.gross_pay)}</TableCell>
-                    <TableCell className="text-red-600">-{formatCurrency(item.tax_withheld)}</TableCell>
-                    <TableCell className="text-red-600">-{formatCurrency(item.inss_employee)}</TableCell>
+                    <TableCell className="text-red-600">-{formatCurrency(item.tax_withheld || 0)}</TableCell>
+                    <TableCell className="text-red-600">-{formatCurrency(item.inss_employee || 0)}</TableCell>
                     <TableCell className="font-bold text-green-600">
                       {formatCurrency(item.net_pay)}
                     </TableCell>

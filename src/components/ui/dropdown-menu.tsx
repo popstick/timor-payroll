@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect, ReactNode } from 'react';
+import Link from 'next/link';
 import { cn } from '@/lib/utils';
 
 interface DropdownMenuProps {
@@ -69,6 +70,7 @@ export function DropdownMenu({
 interface DropdownItemProps {
   children: ReactNode;
   onClick?: () => void;
+  href?: string;
   disabled?: boolean;
   destructive?: boolean;
   icon?: ReactNode;
@@ -78,11 +80,30 @@ interface DropdownItemProps {
 export function DropdownItem({
   children,
   onClick,
+  href,
   disabled = false,
   destructive = false,
   icon,
   className,
 }: DropdownItemProps) {
+  if (href) {
+    return (
+      <Link
+        href={href}
+        className={cn(
+          'flex w-full items-center gap-2 px-4 py-2 text-left text-sm transition-colors',
+          'hover:bg-gray-100 focus:bg-gray-100 focus:outline-none',
+          destructive ? 'text-red-600 hover:bg-red-50' : 'text-gray-700',
+          className
+        )}
+        role="menuitem"
+      >
+        {icon && <span className="h-4 w-4">{icon}</span>}
+        {children}
+      </Link>
+    );
+  }
+
   return (
     <button
       onClick={onClick}

@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import Link from 'next/link';
 import {
   Users,
   FileText,
@@ -30,12 +31,14 @@ interface EmptyStateProps {
   description?: string;
   action?: {
     label: string;
-    onClick: () => void;
+    href?: string;
+    onClick?: () => void;
     variant?: 'default' | 'outline' | 'secondary';
   };
   secondaryAction?: {
     label: string;
-    onClick: () => void;
+    href?: string;
+    onClick?: () => void;
   };
   className?: string;
   children?: ReactNode;
@@ -103,17 +106,26 @@ export function EmptyState({
       {(action || secondaryAction) && (
         <div className="flex flex-col sm:flex-row items-center gap-3">
           {action && (
-            <Button
-              variant={action.variant || 'default'}
-              onClick={action.onClick}
-            >
-              {action.label}
-            </Button>
+            action.href ? (
+              <Link href={action.href}>
+                <Button variant={action.variant || 'default'}>{action.label}</Button>
+              </Link>
+            ) : (
+              <Button variant={action.variant || 'default'} onClick={action.onClick}>
+                {action.label}
+              </Button>
+            )
           )}
           {secondaryAction && (
-            <Button variant="ghost" onClick={secondaryAction.onClick}>
-              {secondaryAction.label}
-            </Button>
+            secondaryAction.href ? (
+              <Link href={secondaryAction.href}>
+                <Button variant="ghost">{secondaryAction.label}</Button>
+              </Link>
+            ) : (
+              <Button variant="ghost" onClick={secondaryAction.onClick}>
+                {secondaryAction.label}
+              </Button>
+            )
           )}
         </div>
       )}

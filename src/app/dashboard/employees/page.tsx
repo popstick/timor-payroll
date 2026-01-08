@@ -72,7 +72,7 @@ export default async function EmployeesPage() {
               description={t('addFirst')}
               action={{
                 label: t('addEmployee'),
-                onClick: () => {},
+                href: '/dashboard/employees/new',
               }}
             />
           )}
@@ -131,25 +131,21 @@ export default async function EmployeesPage() {
                       >
                         <DropdownItem
                           icon={<Eye className="h-4 w-4" />}
-                          onClick={() => {}}
+                          href={`/dashboard/employees/${employee.id}`}
                         >
-                          <Link href={`/dashboard/employees/${employee.id}`}>
-                            {tCommon('view')}
-                          </Link>
+                          {tCommon('view')}
                         </DropdownItem>
                         <DropdownItem
                           icon={<Pencil className="h-4 w-4" />}
-                          onClick={() => {}}
+                          href={`/dashboard/employees/${employee.id}/edit`}
                         >
-                          <Link href={`/dashboard/employees/${employee.id}/edit`}>
-                            {tCommon('edit')}
-                          </Link>
+                          {tCommon('edit')}
                         </DropdownItem>
                         <DropdownDivider />
                         <DropdownItem
                           icon={<Trash2 className="h-4 w-4" />}
                           destructive
-                          onClick={() => {}}
+                          disabled
                         >
                           {tCommon('delete')}
                         </DropdownItem>
